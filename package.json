@@ -1,0 +1,33 @@
+{
+  "name": "hsm-acem-survey-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "main.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theplant/hsm-acem-survey-app.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/theplant/hsm-acem-survey-app/issues"
+  },
+  "homepage": "https://github.com/theplant/hsm-acem-survey-app",
+  "devDependencies": {
+    "babel-core": "^6.1.21",
+    "babel-loader": "^6.1.0",
+    "jsx-loader": "^0.13.2",
+    "webpack": "^1.12.6",
+    "webpack-dev-server": "^1.12.1"
+  },
+  "dependencies": {
+    "babel-preset-react": "^6.1.18",
+    "babelify": "^7.2.0",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2"
+  }
+}
