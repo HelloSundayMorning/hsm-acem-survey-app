@@ -26,10 +26,64 @@ var Intro = React.createClass({
     }
 });
 
+var interviewerQuestion = {
+        text: "Interviewer",
+        key: "interviewer",
+        answers: [
+            {key: "nurse", text: "Nurse"},
+            {key: "doctor", text: "Nurse"},
+            {key: "specialist", text: "Specialist"},
+        ]
+    }
+
+var genderQuestion = {
+        text: "Gender:",
+        key: "gender",
+        answers: [
+            {key: "male", text: "Male"},
+            {key: "female", text: "Female"},
+            {key: "other", text: "Other"},
+        ]
+    }
+
+
+var PatientBio = React.createClass({
+    getInitialState: function() {
+        return {
+            age: null
+        }
+    },
+    handleChange: function(event) {
+        var change = {}
+        change[event.target.name] = event.target.value
+        this.setState(change);
+        var bio = this
+        setTimeout(function() {console.log(bio.state); });
+    },
+    render: function() {
+        return (
+        <fieldset>
+        <legend>Patient Information</legend>
+        <label>Age: <input type="number" min="0" name="age" value={this.state.age} onChange={this.handleChange}/></label>
+        <components.Question q={genderQuestion} />
+        <label>Gender: <input/></label>
+        <label>Postcode: <input type="number" name="postcode" value={this.state.postcode} onChange={this.handleChange}/></label>
+        <label>Patient email: <input type="email" name="email" value={this.state.email} onChange={this.handleChange}/></label>
+        Or
+        <label>Patient mobile: <input type="tel" name="phone" value={this.state.phone}  onChange={this.handleChange}/></label>
+            </fieldset>
+            )
+    }
+});
+
 var BasicInfo = React.createClass({
     render: function() {
         return (
-            <h1>info</h1>
+            <section>
+            <h1>Basic Information</h1>
+            <components.Question q={interviewerQuestion} />
+            <PatientBio />
+            </section>
             );
     }
 });
