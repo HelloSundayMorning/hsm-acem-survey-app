@@ -65,7 +65,7 @@ var PatientBio = React.createClass({
         <fieldset>
         <legend>Patient Information</legend>
         <label>Age: <input type="number" min="0" name="age" value={this.state.age} onChange={this.handleChange}/></label>
-        <components.Question q={genderQuestion} />
+        <components.Question q={genderQuestion} onChange={this.handleChange} />
         <label>Gender: <input/></label>
         <label>Postcode: <input type="number" name="postcode" value={this.state.postcode} onChange={this.handleChange}/></label>
         <label>Patient email: <input type="email" name="email" value={this.state.email} onChange={this.handleChange}/></label>

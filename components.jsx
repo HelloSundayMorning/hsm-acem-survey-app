@@ -49,14 +49,18 @@ var Footer = React.createClass({
 
 var Question = React.createClass({
     render: function() {
+        var q = this.props.q;
+        var cb = this.props.onChange
         return (
-            <div>
-            {this.props.q.text}
-            {this.props.q.key}<br />
-            {this.props.q.answers.map(function(answer) {
-                return <span key={answer.key}>{answer.key}: {answer.text}<br /></span>
+            <fieldset>
+            <legend>{q.text}</legend>
+            {q.answers.map(function(answer) {
+                return <label key={q.key + answer.key}>
+                <input type="radio" name={q.key} value={answer.key} onChange={cb} />
+                {answer.text}
+                </label>
             })}
-            </div>
+            </fieldset>
             )
     }
 })
