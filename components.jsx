@@ -55,8 +55,8 @@ var Question = React.createClass({
             <fieldset>
             <legend>{q.text}</legend>
             {q.answers.map(function(answer) {
-                return <label key={q.key + answer.key}>
-                <input type="radio" name={q.key} value={answer.key} onChange={cb} />
+                return <label key={(q.key || q.text) + (answer.key || answer.text)}>
+                <input type="radio" name={q.key || q.text} value={answer.key || answer.text} onChange={cb} />
                 {answer.text}
                 </label>
             })}
