@@ -37,9 +37,15 @@ var Footer = React.createClass({
         return (
             <footer className={"page-"+thisPage}>
             <h2>progress bar @ {this.props.thisPage}</h2>
-            {pageOrder.map(function(result) {
+            {pageOrder.map(function(result, j) {
                 var page = routeMap[result];
-                return <span key={page}><Link className={"link-"+thisPage} to={result}>{page[1]}</Link><br /></span>
+                if (j < i) {
+                    return (<div key={page}><Link className={"link-"+thisPage} to={result}>{page[1]}</Link><br /></div>)
+                } else if (j === i) {
+                    return (<strong key={page}>{page[1]}</strong>)
+                } else {
+                    return (<div key={page}>{page[1]}</div>)
+                }
             })}
              <Link className="next-page" to={link}>{label}</Link>
             </footer>
