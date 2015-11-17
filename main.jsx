@@ -13,6 +13,8 @@ var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var Link = require('react-router').Link;
 
+var components = require('./components.jsx');
+
 var Intro = React.createClass({
     render: function() {
         return (
@@ -64,20 +66,6 @@ var Frames = React.createClass({
     }
 });
 
-var SurveyPage = React.createClass({
-    render: function() {
-        var page = this.props.params.survey_page;
-        console.log("Page from URL:"+page);
-        var Component = routeMap[page][0];
-        return (
-            <div>
-            <Component />
-            <Footer thisPage={page} />
-            </div>
-            )
-    }
-});
-
 var routeMap = {
     "/": [Intro, "Start"],
     "info": [BasicInfo, "Basic Info"],
@@ -89,31 +77,6 @@ var routeMap = {
 
 var pageOrder = ["/", "info", "audit1", "audit2", "feedback", "frames"]
 
-var Footer = React.createClass({
-    render: function() {
-        var thisPage = this.props.thisPage
-        var i = pageOrder.indexOf(thisPage)
-        if (i < pageOrder.length - 1) {
-            var label = "Continue"
-            var link = pageOrder[i+1]
-        } else {
-            var label = "Done"
-            var link = "/"
-        }
-
-        return (
-            <footer className={"page-"+thisPage}>
-            <h2>progress bar @ {this.props.thisPage}</h2>
-            {pageOrder.map(function(result) {
-                var page = routeMap[result];
-                return <span key={page}><Link className={"link-"+thisPage} to={result}>{page[1]}</Link><br /></span>
-            })}
-            <Link className="next-page" to={link}>{label}</Link>
-            </footer>
-            );
-    }
-});
-
 var Survey = React.createClass({
     getInitialState: function() {
         return {};
@@ -122,7 +85,7 @@ var Survey = React.createClass({
         return (
             <Router>
               <Route path="/" component={Intro} />
-              <Route path=":survey_page" component={SurveyPage}/>
+              <Route path=":survey_page" component={components.SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
             </Router>
         )
     }
