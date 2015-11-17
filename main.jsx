@@ -34,11 +34,27 @@ var BasicInfo = React.createClass({
     }
 });
 
+var auditOneQuestions = [
+    {
+        text: "Q1: How often do you have a drink containing alcohol?",
+        key: "q1",
+        answers: [
+            {key: "never", text: "Never"},
+            {key: "monthly", text: "2-4 times a month"},
+        ]
+    }
+]
+
 var AuditOne = React.createClass({
     render: function() {
         return (
-            <h1>audit questionnaire 1</h1>
-            );
+            <section>
+              <h1>audit questionnaire 1</h1>
+              {auditOneQuestions.map(function(q) {
+                return <components.Question key={q.key} q={q} />
+              })}
+            </section>
+        );
     }
 });
 

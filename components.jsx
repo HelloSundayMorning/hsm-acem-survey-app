@@ -47,6 +47,22 @@ var Footer = React.createClass({
     }
 });
 
+var Question = React.createClass({
+    render: function() {
+        return (
+            <div>
+            {this.props.q.text}
+            {this.props.q.key}<br />
+            {this.props.q.answers.map(function(answer) {
+                return <span key={answer.key}>{answer.key}: {answer.text}<br /></span>
+            })}
+            </div>
+            )
+    }
+})
+
+
 module.exports = {
-    SurveyPage: SurveyPage
+    SurveyPage: SurveyPage,
+    Question: Question
 }
