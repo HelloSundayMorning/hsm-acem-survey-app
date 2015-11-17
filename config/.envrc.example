@@ -1,0 +1,20 @@
+# Database configuration
+DB_NAME="acem_dev"
+DB_USER="acem"
+DB_PW="acemdbpw"
+export ACEM_DB_PARAMS="user=$DB_USER password=$DB_PW dbname=$DB_NAME sslmode=disable"
+# Open gorm log mode
+# export ACEM_DB_MODE="debug"
+
+# Session configuration
+export ACEM_SESSION_SECRET="thohgh2wio7xu2Kohth0iele9ShooQueejah8ahgio5eeFai4ceesooCh2bai4ohgoecohg5ech1yo2ukaigohmadahxohv5ovai5ahliacee4mahhohMoh4bahpaesu"
+
+# InfluxDB configuration
+# INFLUX_USER="influx user name"
+# INFLUX_PW="influx account password"
+# export INFLUXDB_URL="https://$INFLUX_USER:$INFLUX_PW@influxdb.com/"
+
+# Airbrake configuration
+# export AIRBRAKE_PROJECT_ID="your-project-id"
+# export AIRBRAKE_TOKEN="your-token"
+# export AIRBRAKE_ENV="your-app-env"
