@@ -1,6 +1,6 @@
 package models
 
-import "github.com/theplant/hsm2-backend/serializer"
+import "github.com/theplant/hsm-acem-survey-app/serializer"
 
 type Patient struct {
 	Base

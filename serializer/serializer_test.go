@@ -6,11 +6,11 @@ import (
 	"testing"
 
 	"github.com/jinzhu/gorm"
-	"github.com/theplant/hsm2-backend/db"
-	"github.com/theplant/hsm2-backend/db/migrate"
-	"github.com/theplant/hsm2-backend/serializer"
+	"github.com/theplant/hsm-acem-survey-app/db"
+	"github.com/theplant/hsm-acem-survey-app/db/migrate"
+	"github.com/theplant/hsm-acem-survey-app/serializer"
 
-	"github.com/theplant/hsm2-backend/test/utils"
+	"github.com/theplant/hsm-acem-survey-app/test/utils"
 )
 
 type question struct {
