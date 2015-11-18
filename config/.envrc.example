@@ -18,3 +18,7 @@ export ACEM_SESSION_SECRET="thohgh2wio7xu2Kohth0iele9ShooQueejah8ahgio5eeFai4cee
 # export AIRBRAKE_PROJECT_ID="your-project-id"
 # export AIRBRAKE_TOKEN="your-token"
 # export AIRBRAKE_ENV="your-app-env"
+
+# Mandrill configuration
+# SANDBOX_SUCCESS is a test key that provided by mandrill library. Refer: https://gowalker.org/github.com/keighl/mandrill#user-content-integration-testing-keys
+# export Mandrill_APIKEY="SANDBOX_SUCCESS"

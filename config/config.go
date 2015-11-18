@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/gorilla/sessions"
+	"github.com/keighl/mandrill"
 	gobrake "gopkg.in/airbrake/gobrake.v1"
 
 	"github.com/theplant/hsm-acem-survey-app/middleware"
@@ -27,12 +28,19 @@ var (
 		Client *gobrake.Notifier
 	}
 
+	Mandrill struct {
+		Client                      *mandrill.Client
+		SurveyCompletedTemplateSlug string
+	}
+
 	SessionStore *sessions.CookieStore
 	SessionKey   = "hsm-acem-survey-app"
 )
 
 func init() {
 	Airbrake.Client = initAirbrake()
+
+	initMandrill()
 
 	loadDBConfig()
 
@@ -84,4 +92,14 @@ func initMonitor() {
 	}
 
 	Monitor = monitor
+}
+
+func initMandrill() {
+	mandrillAPIKey := os.Getenv("MANDRILL_APIKEY")
+
+	if mandrillAPIKey != "" {
+		Mandrill.Client = mandrill.ClientWithKey(mandrillAPIKey)
+	}
+
+	Mandrill.SurveyCompletedTemplateSlug = "survey-completed"
 }
