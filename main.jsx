@@ -91,12 +91,27 @@ var PatientBio = React.createClass({
 
 var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: store.UpdateBio})(PatientBio);
 
+function value(fn) {
+    return function(event) {
+        return fn(event.target.value);
+    }
+}
+
+var Interviewer = ReactRedux.connect(function(s) {
+    return {interviewer: s.interviewer}
+}, {update: store.SetInterviewer})(function(props) {
+
+    return (
+        <components.Question value={props.interviewer} onChange={value(props.update)} q={interviewerQuestion} />
+        )
+})
+
 var BasicInfo = React.createClass({
     render: function() {
         return (
             <section>
             <h1>Basic Information</h1>
-            <components.Question q={interviewerQuestion} />
+            <Interviewer />
             <PatientBio />
             </section>
             );

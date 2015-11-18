@@ -5,10 +5,20 @@ var Redux = require("redux");
 
 var UPDATE_BIO = "UPDATE_BIO";
 var ANSWER = "ANSWER";
+var SET_INTERVIEWER = "SET_INTERVIEWER";
 
 var initialState = {
   bio: {},
-  survey: []
+  survey: [],
+  interviewer: null
+}
+
+function SetInterviewer(value) {
+  return {
+    type: SET_INTERVIEWER,
+    field: "interviewer",
+    value: value
+  };
 }
 
 function UpdateBio(field, value) {
@@ -51,10 +61,14 @@ function surveyApp(state, action) {
     return initialState;
   }
 
-  var field = state[action.field];
   var newState = Object.assign({}, state);
-  newState[action.field] = action.fn(field);
 
+  if (action.value) {
+    newState[action.field] = action.value;
+  } else {
+    var field = state[action.field];
+    newState[action.field] = action.fn(field);
+  }
   return newState;
 }
 
@@ -66,5 +80,6 @@ var store = create(surveyApp);
 module.exports = {
   Store: store,
   UpdateBio: UpdateBio,
-  Answer: Answer
+  Answer: Answer,
+  SetInterviewer: SetInterviewer
 }
