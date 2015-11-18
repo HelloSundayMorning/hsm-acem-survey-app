@@ -1,0 +1,31 @@
+{
+	"goos": "linux",
+	"goarch": "amd64",
+	"app": {
+		"name":       "hsm-acem-survey-app",
+		"importpath": "github.com/theplant/hsm-acem-survey-app",
+		"envs": {},
+		"DefaultExcludeds": [".git/", "tmp/", ".DS_Store", "node_modules/", "*.swp"],
+		"files":      [
+			"github.com/theplant/hsm-acem-survey-app/config",
+			{
+				"path": "github.com/theplant/hsm-acem-survey-app/app/views",
+				"delete": true
+			},
+			{
+				"path": "github.com/qor/qor",
+				"excludes": ["example/"],
+				"delete": true
+			}
+		]
+	},
+	"servers": {
+		"prod": [{
+			"gopath": "/home/app/gopkg",
+			"user": "app",
+			"host": "52.64.242.130",
+			"envs": {},
+			"port": ":22"
+		}]
+	}
+}
