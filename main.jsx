@@ -9,11 +9,14 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+var ReactRedux = require("react-redux");
+
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var Link = require('react-router').Link;
 
 var components = require('./components.jsx');
+var store = require('./store.js');
 
 var Intro = React.createClass({
     render: function() {
@@ -65,7 +68,6 @@ var genderQuestion = {
         ]
     }
 
-
 var PatientBio = React.createClass({
     getInitialState: function() {
         return {
@@ -73,11 +75,10 @@ var PatientBio = React.createClass({
         }
     },
     handleChange: function(event) {
-        var change = {}
-        change[event.target.name] = event.target.value
-        this.setState(change);
-        var bio = this
-        setTimeout(function() {console.log(bio.state); });
+        var input = event.target
+        var store = this.props.store
+        store.Store.dispatch(store.UpdateBio(input.name, input.value))
+        console.log(store.Store.getState())
     },
     render: function() {
         return (
@@ -287,16 +288,20 @@ var routeMap = {
 
 var pageOrder = ["/", "info", "audit1", "audit2", "feedback", "frames"]
 
+// Configure routes like normal
+var routes = (
+  <Router>
+    <Route path="/" component={Intro} />
+    <Route path=":survey_page" component={components.SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
+  </Router>
+);
+
 var Survey = React.createClass({
-    getInitialState: function() {
-        return {};
-    },
     render: function() {
         return (
-            <Router>
-              <Route path="/" component={Intro} />
-              <Route path=":survey_page" component={components.SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
-            </Router>
+            <ReactRedux.Provider store={store.Store}>
+              <PatientBio store={store} />
+            </ReactRedux.Provider>
         )
     }
 });
