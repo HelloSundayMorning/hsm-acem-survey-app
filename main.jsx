@@ -70,11 +70,6 @@ var genderQuestion = {
     }
 
 var PatientBio = React.createClass({
-    getInitialState: function() {
-        return {
-            age: null
-        }
-    },
     handleChange: function(event) {
         var input = event.target
         this.props.update(input.name, input.value)
@@ -84,13 +79,12 @@ var PatientBio = React.createClass({
         return (
         <fieldset>
         <legend>Patient Information</legend>
-        <label>Age: <input type="number" min="0" name="age" value={this.state.age} onChange={this.handleChange}/></label>
-        <components.Question q={genderQuestion} onChange={this.handleChange} />
-        <label>Gender: <input/></label>
-        <label>Postcode: <input type="number" name="postcode" value={this.state.postcode} onChange={this.handleChange}/></label>
-        <label>Patient email: <input type="email" name="email" value={this.state.email} onChange={this.handleChange}/></label>
+        <label>Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={this.handleChange}/></label>
+        <components.Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
+        <label>Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={this.handleChange}/></label>
+        <label>Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={this.handleChange}/></label>
         Or
-        <label>Patient mobile: <input type="tel" name="phone" value={this.state.phone}  onChange={this.handleChange}/></label>
+        <label>Patient mobile: <input type="tel" name="phone" value={this.props.bio.phone}  onChange={this.handleChange}/></label>
             </fieldset>
             )
     }
