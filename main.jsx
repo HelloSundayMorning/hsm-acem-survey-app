@@ -218,7 +218,7 @@ var AuditTwo = StoredSurvey(React.createClass({
     }
 }));
 
-var Feedback = React.createClass({
+var Feedback = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo })(React.createClass({
     render: function() {
         return (
 <section>
@@ -236,10 +236,13 @@ var Feedback = React.createClass({
 <li>Identifying high risk situations for heavy drinking and creating a management plan;</li>
 <li>Engaging in alternative activities to drinking</li>
 </ul>
+
+<button onClick={this.props.emailToPatient}>Email to Patient</button>
+<button onClick={this.props.emailTo}>Email to…</button>
 </section>
             );
     }
-});
+}));
 
 var Frames = React.createClass({
     render: function() {
