@@ -10,6 +10,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var ReactRedux = require("react-redux");
+var ReduxDev = require("redux-devtools/lib/react");
 
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
@@ -76,8 +77,7 @@ var PatientBio = React.createClass({
     },
     handleChange: function(event) {
         var input = event.target
-        var store = this.props.store
-        store.Store.dispatch(store.UpdateBio(input.name, input.value))
+        this.props.update(input.name, input.value)
         console.log(store.Store.getState())
     },
     render: function() {
@@ -96,6 +96,8 @@ var PatientBio = React.createClass({
     }
 });
 
+var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: store.UpdateBio})(PatientBio);
+
 var BasicInfo = React.createClass({
     render: function() {
         return (
@@ -107,6 +109,9 @@ var BasicInfo = React.createClass({
             );
     }
 });
+
+var StoredSurvey = ReactRedux.connect(function(s) { return {survey: s.survey} }, {update: store.Answer })
+
 
 var auditOneQuestions = [{"text": "Q1: How often do you have a drink containing alcohol?",
   "answers": [
@@ -142,18 +147,24 @@ var auditOneQuestions = [{"text": "Q1: How often do you have a drink containing 
     {"text": "Daily or almost daily"}
   ]}]
 
-var AuditOne = React.createClass({
+var AuditOne = StoredSurvey(React.createClass({
     render: function() {
+        var update = this.props.update;
+        var change = function(event) {
+            var input = event.target
+            update(1, input.name, input.value)
+        console.log(store.Store.getState())
+        }
         return (
             <section>
               <h1>Audit Questionnaire</h1>
               {auditOneQuestions.map(function(q) {
-                return <components.Question key={q.key || q.text} q={q} />
+                return <components.Question key={q.key || q.text} q={q} onChange={change} />
               })}
             </section>
         );
     }
-});
+}));
 
 var auditTwoQuestions = [{"text": "Q5: How often in the last year have you failed to do what was normally expected from you because of drinking?",
   "answers": [
@@ -200,18 +211,18 @@ var auditTwoQuestions = [{"text": "Q5: How often in the last year have you faile
     {"text": "Yes, during the last year"}
   ]}]
 
-var AuditTwo = React.createClass({
+var AuditTwo = StoredSurvey(React.createClass({
     render: function() {
         return (
             <section>
               <h1>Audit Questionnaire</h1>
               {auditTwoQuestions.map(function(q) {
-                return <components.Question key={q.key || q.text} q={q} />
+                return <components.Question key={q.key || q.text} q={q} onChange={change}  />
               })}
             </section>
             );
     }
-});
+}));
 
 var Feedback = React.createClass({
     render: function() {
@@ -288,20 +299,25 @@ var routeMap = {
 
 var pageOrder = ["/", "info", "audit1", "audit2", "feedback", "frames"]
 
-// Configure routes like normal
-var routes = (
-  <Router>
-    <Route path="/" component={Intro} />
-    <Route path=":survey_page" component={components.SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
-  </Router>
-);
+
+var LogMonitor = ReduxDev.LogMonitor
+
+var s = store.Store
 
 var Survey = React.createClass({
     render: function() {
         return (
-            <ReactRedux.Provider store={store.Store}>
-              <PatientBio store={store} />
+            <div>
+            <ReactRedux.Provider store={s}>
+            <Router>
+            <Route path="/" component={Intro} />
+            <Route path=":survey_page" component={components.SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
+            </Router>
             </ReactRedux.Provider>
+            <ReduxDev.DebugPanel top right bottom>
+              <ReduxDev.DevTools store={s} monitor={LogMonitor} />
+            </ReduxDev.DebugPanel>
+            </div>
         )
     }
 });

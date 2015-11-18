@@ -4,9 +4,11 @@ var Redux = require("redux");
 
 
 var UPDATE_BIO = "UPDATE_BIO";
+var ANSWER = "ANSWER";
 
 var initialState = {
-  bio: {}
+  bio: {},
+  survey: []
 }
 
 function UpdateBio(field, value) {
@@ -19,6 +21,19 @@ function UpdateBio(field, value) {
       return Object.assign({}, state, update)
     }
   };
+}
+function Answer(index, text, answer) {
+  return {
+    type: ANSWER,
+    field: "survey",
+    fn: function(state) {
+      console.log(index)
+      console.log(text)
+      console.log(answer)
+      console.log(state)
+      return state
+    }
+  }
 }
 
 function surveyApp(state, action) {
@@ -34,9 +49,13 @@ function surveyApp(state, action) {
   return newState;
 }
 
-var store = Redux.createStore(surveyApp);
+var ReduxDev = require("redux-devtools");
+
+var create = Redux.compose(ReduxDev.devTools())(Redux.createStore)
+var store = create(surveyApp);
 
 module.exports = {
   Store: store,
-  UpdateBio: UpdateBio
+  UpdateBio: UpdateBio,
+  Answer: Answer
 }
