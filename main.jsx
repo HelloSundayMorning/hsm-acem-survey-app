@@ -73,7 +73,6 @@ var PatientBio = React.createClass({
     handleChange: function(event) {
         var input = event.target
         this.props.update(input.name, input.value)
-        console.log(store.Store.getState())
     },
     render: function() {
         return (
@@ -104,99 +103,102 @@ var BasicInfo = React.createClass({
     }
 });
 
+var auditQuestions = [
+    {
+        "text": "Q1: How often do you have a drink containing alcohol?",
+        "answers": [
+            {"text": "Never"},
+            {"text": "Monthly or less"},
+            {"text": "2-4 times a month"},
+            {"text": "2-3 times a week"},
+            {"text": "4 or more times a week"}]
+    },{
+        "text": "Q2: How many standard drinks containing alcohol do you have in a typical day?",
+        "answers": [
+            {"text": "1 or 2"},
+            {"text": "3 or 4"},
+            {"text": "5 or 6"},
+            {"text": "7, 8 or 9"},
+            {"text": "10 or more"}]
+    },{
+        "text": "Q3: How often do you have six or more drinks on one occasion?",
+        "answers": [
+            {"text": "Never"},
+            {"text": "Monthly or less"},
+            {"text": "2-4 times a month"},
+            {"text": "2-3 times a week"},
+            {"text": "4 or more times a week"}]
+    },{"text": "Q4: How often during the last year have you found that you were not able to stop drinking once you had started?",
+        "answers": [
+            {"text": "Never"},
+            {"text": "Less than monthly"},
+            {"text": "Monthly"},
+            {"text": "Weekly"},
+            {"text": "Daily or almost daily"}]
+    },{
+        "text": "Q5: How often in the last year have you failed to do what was normally expected from you because of drinking?",
+        "answers": [
+            {"text": "Never"},
+            {"text": "Less than monthly"},
+            {"text": "Monthly"},
+            {"text": "Weekly"},
+            {"text": "Daily or almost daily"}]
+    },{
+        "text": "Q6: How often in the last year have you needed a first drink in the morning to get yourself going after a night of drinking?",
+        "answers": [
+            {"text": "Never"},
+            {"text": "Less than monthly"},
+            {"text": "Monthly"},
+            {"text": "Weekly"},
+            {"text": "Daily or almost daily"}]
+    },{
+        "text": "Q7: How often in the last year have you had a feeling of guilt or remorse after drinking?",
+        "answers": [
+            {"text": "Never"},
+            {"text": "Less than monthly"},
+            {"text": "Monthly"},
+            {"text": "Weekly"},
+            {"text": "Daily or almost daily"}]
+    },{
+        "text": "Q8: How often in the last year have you been unable to remember what happened the night before because you had been drinking?",
+        "answers": [
+            {"text": "Never"},
+            {"text": "Less than monthly"},
+            {"text": "Monthly"},
+            {"text": "Weekly"},
+            {"text": "Daily or almost daily"}]
+    },{
+        "text": "Q9: Have you or someone else been injured as a result of your drinking?",
+        "answers": [
+            {"text": "No"},
+            {"text": "Yes, but not in the last year"},
+            {"text": "Yes, during the last year"}]
+    },{
+        "text": "Q10: Has a relative or friend, or a doctor or another health worker been concerned about your drinking or suggested you cut down?",
+        "answers": [
+            {"text": "No"},
+            {"text": "Yes, but not in the last year"},
+            {"text": "Yes, during the last year"}]
+    }]
+
 var StoredSurvey = ReactRedux.connect(function(s) { return {survey: s.survey} }, {update: store.Answer })
-
-var auditOneQuestions = [{"text": "Q1: How often do you have a drink containing alcohol?",
-  "answers": [
-    {"text": "Never"},
-    {"text": "Monthly or less"},
-    {"text": "2-4 times a month"},
-    {"text": "2-3 times a week"},
-    {"text": "4 or more times a week"}
-  ]},
-
- {"text": "Q2: How many standard drinks containing alcohol do you have in a typical day?",
-  "answers": [
-    {"text": "1 or 2"},
-    {"text": "3 or 4"},
-    {"text": "5 or 6"},
-    {"text": "7, 8 or 9"},
-    {"text": "10 or more"}
-  ]},
- {"text": "Q3: How often do you have six or more drinks on one occasion?",
-  "answers": [
-    {"text": "Never"},
-    {"text": "Monthly or less"},
-    {"text": "2-4 times a month"},
-    {"text": "2-3 times a week"},
-    {"text": "4 or more times a week"}
-  ]},
- {"text": "Q4: How often during the last year have you found that you were not able to stop drinking once you had started?",
-  "answers": [
-    {"text": "Never"},
-    {"text": "Less than monthly"},
-    {"text": "Monthly"},
-    {"text": "Weekly"},
-    {"text": "Daily or almost daily"}
-  ]}]
 
 var AuditOne = StoredSurvey(React.createClass({
     render: function() {
+        var start = 0;
+        var end = 4;
         return (
-            <components.AuditPage update={this.props.update} values={this.props.survey} questions={auditOneQuestions} />
+            <components.AuditPage start={start} end={end} update={this.props.update} values={this.props.survey} questions={auditQuestions} />
         );
     }
 }));
 
-var auditTwoQuestions = [{"text": "Q5: How often in the last year have you failed to do what was normally expected from you because of drinking?",
-  "answers": [
-    {"text": "Never"},
-    {"text": "Less than monthly"},
-    {"text": "Monthly"},
-    {"text": "Weekly"},
-    {"text": "Daily or almost daily"}
-  ]},
- {"text": "Q6: How often in the last year have you needed a first drink in the morning to get yourself going after a night of drinking?",
-  "answers": [
-    {"text": "Never"},
-    {"text": "Less than monthly"},
-    {"text": "Monthly"},
-    {"text": "Weekly"},
-    {"text": "Daily or almost daily"}
-  ]},
- {"text": "Q7: How often in the last year have you had a feeling of guilt or remorse after drinking?",
-  "answers": [
-    {"text": "Never"},
-    {"text": "Less than monthly"},
-    {"text": "Monthly"},
-    {"text": "Weekly"},
-    {"text": "Daily or almost daily"}
-  ]},
- {"text": "Q8: How often in the last year have you been unable to remember what happened the night before because you had been drinking?",
-  "answers": [
-    {"text": "Never"},
-    {"text": "Less than monthly"},
-    {"text": "Monthly"},
-    {"text": "Weekly"},
-    {"text": "Daily or almost daily"}
-  ]},
- {"text": "Q9: Have you or someone else been injured as a result of your drinking?",
-  "answers": [
-    {"text": "No"},
-    {"text": "Yes, but not in the last year"},
-    {"text": "Yes, during the last year"}
-  ]},
- {"text": "Q10: Has a relative or friend, or a doctor or another health worker been concerned about your drinking or suggested you cut down?",
-  "answers": [
-    {"text": "No"},
-    {"text": "Yes, but not in the last year"},
-    {"text": "Yes, during the last year"}
-  ]}]
-
 var AuditTwo = StoredSurvey(React.createClass({
     render: function() {
+        var start = 4;
+        var end = 10;
         return (
-            <components.AuditPage update={this.props.update} values={this.props.survey} questions={auditTwoQuestions} />
+            <components.AuditPage start={start} end={end} update={this.props.update} values={this.props.survey} questions={auditQuestions} />
         );
     }
 }));

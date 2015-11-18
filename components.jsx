@@ -57,16 +57,20 @@ var AuditPage = React.createClass({
     render: function() {
         var responses = this.props.values;
         var update = this.props.update;
-        var questions = this.props.questions;
+        var questions = this.props.questions.slice(this.props.start, this.props.end);
+        var offset = this.props.start;
+
+        // change is bound below to index of question, so `this` is
+        // the integer index of the question
         var change = function(event) {
             var input = event.target
-            update(1, input.name, input.value)
+            update(this, input.name, input.value)
         }
         return (
             <section>
               <h1>Audit Questionnaire</h1>
               {questions.map(function(q, i) {
-                return <Question key={q.key || q.text} q={q} onChange={change} value={(responses[i] || {}).answer} />
+                return <Question key={q.key || q.text} q={q} onChange={change.bind(i + offset)} value={(responses[i+offset] || {}).answer} />
               })}
             </section>
         );

@@ -27,11 +27,21 @@ function Answer(index, text, answer) {
     type: ANSWER,
     field: "survey",
     fn: function(state) {
-      console.log(index)
-      console.log(text)
-      console.log(answer)
-      console.log(state)
-      return state
+      var response = {
+        question: text,
+        answer: answer
+      }
+
+      // Prefix might be shorter than index, so pad it out.
+      var newState = Array(state.length)
+      for (var i = 0; i < state.length; ++i) {
+        newState[i] = state[i]
+      }
+
+      // Set new one
+      newState[index] = response
+
+      return newState
     }
   }
 }
@@ -44,8 +54,7 @@ function surveyApp(state, action) {
   var field = state[action.field];
   var newState = Object.assign({}, state);
   newState[action.field] = action.fn(field);
-    
-  console.log(newState);
+
   return newState;
 }
 
