@@ -106,7 +106,6 @@ var BasicInfo = React.createClass({
 
 var StoredSurvey = ReactRedux.connect(function(s) { return {survey: s.survey} }, {update: store.Answer })
 
-
 var auditOneQuestions = [{"text": "Q1: How often do you have a drink containing alcohol?",
   "answers": [
     {"text": "Never"},
@@ -143,19 +142,8 @@ var auditOneQuestions = [{"text": "Q1: How often do you have a drink containing 
 
 var AuditOne = StoredSurvey(React.createClass({
     render: function() {
-        var update = this.props.update;
-        var change = function(event) {
-            var input = event.target
-            update(1, input.name, input.value)
-        console.log(store.Store.getState())
-        }
         return (
-            <section>
-              <h1>Audit Questionnaire</h1>
-              {auditOneQuestions.map(function(q) {
-                return <components.Question key={q.key || q.text} q={q} onChange={change} />
-              })}
-            </section>
+            <components.AuditPage update={this.props.update} values={this.props.survey} questions={auditOneQuestions} />
         );
     }
 }));
@@ -208,13 +196,8 @@ var auditTwoQuestions = [{"text": "Q5: How often in the last year have you faile
 var AuditTwo = StoredSurvey(React.createClass({
     render: function() {
         return (
-            <section>
-              <h1>Audit Questionnaire</h1>
-              {auditTwoQuestions.map(function(q) {
-                return <components.Question key={q.key || q.text} q={q} onChange={change}  />
-              })}
-            </section>
-            );
+            <components.AuditPage update={this.props.update} values={this.props.survey} questions={auditTwoQuestions} />
+        );
     }
 }));
 

@@ -53,6 +53,27 @@ var Footer = React.createClass({
     }
 });
 
+var AuditPage = React.createClass({
+    render: function() {
+        var responses = this.props.values;
+        var update = this.props.update;
+        var questions = this.props.questions;
+        var change = function(event) {
+            var input = event.target
+            update(1, input.name, input.value)
+        }
+        return (
+            <section>
+              <h1>Audit Questionnaire</h1>
+              {questions.map(function(q, i) {
+                return <Question key={q.key || q.text} q={q} onChange={change} value={(responses[i] || {}).answer} />
+              })}
+            </section>
+        );
+    }
+});
+
+
 var Question = React.createClass({
     render: function() {
         var q = this.props.q;
@@ -80,5 +101,6 @@ var Question = React.createClass({
 
 module.exports = {
     SurveyPage: SurveyPage,
+    AuditPage: AuditPage,
     Question: Question
 }
