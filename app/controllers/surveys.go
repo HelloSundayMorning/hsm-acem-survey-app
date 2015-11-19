@@ -20,7 +20,12 @@ func SurveysCreate(ctx *gin.Context) {
 		return
 	}
 
-	err := db.DB.Create(&survey).Error
+	err := survey.SetRequestData(ctx.Request)
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.DB.Create(&survey).Error
 	if err != nil {
 		panic(err)
 	}

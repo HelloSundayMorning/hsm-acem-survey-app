@@ -3,6 +3,8 @@ package models
 import (
 	"errors"
 	"fmt"
+	"net/http"
+	"strings"
 
 	"github.com/jinzhu/gorm"
 	"github.com/keighl/mandrill"
@@ -26,6 +28,7 @@ type Survey struct {
 	Interviewer string `sql:"not null;" json:"interviewer" binding:"required"`
 	Patient     `json:"patient" binding:"required"`
 	Answers     serializer.JSONArray `sql:"type:json;not null;default:'[]'" json:"answers" binding:"required"`
+	RequestData serializer.JSON      `sql:"type:json;not null;default:'{}'" json:"-"`
 }
 
 // AfterCreate a survey, it sends out completed email to patient automatically.
@@ -72,5 +75,14 @@ func (s Survey) SendCompletedMail() (err error) {
 			err = fmt.Errorf("send email via mandrill api failed (%s) response: %#v", resp.Status, resp)
 		}
 	}
+	return
+}
+
+func (s *Survey) SetRequestData(req *http.Request) (err error) {
+	requestData := serializer.JSON{}
+	requestData["header"] = req.Header
+	requestData["ip"] = strings.Split(req.RemoteAddr, ":")[0]
+
+	s.RequestData = requestData
 	return
 }

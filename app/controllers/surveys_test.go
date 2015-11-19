@@ -9,6 +9,8 @@ import (
 	"testing"
 
 	"github.com/theplant/hsm-acem-survey-app/app/controllers"
+	"github.com/theplant/hsm-acem-survey-app/app/models"
+	"github.com/theplant/hsm-acem-survey-app/db"
 	"github.com/theplant/hsm-acem-survey-app/test/utils"
 )
 
@@ -36,6 +38,31 @@ func TestSurveysCreate(t *testing.T) {
 	patientData := jsonData["patient"].(map[string]interface{})
 	if len(patientData) == 0 {
 		t.Fatalf("Unexpected response: %v", jsonData)
+	}
+}
+
+func TestSurveysCreateLogRequestData(t *testing.T) {
+	surveyData := defaultSurveyData(t)
+
+	req := prepareRequest(t, surveyData)
+	res := doRequest(t, req)
+
+	if res.StatusCode != http.StatusCreated {
+		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+
+	jsonData := jsonResponse(t, res)
+
+	survey := models.Survey{}
+
+	utils.AssertNoErr(t, db.DB.Find(&survey, jsonData["id"].(float64)).Error)
+
+	if _, ok := survey.RequestData["header"]; !ok {
+		t.Fatalf("Unexpected request data: %v", survey.RequestData)
+	}
+
+	if survey.RequestData["ip"] == "" {
+		t.Fatalf("Unexpected request data: %v", survey.RequestData)
 	}
 }
 
