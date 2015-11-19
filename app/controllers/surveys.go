@@ -11,8 +11,7 @@ import (
 // HTTPStatusUnprocessableEntity represents unprocesable entity http status
 const HTTPStatusUnprocessableEntity = 422
 
-// SurveysCreate receives survey result data and store them
-// into database.
+// SurveysCreate captures a survey results and email the survey's patient.
 func SurveysCreate(ctx *gin.Context) {
 	survey := models.Survey{}
 	if ctx.BindJSON(&survey) != nil {
@@ -20,6 +19,7 @@ func SurveysCreate(ctx *gin.Context) {
 		return
 	}
 
+	// Log http request header and ip information
 	err := survey.SetRequestData(ctx.Request)
 	if err != nil {
 		panic(err)

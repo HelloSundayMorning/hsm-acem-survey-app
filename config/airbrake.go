@@ -33,6 +33,7 @@ func initAirbrake() (airbrake *gobrake.Notifier) {
 	return
 }
 
+// AirbrakeNotify is used for easy report message to airbrake service manually.
 func AirbrakeNotify(e interface{}) {
 	log.Println("[ERROR]", e)
 

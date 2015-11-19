@@ -101,5 +101,9 @@ func initMandrill() {
 		Mandrill.Client = mandrill.ClientWithKey(mandrillAPIKey)
 	}
 
+	// `survey-completed` is a email template that created by junhui
+	// in mandrill.com. This template will be sent out after POSTed
+	// a survey. And this email template is pass to client to edit,
+	// refer: https://qortex.com/theplant/#groups/56496e5d8d93e31c8210ef3d/entry/56496e9b8d93e31c8210efa1/cid/564c4e1a8d93e30d5e008fa7
 	Mandrill.SurveyCompletedTemplateSlug = "survey-completed"
 }

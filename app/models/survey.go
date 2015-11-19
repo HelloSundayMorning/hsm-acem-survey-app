@@ -12,7 +12,7 @@ import (
 	"github.com/theplant/hsm-acem-survey-app/serializer"
 )
 
-// Patient is survey's creator
+// Patient is a part of a survey.
 type Patient struct {
 	Age      uint   `sql:"not null;" json:"age" binding:"required"`
 	Gender   string `sql:"not null;" json:"gender" binding:"required"`
@@ -21,7 +21,8 @@ type Patient struct {
 	Mobile   string `json:"mobile"`
 }
 
-// Survey stores all information that capture from survey result.
+// Survey stores all information about a survey. In incldues
+// patient information, survey results and http request information.
 type Survey struct {
 	Base
 
@@ -49,7 +50,7 @@ var (
 	ErrNoEmailAddress = errors.New("no email address")
 )
 
-// SendCompletedMail sends mandrill email template `survey-completed` to survey's patient.
+// SendCompletedMail sends survey completed mail to the survey's patient.
 func (s Survey) SendCompletedMail() (err error) {
 	if config.Mandrill.Client == nil {
 		err = ErrNoMandrillClient
@@ -78,6 +79,8 @@ func (s Survey) SendCompletedMail() (err error) {
 	return
 }
 
+// SetRequestData exchange the http request header and ip information
+// to json format and pass to survey.RequestData.
 func (s *Survey) SetRequestData(req *http.Request) (err error) {
 	requestData := serializer.JSON{}
 	requestData["header"] = req.Header
