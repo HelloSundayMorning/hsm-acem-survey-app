@@ -1,8 +1,7 @@
 "use strict";
 
-var Link = require('react-router').Link;
-
-var React = require('react');
+import { Link } from 'react-router'
+import React from 'react'
 
 var SurveyPage = React.createClass({
     render: function() {

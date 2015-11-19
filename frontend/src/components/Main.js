@@ -1,23 +1,12 @@
 "use strict";
 
-// main.js
-// FIXME make this work with an ES6 transpiler
-// import { Router, Route, Link } from 'react-router'
-// import { React } from 'react'
-// import { ReactDOM } from 'react-dom"
-
 require('normalize.css');
 require('styles/App.css');
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-
-var ReactRedux = require("react-redux");
-var ReduxDev = require("redux-devtools/lib/react");
-
-var Router = require('react-router').Router;
-var Route = require('react-router').Route;
-var Link = require('react-router').Link;
+import React from 'react'
+import * as ReactRedux from "react-redux";
+import * as ReduxDev from 'redux-devtools/lib/react';
+import { Router, Route, Link } from 'react-router'
 
 var components = require('../components.jsx');
 var store = require('../stores.js');
