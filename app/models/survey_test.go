@@ -42,6 +42,7 @@ func TestSurveySendCompletedMailSuccess(t *testing.T) {
 func newSurvey() *models.Survey {
 	return &models.Survey{
 		Interviewer: "doctor",
+		Location:    "warrnambool",
 		Answers: []map[string]interface{}{
 			map[string]interface{}{"question": "How other do you drink?", "answer": "Monthly or less"},
 			map[string]interface{}{"question": "How many standard drinks containing alcohol do you have in a typical day?", "answer": "1 or 2"},
