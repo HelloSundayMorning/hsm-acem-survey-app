@@ -75,7 +75,7 @@ func (s Survey) SendCompletedMail() (err error) {
 
 // SetRequestData exchange the http request header and ip information
 // to json format and pass to survey.RequestData.
-func (s *Survey) SetRequestData(req *http.Request) (err error) {
+func (s *Survey) SetRequestData(req *http.Request) {
 	requestData := serializer.JSON{}
 	requestData["header"] = req.Header
 	requestData["ip"] = strings.Split(req.RemoteAddr, ":")[0]

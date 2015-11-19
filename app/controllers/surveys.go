@@ -20,12 +20,9 @@ func SurveysCreate(ctx *gin.Context) {
 	}
 
 	// Log http request header and ip information
-	err := survey.SetRequestData(ctx.Request)
-	if err != nil {
-		panic(err)
-	}
+	survey.SetRequestData(ctx.Request)
 
-	err = db.DB.Create(&survey).Error
+	err := db.DB.Create(&survey).Error
 	if err != nil {
 		panic(err)
 	}
