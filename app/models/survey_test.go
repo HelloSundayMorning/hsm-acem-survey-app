@@ -8,16 +8,6 @@ import (
 	"github.com/theplant/hsm-acem-survey-app/config"
 )
 
-func TestSurveySendCompletedMailWithoutMandrillClient(t *testing.T) {
-	noMandrillConfigure()
-
-	survey := newSurvey()
-
-	if err := survey.SendCompletedMail(); err != models.ErrNoMandrillClient {
-		t.Fatalf("Unexpected error: %v", err)
-	}
-}
-
 func TestSurveySendCompletedMailWithoutPatientEmail(t *testing.T) {
 	successMandrillConfigure()
 
@@ -59,10 +49,6 @@ func newSurvey() *models.Survey {
 		},
 		Patient: models.Patient{Age: 21, Gender: "male", Postcode: "0123456789", Email: "patient@person.com", Mobile: "+8612345678901"},
 	}
-}
-
-func noMandrillConfigure() {
-	config.Mandrill.Client = nil
 }
 
 func successMandrillConfigure() {

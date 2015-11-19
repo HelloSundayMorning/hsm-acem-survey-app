@@ -44,19 +44,12 @@ func (s *Survey) AfterCreate(db *gorm.DB) (err error) {
 }
 
 var (
-	// ErrNoMandrillClient represents no mandrill client configuration.
-	ErrNoMandrillClient = errors.New("no mandrill client")
 	// ErrNoEmailAddress represents no email address as recipient.
 	ErrNoEmailAddress = errors.New("no email address")
 )
 
 // SendCompletedMail sends survey completed mail to the survey's patient.
 func (s Survey) SendCompletedMail() (err error) {
-	if config.Mandrill.Client == nil {
-		err = ErrNoMandrillClient
-		return
-	}
-
 	email := s.Patient.Email
 	if email == "" {
 		err = ErrNoEmailAddress
@@ -66,7 +59,7 @@ func (s Survey) SendCompletedMail() (err error) {
 	message := &mandrill.Message{}
 	message.AddRecipient(email, email, "to")
 
-	responses, err := config.Mandrill.Client.MessagesSendTemplate(message, config.Mandrill.SurveyCompletedTemplateSlug, nil)
+	responses, err := config.Mandrill.Client.MessagesSendTemplate(message, config.Mandrill.SurveyCompletedEmailTemplateSlug, nil)
 	if err != nil {
 		return
 	}

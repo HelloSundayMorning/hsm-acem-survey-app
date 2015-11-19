@@ -29,8 +29,8 @@ var (
 	}
 
 	Mandrill struct {
-		Client                      *mandrill.Client
-		SurveyCompletedTemplateSlug string
+		Client                           *mandrill.Client
+		SurveyCompletedEmailTemplateSlug string
 	}
 
 	SessionStore *sessions.CookieStore
@@ -97,13 +97,17 @@ func initMonitor() {
 func initMandrill() {
 	mandrillAPIKey := os.Getenv("MANDRILL_APIKEY")
 
-	if mandrillAPIKey != "" {
-		Mandrill.Client = mandrill.ClientWithKey(mandrillAPIKey)
+	if mandrillAPIKey == "" {
+		panic(errors.New("no mandrill api key"))
 	}
 
-	// `survey-completed` is a email template that created by junhui
-	// in mandrill.com. This template will be sent out after POSTed
-	// a survey. And this email template is pass to client to edit,
-	// refer: https://qortex.com/theplant/#groups/56496e5d8d93e31c8210ef3d/entry/56496e9b8d93e31c8210efa1/cid/564c4e1a8d93e30d5e008fa7
-	Mandrill.SurveyCompletedTemplateSlug = "survey-completed"
+	Mandrill.Client = mandrill.ClientWithKey(mandrillAPIKey)
+
+	surveyCompletedEmailTemplateSlug := os.Getenv("MANDRILL_SURVEY_COMPLETED_EMAIL_TEMPLATE_SLUG")
+
+	if surveyCompletedEmailTemplateSlug == "" {
+		panic(errors.New("no mandrill survey completed email template slug"))
+	}
+
+	Mandrill.SurveyCompletedEmailTemplateSlug = surveyCompletedEmailTemplateSlug
 }
