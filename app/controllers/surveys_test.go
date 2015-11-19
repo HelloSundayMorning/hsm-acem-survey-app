@@ -28,8 +28,13 @@ func TestSurveysCreate(t *testing.T) {
 		t.Fatalf("Unexpected response: %v", jsonData)
 	}
 
+	answersData := jsonData["answers"].([]interface{})
+	if len(answersData) == 0 {
+		t.Fatalf("Unexpected response: %v", jsonData)
+	}
+
 	patientData := jsonData["patient"].(map[string]interface{})
-	if patientData["id"].(float64) <= 0 {
+	if len(patientData) == 0 {
 		t.Fatalf("Unexpected response: %v", jsonData)
 	}
 }

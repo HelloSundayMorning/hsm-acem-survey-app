@@ -10,7 +10,6 @@ import (
 var Tables = []interface{}{
 	&models.User{},
 	&models.Survey{},
-	&models.Patient{},
 }
 
 func init() {

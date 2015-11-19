@@ -12,8 +12,6 @@ import (
 
 // Patient is survey's creator
 type Patient struct {
-	Base
-
 	Age      uint   `sql:"not null;" json:"age" binding:"required"`
 	Gender   string `sql:"not null;" json:"gender" binding:"required"`
 	Postcode string `sql:"not null;" json:"postcode" binding:"required"`
@@ -26,11 +24,8 @@ type Survey struct {
 	Base
 
 	Interviewer string `sql:"not null;" json:"interviewer" binding:"required"`
-
-	PatientID int     `sql:"not null;" json:"-"`
-	Patient   Patient `json:"patient" binding:"required"`
-
-	Answers serializer.JSONArray `sql:"type:json;not null;default:'[]'" json:"answers" binding:"required"`
+	Patient     `json:"patient" binding:"required"`
+	Answers     serializer.JSONArray `sql:"type:json;not null;default:'[]'" json:"answers" binding:"required"`
 }
 
 // AfterCreate a survey, it sends out completed email to patient automatically.
