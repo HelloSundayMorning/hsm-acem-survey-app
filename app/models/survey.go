@@ -31,7 +31,10 @@ type Survey struct {
 // AfterCreate a survey, it sends out completed email to patient automatically.
 func (s *Survey) AfterCreate(db *gorm.DB) (err error) {
 	go func() {
-		s.SendCompletedMail()
+		err := s.SendCompletedMail()
+		if err != nil {
+			config.AirbrakeNotify(fmt.Errorf("send survey (%d) completed mail failed, error: %v", s.ID, err))
+		}
 	}()
 	return
 }
@@ -66,7 +69,7 @@ func (s Survey) SendCompletedMail() (err error) {
 
 	for _, resp := range responses {
 		if resp.Status == "invalid" || resp.Status == "rejected" {
-			err = fmt.Errorf("sent out failure - %s response: %#v", resp.Status, resp)
+			err = fmt.Errorf("send email via mandrill api failed (%s) response: %#v", resp.Status, resp)
 		}
 	}
 	return
