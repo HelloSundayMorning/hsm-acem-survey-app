@@ -1,0 +1,6 @@
+{
+  "generator-react-webpack": {
+    "appName": "survey",
+    "style": "scss"
+  }
+}

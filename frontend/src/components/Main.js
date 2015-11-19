@@ -6,6 +6,9 @@
 // import { React } from 'react'
 // import { ReactDOM } from 'react-dom"
 
+require('normalize.css');
+require('styles/App.css');
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 
@@ -16,8 +19,8 @@ var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var Link = require('react-router').Link;
 
-var components = require('./components.jsx');
-var store = require('./store.js');
+var components = require('../components.jsx');
+var store = require('../stores.js');
 
 var Intro = React.createClass({
     render: function() {
@@ -319,4 +322,4 @@ var Survey = React.createClass({
     }
 });
 
-ReactDOM.render(<Survey />, document.getElementById('survey'));
+export default Survey;
