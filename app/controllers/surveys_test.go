@@ -15,7 +15,7 @@ import (
 )
 
 func TestSurveysCreate(t *testing.T) {
-	surveyData := defaultSurveyData(t)
+	surveyData := defaultRequestSurveyData(t)
 
 	req := prepareRequest(t, surveyData)
 	res := doRequest(t, req)
@@ -41,8 +41,40 @@ func TestSurveysCreate(t *testing.T) {
 	}
 }
 
-func TestSurveysCreateLogRequestData(t *testing.T) {
-	surveyData := defaultSurveyData(t)
+func TestSurveysCreateWithInValidSurveyData(t *testing.T) {
+	req := prepareRequest(t, nil)
+	res := doRequest(t, req)
+
+	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
+		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+}
+
+func TestSurveysCreateLogRequestHeader(t *testing.T) {
+	surveyData := defaultRequestSurveyData(t)
+
+	req := prepareRequest(t, surveyData)
+	req.Header.Set("My-Custom-Header", "foobar")
+
+	res := doRequest(t, req)
+
+	if res.StatusCode != http.StatusCreated {
+		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+
+	jsonData := jsonResponse(t, res)
+
+	survey := models.Survey{}
+	utils.AssertNoErr(t, db.DB.Find(&survey, jsonData["id"].(float64)).Error)
+	header := survey.RequestData["header"]
+
+	if _, ok := header.(map[string]interface{})["My-Custom-Header"]; !ok {
+		t.Fatalf("Unexpected request data: %v", survey.RequestData)
+	}
+}
+
+func TestSurveysCreateLogRequestIP(t *testing.T) {
+	surveyData := defaultRequestSurveyData(t)
 
 	req := prepareRequest(t, surveyData)
 	res := doRequest(t, req)
@@ -54,96 +86,10 @@ func TestSurveysCreateLogRequestData(t *testing.T) {
 	jsonData := jsonResponse(t, res)
 
 	survey := models.Survey{}
-
 	utils.AssertNoErr(t, db.DB.Find(&survey, jsonData["id"].(float64)).Error)
-
-	if _, ok := survey.RequestData["header"]; !ok {
-		t.Fatalf("Unexpected request data: %v", survey.RequestData)
-	}
 
 	if survey.RequestData["ip"] == "" {
 		t.Fatalf("Unexpected request data: %v", survey.RequestData)
-	}
-}
-
-func TestSurveysCreateWithoutSurveyData(t *testing.T) {
-	req := prepareRequest(t, nil)
-	res := doRequest(t, req)
-
-	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
-		t.Fatalf("Unexpected status code: %d", res.StatusCode)
-	}
-}
-
-func TestSurveysCreateWithoutInterviewer(t *testing.T) {
-	surveyData := defaultSurveyData(t)
-	delete(surveyData, "interviewer")
-
-	req := prepareRequest(t, surveyData)
-	res := doRequest(t, req)
-
-	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
-		t.Fatalf("Unexpected status code: %d", res.StatusCode)
-	}
-}
-
-func TestSurveysCreateWithoutPatient(t *testing.T) {
-	surveyData := defaultSurveyData(t)
-	delete(surveyData, "patient")
-
-	req := prepareRequest(t, surveyData)
-	res := doRequest(t, req)
-
-	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
-		t.Fatalf("Unexpected status code: %d", res.StatusCode)
-	}
-}
-
-func TestSurveysCreateWithoutPatientAge(t *testing.T) {
-	surveyData := defaultSurveyData(t)
-	delete(surveyData["patient"].(map[string]interface{}), "age")
-
-	req := prepareRequest(t, surveyData)
-	res := doRequest(t, req)
-
-	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
-		t.Fatalf("Unexpected status code: %d", res.StatusCode)
-	}
-}
-
-func TestSurveysCreateWithoutPatientGender(t *testing.T) {
-	surveyData := defaultSurveyData(t)
-	delete(surveyData["patient"].(map[string]interface{}), "gender")
-
-	req := prepareRequest(t, surveyData)
-	res := doRequest(t, req)
-
-	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
-		t.Fatalf("Unexpected status code: %d", res.StatusCode)
-	}
-}
-
-func TestSurveysCreateWithoutPatientPostcode(t *testing.T) {
-	surveyData := defaultSurveyData(t)
-	delete(surveyData["patient"].(map[string]interface{}), "postcode")
-
-	req := prepareRequest(t, surveyData)
-	res := doRequest(t, req)
-
-	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
-		t.Fatalf("Unexpected status code: %d", res.StatusCode)
-	}
-}
-
-func TestSurveysCreateWithoutAnswers(t *testing.T) {
-	surveyData := defaultSurveyData(t)
-	delete(surveyData, "answers")
-
-	req := prepareRequest(t, surveyData)
-	res := doRequest(t, req)
-
-	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
-		t.Fatalf("Unexpected status code: %d", res.StatusCode)
 	}
 }
 
@@ -178,7 +124,7 @@ func jsonResponse(t *testing.T, res *http.Response) map[string]interface{} {
 	return s
 }
 
-func defaultSurveyData(t *testing.T) (surveyData map[string]interface{}) {
+func defaultRequestSurveyData(t *testing.T) (surveyData map[string]interface{}) {
 	surveyJSONStr := []byte(`
 	  {
 		"interviewer": "doctor",
