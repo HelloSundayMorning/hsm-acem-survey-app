@@ -9,10 +9,21 @@ var SET_INTERVIEWER = "SET_INTERVIEWER";
 var EMAIL_TO_PATIENT = "EMAIL_TO_PATIENT";
 var EMAIL_TO = "EMAIL_TO";
 
+const SET_LOCATION = "SET_LOCATION";
+
 var initialState = {
-  bio: {},
-  survey: [],
-  interviewer: null
+    bio: {},
+    survey: [],
+    interviewer: null,
+    location: "Warrnambool"
+}
+
+function SetLocation(value) {
+    return {
+        type: SET_LOCATION,
+        field: "location",
+        value: value
+    }
 }
 
 function SetInterviewer(value) {
@@ -109,10 +120,11 @@ var create = Redux.compose(ReduxDev.devTools())(Redux.createStore)
 var store = create(surveyApp);
 
 module.exports = {
-  Store: store,
-  UpdateBio: UpdateBio,
-  Answer: Answer,
-  SetInterviewer: SetInterviewer,
-  EmailToPatient: emailToPatient,
-  EmailTo: emailTo
+    Store: store,
+    UpdateBio: UpdateBio,
+    Answer: Answer,
+    SetInterviewer: SetInterviewer,
+    EmailToPatient: emailToPatient,
+    EmailTo: emailTo,
+    SetLocation: SetLocation,
 }
