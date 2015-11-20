@@ -36,5 +36,5 @@ Something like:
     # Get harp
     $ go get -u github.com/bom-d-van/harp
     
-    # Deploy to demo
-    $ harp -s dev -log deploy
+    # Deploy to production
+    $ harp -s prod -log deploy
