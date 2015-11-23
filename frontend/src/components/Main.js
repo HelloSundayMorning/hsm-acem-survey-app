@@ -11,7 +11,7 @@ import { Router, Route, Link } from 'react-router'
 var components = require('../components.jsx');
 var store = require('../stores.js');
 
-const locations = ["Warrnambool", "Clayton", "Fitzroy", "Geelong"];
+var locations = store.Locations
 
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store.SetLocation })(function(props) {
         return (
@@ -295,7 +295,7 @@ var pageOrder = ["/", "info", "audit1", "audit2", "feedback", "frames"]
 
 var LogMonitor = ReduxDev.LogMonitor
 
-var s = store.Store
+var s = store.NewStore()
 
 var Survey = React.createClass({
     render: function() {
