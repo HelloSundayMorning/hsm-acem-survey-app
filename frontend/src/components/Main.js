@@ -11,8 +11,9 @@ import { Router, Route, Link } from 'react-router'
 var components = require('../components.jsx');
 var store = require('../stores.js');
 
-var Intro = React.createClass({
-    render: function() {
+var locations = store.Locations
+
+var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store.SetLocation })(function(props) {
         return (
             <section>
             <h1>The <strong>FRAMES</strong> model</h1>
@@ -35,11 +36,14 @@ var Intro = React.createClass({
 
 <p>Information and contact details will not be shared with third parties, and all data will be pooled and de-identified if it is used for analysis.</p>
 
-            <Link to="/info">Start</Link>
-            </section>
-            );
-    }
-});
+                <Link to="/info">Start</Link>
+
+                <select value={props.location} onChange={event => props.update(event.target.value)}>
+                {locations.map(l => <option key={l} value={l}>{l}</option> )}
+            </select>
+                </section>
+        );
+})
 
 var interviewerQuestion = {
         text: "Interviewer",
@@ -291,7 +295,7 @@ var pageOrder = ["/", "info", "audit1", "audit2", "feedback", "frames"]
 
 var LogMonitor = ReduxDev.LogMonitor
 
-var s = store.Store
+var s = store.NewStore()
 
 var Survey = React.createClass({
     render: function() {

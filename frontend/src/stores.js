@@ -9,10 +9,24 @@ var SET_INTERVIEWER = "SET_INTERVIEWER";
 var EMAIL_TO_PATIENT = "EMAIL_TO_PATIENT";
 var EMAIL_TO = "EMAIL_TO";
 
+const SET_LOCATION = "SET_LOCATION";
+
+const Locations = ["Warrnambool", "Clayton", "Fitzroy", "Geelong"];
+
+
 var initialState = {
-  bio: {},
-  survey: [],
-  interviewer: null
+    bio: {},
+    survey: [],
+    interviewer: null,
+    location: ""
+}
+
+function SetLocation(value) {
+    return {
+        type: SET_LOCATION,
+        field: "location",
+        value: value
+    }
 }
 
 function SetInterviewer(value) {
@@ -88,6 +102,8 @@ function surveyApp(state, action) {
   } else if (action.type === EMAIL_TO) {
     askAndDeliverEmail(state);
     return state;
+  } else if (action.type === SET_LOCATION) {
+      window.localStorage.setItem(LOCATION_KEY, action.value);
   }
 
   var newState = Object.assign({}, state);
@@ -108,11 +124,30 @@ var ReduxDev = require("redux-devtools");
 var create = Redux.compose(ReduxDev.devTools())(Redux.createStore)
 var store = create(surveyApp);
 
+const LOCATION_KEY = "location"
+
+function initialiseLocation() {
+    let s = window.localStorage
+    var location = s.getItem(LOCATION_KEY);
+    if (!location) {
+        location = Locations[0]
+    }
+    initialState.location = location
+}
+
 module.exports = {
-  Store: store,
-  UpdateBio: UpdateBio,
-  Answer: Answer,
-  SetInterviewer: SetInterviewer,
-  EmailToPatient: emailToPatient,
-  EmailTo: emailTo
+    NewStore: () => {
+        initialiseLocation();
+        return create(surveyApp);
+    },
+
+    SurveyApp: surveyApp,
+    Locations,
+
+    UpdateBio,
+    Answer,
+    SetInterviewer,
+    EmailToPatient: emailToPatient,
+    EmailTo: emailTo,
+    SetLocation
 }
