@@ -8,8 +8,8 @@ import * as ReactRedux from "react-redux";
 import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
 
-var components = require('../components.jsx');
-var store = require('../stores.js');
+var components = require('../components');
+var store = require('../stores');
 
 var locations = store.Locations
 
@@ -66,9 +66,8 @@ var genderQuestion = {
     }
 
 var PatientBio = React.createClass({
-    handleChange: function(event) {
-        var input = event.target
-        this.props.update(input.name, input.value)
+    handleChange: function(input, q, a) {
+            this.props.update(input.name, input.value)
     },
     render: function() {
         return (
@@ -87,18 +86,12 @@ var PatientBio = React.createClass({
 
 var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: store.UpdateBio})(PatientBio);
 
-function value(fn) {
-    return function(event) {
-        return fn(event.target.value);
-    }
-}
-
 var Interviewer = ReactRedux.connect(function(s) {
     return {interviewer: s.interviewer}
 }, {update: store.SetInterviewer})(function(props) {
 
     return (
-        <components.Question value={props.interviewer} onChange={value(props.update)} q={interviewerQuestion} />
+        <components.Question value={props.interviewer} onChange={(input, q, a) => props.update(input.value)} q={interviewerQuestion} />
         )
 })
 
@@ -118,27 +111,27 @@ var auditQuestions = [
     {
         "text": "Q1: How often do you have a drink containing alcohol?",
         "answers": [
-            {"text": "Never"},
-            {"text": "Monthly or less"},
-            {"text": "2-4 times a month"},
-            {"text": "2-3 times a week"},
-            {"text": "4 or more times a week"}]
+            {"text": "Never", score: 0},
+            {"text": "Monthly or less", score: 1},
+            {"text": "2-4 times a month", score: 2},
+            {"text": "2-3 times a week", score: 3},
+            {"text": "4 or more times a week", score: 4}]
     },{
         "text": "Q2: How many standard drinks containing alcohol do you have in a typical day?",
         "answers": [
-            {"text": "1 or 2"},
-            {"text": "3 or 4"},
-            {"text": "5 or 6"},
-            {"text": "7, 8 or 9"},
-            {"text": "10 or more"}]
+            {"text": "1 or 2", score: 0},
+            {"text": "3 or 4", score: 1},
+            {"text": "5 or 6", score: 2},
+            {"text": "7, 8 or 9", score: 3},
+            {"text": "10 or more", score: 4}]
     },{
         "text": "Q3: How often do you have six or more drinks on one occasion?",
         "answers": [
-            {"text": "Never"},
-            {"text": "Monthly or less"},
-            {"text": "2-4 times a month"},
-            {"text": "2-3 times a week"},
-            {"text": "4 or more times a week"}]
+            {"text": "Never", score: 0},
+            {"text": "Monthly or less", score: 1},
+            {"text": "2-4 times a month", score: 2},
+            {"text": "2-3 times a week", score: 3},
+            {"text": "4 or more times a week", score: 4}]
     },{"text": "Q4: How often during the last year have you found that you were not able to stop drinking once you had started?",
         "answers": [
             {"text": "Never"},
@@ -192,14 +185,14 @@ var auditQuestions = [
             {"text": "Yes, during the last year"}]
     }]
 
-var StoredSurvey = ReactRedux.connect(function(s) { return {survey: s.survey} }, {update: store.Answer })
+var StoredSurvey = ReactRedux.connect(function(s) { return { survey: s.survey, gender: s.bio.gender } }, {update: store.Answer })
 
 var AuditOne = StoredSurvey(React.createClass({
     render: function() {
         var start = 0;
         var end = 4;
         return (
-            <components.AuditPage start={start} end={end} update={this.props.update} values={this.props.survey} questions={auditQuestions} />
+            <components.AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
         );
     }
 }));
@@ -209,7 +202,7 @@ var AuditTwo = StoredSurvey(React.createClass({
         var start = 4;
         var end = 10;
         return (
-            <components.AuditPage start={start} end={end} update={this.props.update} values={this.props.survey} questions={auditQuestions} />
+            <components.AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
         );
     }
 }));

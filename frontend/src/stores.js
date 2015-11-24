@@ -48,13 +48,14 @@ function UpdateBio(field, value) {
     }
   };
 }
-function Answer(index, text, answer) {
+
+function Answer(index, question, answer) {
   return {
     type: ANSWER,
     field: "survey",
     fn: function(state) {
       var response = {
-        question: text,
+        question: question.text,
         answer: answer
       }
 
