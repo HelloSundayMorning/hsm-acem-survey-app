@@ -185,14 +185,14 @@ var auditQuestions = [
             {"text": "Yes, during the last year"}]
     }]
 
-var StoredSurvey = ReactRedux.connect(function(s) { return {survey: s.survey} }, {update: store.Answer })
+var StoredSurvey = ReactRedux.connect(function(s) { return { survey: s.survey, gender: s.bio.gender } }, {update: store.Answer })
 
 var AuditOne = StoredSurvey(React.createClass({
     render: function() {
         var start = 0;
         var end = 4;
         return (
-            <components.AuditPage start={start} end={end} update={this.props.update} values={this.props.survey} questions={auditQuestions} />
+            <components.AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
         );
     }
 }));
@@ -202,7 +202,7 @@ var AuditTwo = StoredSurvey(React.createClass({
         var start = 4;
         var end = 10;
         return (
-            <components.AuditPage start={start} end={end} update={this.props.update} values={this.props.survey} questions={auditQuestions} />
+            <components.AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
         );
     }
 }));

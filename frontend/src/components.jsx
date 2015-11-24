@@ -52,47 +52,47 @@ var Footer = React.createClass({
     }
 });
 
-function enabledQuestion(qid, state) {
-    const q1 = !!state[0] && state[0].answer.score
-    const q2 = !!state[1] && state[1].answer.score
-    const q3 = !!state[2] && state[2].answer.score
+function questionDisabled(qid, survey, gender) {
+    const q1 = (!!survey[0] && survey[0].answer.score) || 0
+    const q2 = (!!survey[1] && survey[1].answer.score) || 0
+    const q3 = (!!survey[2] && survey[2].answer.score) || 0
+
     switch (qid) { // Zero-based!
     case 0: // Q1
-        return true
+        return false
     case 1: // Q2
     case 2: // Q3
-        return q1 > 0
+        return q1 == 0
     default: // Q4-10
         if (q2 + q3 === 0) {
-            return false
+            return true
         }
 
-        const cutoff = {"male": 4, "female": 3}
+        const cutoff = { "male": 4, "female": 3, "other": 3}
 
-        return q1 + q2 + q3 >= cutoff["male"]
+        return q1 + q2 + q3 < cutoff[gender]
     }
 }
 
 var AuditPage = React.createClass({
     render: function() {
-        var responses = this.props.values;
+        var survey = this.props.survey;
+        var gender = this.props.gender;
         var update = this.props.update;
         var questions = this.props.questions.slice(this.props.start, this.props.end);
         var offset = this.props.start;
 
-        // change is bound below to index of question, so `this` is
-        // the integer index of the question
-        var change = function(i) {
-            return function(event, question, answer) {
-                console.log(question, answer)
-                update(i, question, answer)
-            }
-        }
+        const change = (i) =>
+              (event, question, answer) => {
+                  console.log(question, answer)
+                  update(i, question, answer)
+              }
+
         return (
             <section>
               <h1>Audit Questionnaire</h1>
               {questions.map(function(q, i) {
-                  return <Question key={q.key || q.text} q={q} onChange={change(i + offset)} value={(responses[i+offset] || {answer: {}}).answer.text} enabled={enabledQuestion(i + offset, responses)} />
+                  return <Question key={q.key || q.text} q={q} onChange={change(i + offset)} value={(survey[i+offset] || {answer: {}}).answer.text} disabled={questionDisabled(i + offset, survey, gender)} />
               })}
             </section>
         );
@@ -105,9 +105,10 @@ var Question = React.createClass({
         var q = this.props.q;
         var cb = this.props.onChange;
         var selected = this.props.value;
+        var disabled = !!this.props.disabled
         return (
-            <fieldset>
-                <legend>{q.text}: {this.props.enabled ? "true" : "false"}</legend>
+                <fieldset className={disabled ? "disabled" : ""}>
+                <legend>{q.text}: {disabled ? "disabled" : "enabled"}</legend>
                 {q.answers.map(function(answer, i) {
                     var value = answer.key || answer.text;
                 var checked = undefined;
@@ -115,7 +116,7 @@ var Question = React.createClass({
                     checked = "checked";
                 }
                 return <label key={(q.key || q.text) + value}>
-                        <input type="radio" checked={checked} name={q.key || q.text} value={value} onChange={(event) => cb(event.target, q, answer)} />
+                        <input type="radio" checked={checked} name={q.key || q.text} value={value} onChange={(event) => cb(event.target, q, answer)} disabled={disabled ? "disabled" : ""} />
                 {answer.text}
                 </label>
             })}
@@ -123,7 +124,6 @@ var Question = React.createClass({
             )
     }
 })
-
 
 module.exports = {
     SurveyPage: SurveyPage,
