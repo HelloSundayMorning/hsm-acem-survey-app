@@ -52,6 +52,27 @@ var Footer = React.createClass({
     }
 });
 
+function enabledQuestion(qid, state) {
+    const q1 = !!state[0] && state[0].answer.score
+    const q2 = !!state[1] && state[1].answer.score
+    const q3 = !!state[2] && state[2].answer.score
+    switch (qid) { // Zero-based!
+    case 0: // Q1
+        return true
+    case 1: // Q2
+    case 2: // Q3
+        return q1 > 0
+    default: // Q4-10
+        if (q2 + q3 === 0) {
+            return false
+        }
+
+        const cutoff = {"male": 4, "female": 3}
+
+        return q1 + q2 + q3 >= cutoff["male"]
+    }
+}
+
 var AuditPage = React.createClass({
     render: function() {
         var responses = this.props.values;
@@ -61,15 +82,17 @@ var AuditPage = React.createClass({
 
         // change is bound below to index of question, so `this` is
         // the integer index of the question
-        var change = function(event) {
-            var input = event.target
-            update(this, input.name, input.value)
+        var change = function(i) {
+            return function(event, question, answer) {
+                console.log(question, answer)
+                update(i, question, answer)
+            }
         }
         return (
             <section>
               <h1>Audit Questionnaire</h1>
               {questions.map(function(q, i) {
-                return <Question key={q.key || q.text} q={q} onChange={change.bind(i + offset)} value={(responses[i+offset] || {}).answer} />
+                  return <Question key={q.key || q.text} q={q} onChange={change(i + offset)} value={(responses[i+offset] || {answer: {}}).answer.text} enabled={enabledQuestion(i + offset, responses)} />
               })}
             </section>
         );
@@ -84,15 +107,15 @@ var Question = React.createClass({
         var selected = this.props.value;
         return (
             <fieldset>
-            <legend>{q.text}</legend>
-            {q.answers.map(function(answer) {
-                var value = answer.key || answer.text;
+                <legend>{q.text}: {this.props.enabled ? "true" : "false"}</legend>
+                {q.answers.map(function(answer, i) {
+                    var value = answer.key || answer.text;
                 var checked = undefined;
                 if (selected === value) {
                     checked = "checked";
                 }
                 return <label key={(q.key || q.text) + value}>
-                <input type="radio" checked={checked} name={q.key || q.text} value={value} onChange={cb} />
+                        <input type="radio" checked={checked} name={q.key || q.text} value={value} onChange={(event) => cb(event.target, q, answer)} />
                 {answer.text}
                 </label>
             })}
