@@ -9,8 +9,8 @@ import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
 import Question from 'components/Question'
 import AuditPage from 'components/AuditPage'
+import SurveyPage from 'components/SurveyPage'
 
-var components = require('../components');
 var store = require('../stores');
 
 var locations = store.Locations
@@ -299,7 +299,7 @@ var Survey = React.createClass({
             <ReactRedux.Provider store={s}>
             <Router>
             <Route path="/" component={Intro} />
-            <Route path=":survey_page" component={components.SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
+            <Route path=":survey_page" component={SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
             </Router>
             </ReactRedux.Provider>
             <ReduxDev.DebugPanel top right bottom>

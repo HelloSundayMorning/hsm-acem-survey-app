@@ -16,6 +16,4 @@ const SurveyPage = ({ route, params }) => {
     )
 }
 
-module.exports = {
-    SurveyPage
-}
+export default SurveyPage
