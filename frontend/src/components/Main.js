@@ -8,6 +8,7 @@ import * as ReactRedux from "react-redux";
 import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
 import Question from 'components/Question'
+import AuditPage from 'components/AuditPage'
 
 var components = require('../components');
 var store = require('../stores');
@@ -193,7 +194,7 @@ var AuditOne = StoredSurvey(React.createClass({
         var start = 0;
         var end = 4;
         return (
-            <components.AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
+            <AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
         );
     }
 }));
@@ -203,7 +204,7 @@ var AuditTwo = StoredSurvey(React.createClass({
         var start = 4;
         var end = 10;
         return (
-            <components.AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
+            <AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
         );
     }
 }));
