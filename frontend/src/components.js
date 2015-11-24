@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Footer from "components/Footer"
+import Question from "components/Question"
 
 const SurveyPage = ({ route, params }) => {
     const routeMap = route.routeMap;
@@ -58,28 +59,7 @@ const AuditPage = ({ survey, gender, update, questions, start, end }) => {
     );
 }
 
-const Question = ({ q, onChange, value, disabled }) => {
-    disabled = !!disabled ? "disabled" : ""
-    return (
-            <fieldset className={disabled}>
-            <legend>{q.text}</legend>
-            {q.answers.map((answer, i) => {
-                const val = answer.key || answer.text;
-                let checked = undefined;
-                if (value === val) {
-                    checked = "checked";
-                }
-                return <label key={(q.key || q.text) + val}>
-                    <input type="radio" checked={checked} name={q.key || q.text} value={val} onChange={(event) => onChange(event.target, q, answer)} disabled={disabled} />
-                    {answer.text}
-                </label>
-            })}
-        </fieldset>
-    )
-}
-
 module.exports = {
     SurveyPage,
-    AuditPage,
-    Question
+    AuditPage
 }

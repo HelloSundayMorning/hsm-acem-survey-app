@@ -7,6 +7,7 @@ import React from 'react'
 import * as ReactRedux from "react-redux";
 import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
+import Question from 'components/Question'
 
 var components = require('../components');
 var store = require('../stores');
@@ -74,7 +75,7 @@ var PatientBio = React.createClass({
         <fieldset>
         <legend>Patient Information</legend>
         <label>Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
-        <components.Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
+        <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
         <label>Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
         <label>Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
         Or
@@ -91,7 +92,7 @@ var Interviewer = ReactRedux.connect(function(s) {
 }, {update: store.SetInterviewer})(function(props) {
 
     return (
-        <components.Question value={props.interviewer} onChange={(input, q, a) => props.update(input.value)} q={interviewerQuestion} />
+        <Question value={props.interviewer} onChange={(input, q, a) => props.update(input.value)} q={interviewerQuestion} />
         )
 })
 
