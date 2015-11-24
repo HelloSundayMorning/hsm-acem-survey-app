@@ -8,8 +8,8 @@ import * as ReactRedux from "react-redux";
 import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
 
-var components = require('../components.jsx');
-var store = require('../stores.js');
+var components = require('../components');
+var store = require('../stores');
 
 var locations = store.Locations
 
