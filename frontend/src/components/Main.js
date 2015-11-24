@@ -16,7 +16,7 @@ var store = require('../stores');
 var locations = store.Locations
 
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store.SetLocation })(function(props) {
-        return (
+    return (
             <section>
             <h1>The <strong>FRAMES</strong> model</h1>
 
@@ -30,59 +30,59 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store
 
             <p><strong>E</strong>mpathy: Emphasise the development of a therapeutic alliance in the context of a warm, reflective, empathic, and collaborative approach by the practitioner.</p>
 
-            <p><strong>S</strong>elf-efficacy: Support the person's self-efficacy for change, and communicate a sense of optimism. De-emphasise helplessness or powerlessness.</p>
+            <p><strong>S</strong>elf-efficacy: Support the person&#8217;s self-efficacy for change, and communicate a sense of optimism. De-emphasise helplessness or powerlessness.</p>
 
-<h2>Disclaimer (inform the Patient of this)</h2>
+            <h2>Disclaimer (inform the Patient of this)</h2>
 
-<p>This information will be used by the Australasian College for Emergency Medicine, and Hello Sunday Morning, to follow up with the patient.</p>
+            <p>This information will be used by the Australasian College for Emergency Medicine, and Hello Sunday Morning, to follow up with the patient.</p>
 
-<p>Information and contact details will not be shared with third parties, and all data will be pooled and de-identified if it is used for analysis.</p>
+            <p>Information and contact details will not be shared with third parties, and all data will be pooled and de-identified if it is used for analysis.</p>
 
-                <Link to="/info">Start</Link>
+            <Link to="/info">Start</Link>
 
-                <select value={props.location} onChange={event => props.update(event.target.value)}>
-                {locations.map(l => <option key={l} value={l}>{l}</option> )}
-            </select>
-                </section>
-        );
+            <select value={props.location} onChange={event => props.update(event.target.value)}>
+            {locations.map(l => <option key={l} value={l}>{l}</option> )}
+        </select>
+            </section>
+    );
 })
 
 var interviewerQuestion = {
-        text: "Interviewer",
-        key: "interviewer",
-        answers: [
-            {key: "nurse", text: "Nurse"},
-            {key: "doctor", text: "Doctor"},
-            {key: "specialist", text: "Specialist"},
-        ]
-    }
+    text: "Interviewer",
+    key: "interviewer",
+    answers: [
+        {key: "nurse", text: "Nurse"},
+        {key: "doctor", text: "Doctor"},
+        {key: "specialist", text: "Specialist"},
+    ]
+}
 
 var genderQuestion = {
-        text: "Gender:",
-        key: "gender",
-        answers: [
-            {key: "male", text: "Male"},
-            {key: "female", text: "Female"},
-            {key: "other", text: "Other"},
-        ]
-    }
+    text: "Gender:",
+    key: "gender",
+    answers: [
+        {key: "male", text: "Male"},
+        {key: "female", text: "Female"},
+        {key: "other", text: "Other"},
+    ]
+}
 
 var PatientBio = React.createClass({
     handleChange: function(input) {
-            this.props.update(input.name, input.value)
+        this.props.update(input.name, input.value)
     },
     render: function() {
         return (
-        <fieldset>
-        <legend>Patient Information</legend>
-        <label>Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
-        <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-        <label>Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
-        <label>Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
-        Or
-        <label>Patient mobile: <input type="tel" name="phone" value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
-            </fieldset>
-            )
+                <fieldset>
+                <legend>Patient Information</legend>
+                <label>Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
+                <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
+                <label>Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
+                <label>Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
+                Or
+                <label>Patient mobile: <input type="tel" name="phone" value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
+                </fieldset>
+        )
     }
 });
 
@@ -93,19 +93,19 @@ var Interviewer = ReactRedux.connect(function(s) {
 }, {update: store.SetInterviewer})(function(props) {
 
     return (
-        <Question value={props.interviewer} onChange={(input, q, a) => props.update(input.value)} q={interviewerQuestion} />
-        )
+            <Question value={props.interviewer} onChange={(input, q, a) => props.update(input.value)} q={interviewerQuestion} />
+    )
 })
 
 var BasicInfo = React.createClass({
     render: function() {
         return (
-            <section>
-            <h1>Basic Information</h1>
-            <Interviewer />
-            <PatientBio />
-            </section>
-            );
+                <section>
+                <h1>Basic Information</h1>
+                <Interviewer />
+                <PatientBio />
+                </section>
+        );
     }
 });
 
@@ -134,7 +134,8 @@ var auditQuestions = [
             {"text": "2-4 times a month", score: 2},
             {"text": "2-3 times a week", score: 3},
             {"text": "4 or more times a week", score: 4}]
-    },{"text": "Q4: How often during the last year have you found that you were not able to stop drinking once you had started?",
+    },{
+        "text": "Q4: How often during the last year have you found that you were not able to stop drinking once you had started?",
         "answers": [
             {"text": "Never"},
             {"text": "Less than monthly"},
@@ -194,7 +195,7 @@ var AuditOne = StoredSurvey(React.createClass({
         var start = 0;
         var end = 4;
         return (
-            <AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
+                <AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
         );
     }
 }));
@@ -204,7 +205,7 @@ var AuditTwo = StoredSurvey(React.createClass({
         var start = 4;
         var end = 10;
         return (
-            <AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
+                <AuditPage start={start} end={end} update={this.props.update} survey={this.props.survey} gender={this.props.gender} questions={auditQuestions} />
         );
     }
 }));
@@ -212,66 +213,66 @@ var AuditTwo = StoredSurvey(React.createClass({
 var Feedback = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo })(React.createClass({
     render: function() {
         return (
-<section>
-            <h1>Feedback</h1>
+                <section>
+                <h1>Feedback</h1>
 
-<p>Looking at this information, how do you feel about your level of drinking?</p>
+                <p>Looking at this information, how do you feel about your level of drinking?</p>
 
-<p>Only you can make the decision to change your consumption. Here are some strategies you can try if you want to cut back:</p>
+                <p>Only you can make the decision to change your consumption. Here are some strategies you can try if you want to cut back:</p>
 
-<ul>
-<li>Setting personal drinking limits and sticking to it;</li>
-<li>Alternating alcoholic drinks with soft drinks;</li>
-<li>Switching to low alcohol drinks;</li>
-<li>Having regular alcohol-free days;</li>
-<li>Identifying high risk situations for heavy drinking and creating a management plan;</li>
-<li>Engaging in alternative activities to drinking</li>
-</ul>
+                <ul>
+                <li>Setting personal drinking limits and sticking to it;</li>
+                <li>Alternating alcoholic drinks with soft drinks;</li>
+                <li>Switching to low alcohol drinks;</li>
+                <li>Having regular alcohol-free days;</li>
+                <li>Identifying high risk situations for heavy drinking and creating a management plan;</li>
+                <li>Engaging in alternative activities to drinking</li>
+                </ul>
 
-<button onClick={this.props.emailToPatient}>Email to Patient</button>
-<button onClick={this.props.emailTo}>Email to…</button>
-</section>
-            );
+                <button onClick={this.props.emailToPatient}>Email to Patient</button>
+                <button onClick={this.props.emailTo}>Email to…</button>
+                </section>
+        );
     }
 }));
 
 var Frames = React.createClass({
     render: function() {
         return (
-<section>
-            <h1>FRAMES reminder</h1>
+                <section>
+                <h1>FRAMES reminder</h1>
 
-<h2>Feedback</h2>
-<p>Show the previous screen to the patient. Many people are unaware that they are drinking at hazardous or harmful levels and highlighting risks linked to current drinking patterns can be a powerful motivator for change.</p>
+                <h2>Feedback</h2>
+                <p>Show the previous screen to the patient. Many people are unaware that they are drinking at hazardous or harmful levels and highlighting risks linked to current drinking patterns can be a powerful motivator for change.</p>
 
-<p>“You’ve scored 16 on the AUDIT which indicates that you are at high risk of harm from your current pattern of drinking…”</p>
+                <p>“You’ve scored 16 on the AUDIT which indicates that you are at high risk of harm from your current pattern of drinking…”</p>
 
-<h2>Responsibility</h2>
-<p>Emphasise that the decision to change drinking patterns or to continue drinking at the same level is the choice of the person alone.</p>
-<p>“Nobody can make this choice for you. It’s really up to you to make a change…”</p>
+                <h2>Responsibility</h2>
+                <p>Emphasise that the decision to change drinking patterns or to continue drinking at the same level is the choice of the person alone.</p>
+                <p>“Nobody can make this choice for you. It’s really up to you to make a change…”</p>
 
-<h2>Advice</h2>
-<p>Deliver clear advice to change drinking behaviour.</p>
-<p>“…yet as your (doctor, pharmacist, health care worker) I strongly advise you to limit your drinking or stop altogether to reduce the risks.”</p>
+                <h2>Advice</h2>
+                <p>Deliver clear advice to change drinking behaviour.</p>
+                <p>“…yet as your (doctor, pharmacist, health care worker) I strongly advise you to limit your drinking or stop altogether to reduce the risks.”</p>
 
-<h2>Provide a menu of strategies for changing drinking behaviours.</h2>
-<p>Examples:</p>
+                <h2>Provide a menu of strategies for changing drinking behaviours.</h2>
+                <p>Examples:</p>
 
-<ul>
-<li>Setting personal drinking limits and sticking to it;</li>
-<li>Alternating alcoholic drinks with soft drinks;</li>
-<li>Switching to low alcohol drinks;</li>
-<li>Having regular alcohol-free days;</li>
-<li>Identifying high risk situations for heavy drinking and creating a management plan; Engaging in alternative activities to drinking.</li>
-</ul>
+                <ul>
+                <li>Setting personal drinking limits and sticking to it;</li>
+                <li>Alternating alcoholic drinks with soft drinks;</li>
+                <li>Switching to low alcohol drinks;</li>
+                <li>Having regular alcohol-free days;</li>
+                <li>Identifying high risk situations for heavy drinking and creating a management plan; Engaging in alternative activities to drinking.</li>
+                </ul>
 
-<h2>Empathy</h2>
-<p>Emphasise the development of a therapeutic alliance in the context of a warm, reflective, empathic, and collaborative approach by the practitioner.</p>
+                <h2>Empathy</h2>
+                <p>Emphasise the development of a therapeutic alliance in the context of a warm, reflective, empathic, and collaborative approach by the practitioner.</p>
 
-<h2>Self-efficacy</h2>
-<p>Support the person's self-efficacy for change, and communicate a sense of optimism. De-emphasise helplessness or powerlessness.</p>
-            <p>“Many people successfully control their drinking or stop drinking all together. With the right support and information I’m confident that you will do it too”.</p>
-            </section>
+                <h2>Self-efficacy</h2>
+                <p>Support the person&#8217;s self-efficacy for change, and communicate a sense of optimism. De-emphasise helplessness or powerlessness.</p>
+                <p>“Many people successfully control their drinking or stop drinking all together. With the right support and information I’m confident that you will do it too”.</p>
+                </section>
         );
     }
 });
@@ -295,17 +296,17 @@ var s = store.NewStore()
 var Survey = React.createClass({
     render: function() {
         return (
-            <div>
-            <ReactRedux.Provider store={s}>
-            <Router>
-            <Route path="/" component={Intro} />
-            <Route path=":survey_page" component={SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
-            </Router>
-            </ReactRedux.Provider>
-            <ReduxDev.DebugPanel top right bottom>
-              <ReduxDev.DevTools store={s} monitor={LogMonitor} />
-            </ReduxDev.DebugPanel>
-            </div>
+                <div>
+                <ReactRedux.Provider store={s}>
+                <Router>
+                <Route path="/" component={Intro} />
+                <Route path=":survey_page" component={SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
+                </Router>
+                </ReactRedux.Provider>
+                <ReduxDev.DebugPanel top right bottom>
+                <ReduxDev.DevTools store={s} monitor={LogMonitor} />
+                </ReduxDev.DebugPanel>
+                </div>
         )
     }
 });
