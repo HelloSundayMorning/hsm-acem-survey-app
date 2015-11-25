@@ -81,14 +81,16 @@ var PatientBio = React.createClass({
     },
     render: function() {
         return (
-                <fieldset>
+                <fieldset id="patient-bio">
                 <legend>Patient Information</legend>
-                <label>Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className="simple-input">Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
                 <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-                <label>Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
-                <label>Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className="simple-input">Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
+                <div id="contact-information">
+                <label className="simple-input">Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
                 Or
-                <label>Patient mobile: <input type="tel" name="phone" value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className="simple-input">Patient mobile: <input type="tel" name="phone" value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
+                </div>
                 </fieldset>
         )
     }
@@ -108,7 +110,7 @@ var Interviewer = ReactRedux.connect(function(s) {
 var BasicInfo = React.createClass({
     render: function() {
         return (
-                <section>
+                <section id="basic-info">
                 <h1>Basic Information</h1>
                 <Interviewer />
                 <PatientBio />

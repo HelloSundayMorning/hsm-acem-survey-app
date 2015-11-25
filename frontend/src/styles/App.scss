@@ -33,6 +33,65 @@ body {
   }
 }
 
-fieldset.disabled {
+section.question {
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+
+    label {
+      flex: 1;
+    }
+
+    input {
+      display: none;
+    }
+  }
+
+}
+
+#basic-info {
+
+  legend, .legend {
+    font-weight: bold;
+  }
+
+  #patient-bio {
+    .question {
+      display: inline-flex;
+      align-items: baseline;
+
+      .legend {
+        font-weight: normal;
+        width: 200px;
+      }
+
+      div {
+        display: inline-flex;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .simple-input {
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    span {
+      flex: 0 0 200px;
+    }
+
+    input {
+      flex: 0 0 auto;
+    }
+
+  }
+
+}
+
+.disabled {
   opacity: 0.1;
 }
