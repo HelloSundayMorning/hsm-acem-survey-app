@@ -53,11 +53,17 @@ section.question {
 
     div {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         margin-bottom: 30px;
+        align-content: stretch;
 
         label {
-            flex: 1;
+            flex: 1 1 auto;
+
+            /* override mdl settings */
+            overflow: visible;
+            min-height: 36px;
+            height: auto;
         }
 
         input {
