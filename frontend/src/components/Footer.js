@@ -16,34 +16,42 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
 
     const Continue = valid(thisPage, state) ? LinkToNext : SpanToNext;
 
+    const pageCount = pageOrder.length;
+
     return (
             <footer className={"page-"+thisPage}>
-            <h2>progress bar @ {thisPage}</h2>
+            <section id="footer-links">
             {pageOrder.map((result, j) => {
                 const page = routeMap[result];
-                return <FooterLink key={page} currentPageIdx={i} thisPageIdx={j} title={page[1]} target={result} />
+                const fn = <FooterLink key={page} currentPageIdx={i} thisPageIdx={j} title={page[1]} target={result} />
+                if (j == pageCount - 1) {
+                    return fn
+                } else {
+                    return <span>{fn} › </span>
+                }
             })}
-            <Continue link={link} label={label} />
+        </section>
+            <Continue className="mdl-button mdl-button--raised mdl-button--colored" link={link} label={label} />
             </footer>
     );
 });
 
-const FooterLink = ({ currentPageIdx, thisPageIdx, title, target }) => {
+const FooterLink = ({ currentPageIdx, thisPageIdx, title, target, className }) => {
     if (thisPageIdx < currentPageIdx) {
-        return <Link to={target}>{title}<br/></Link>
+        return <Link className="footer-link" to={target}>{title}</Link>
     } else if (thisPageIdx === currentPageIdx) {
-        return <strong>{title}<br/></strong>
+        return <strong className="footer-link">{title}</strong>
     } else {
-        return <div>{title}<br/></div>
+        return <span className="footer-link">{title}</span>
     }
 }
 
 var LinkToNext = function(props) {
-    return <Link className="next-page" to={props.link}>{props.label}</Link>
+    return <Link className={props.className} to={props.link}>{props.label}</Link>
 }
 
 var SpanToNext = function(props) {
-    return <span className="next-page">{props.label}</span>
+    return <span className={props.className} disabled="disabled">{props.label}</span>
 }
 
 function valid(page, state) {
