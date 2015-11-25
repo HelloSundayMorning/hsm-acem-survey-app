@@ -1,0 +1,38 @@
+/* Base Application Styles */
+body {
+  margin: 10px;
+}
+
+#intro {
+  display: flex;
+  flex-direction: column;
+
+  h1, h2 {
+    font-size: 1em;
+  }
+
+  #disclaimer {
+    div {
+      border: 1px solid black;
+      padding: 0 5px;
+    }
+  }
+
+  #start-survey {
+    align-self: center;
+
+    margin: 20px 0;
+  }
+
+  #location {
+    align-self: center;
+
+    select {
+      margin-left: 5px;
+    }
+  }
+}
+
+fieldset.disabled {
+  opacity: 0.1;
+}

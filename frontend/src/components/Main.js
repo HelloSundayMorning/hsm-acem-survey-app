@@ -1,7 +1,8 @@
 "use strict";
 
 require('normalize.css');
-require('styles/App.css');
+require('styles/mdl.css');
+require('styles/App.scss');
 
 import React from 'react'
 import * as ReactRedux from "react-redux";
@@ -17,7 +18,7 @@ var locations = store.Locations
 
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store.SetLocation })(function(props) {
     return (
-            <section>
+            <section id="intro">
             <h1>The <strong>FRAMES</strong> model</h1>
 
             <p><strong>F</strong>eedback: Many people are unaware that they are drinking at hazardous or harmful levels and highlighting risks linked to current drinking patterns can be a powerful motivator for change.</p>
@@ -32,17 +33,24 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store
 
             <p><strong>S</strong>elf-efficacy: Support the person&#8217;s self-efficacy for change, and communicate a sense of optimism. De-emphasise helplessness or powerlessness.</p>
 
+            <section id="disclaimer">
             <h2>Disclaimer (inform the Patient of this)</h2>
 
+            <div>
             <p>This information will be used by the Australasian College for Emergency Medicine, and Hello Sunday Morning, to follow up with the patient.</p>
 
             <p>Information and contact details will not be shared with third parties, and all data will be pooled and de-identified if it is used for analysis.</p>
+            </div>
+            </section>
 
-            <Link to="/info">Start</Link>
+            <Link id="start-survey" className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" to="/info">Start</Link>
 
+            <div id="location">
+            Current Location:
             <select value={props.location} onChange={event => props.update(event.target.value)}>
             {locations.map(l => <option key={l} value={l}>{l}</option> )}
         </select>
+            </div>
             </section>
     );
 })
