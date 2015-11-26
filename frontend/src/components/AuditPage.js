@@ -15,7 +15,7 @@ function questionDisabled(qid, survey, gender) {
     case 2: // Q3
         return q1 == 0
     default: // Q4-10
-        if (q2 + q3 === 0) {
+        if (q1 === 0 || q2 + q3 === 0) {
             return true
         }
 
