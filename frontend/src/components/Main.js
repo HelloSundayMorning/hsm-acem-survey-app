@@ -148,55 +148,55 @@ var auditQuestions = [
     },{
         "text": "Q4: How often during the last year have you found that you were not able to stop drinking once you had started?",
         "answers": [
-            {"text": "Never"},
-            {"text": "Less than monthly"},
-            {"text": "Monthly"},
-            {"text": "Weekly"},
-            {"text": "Daily or almost daily"}]
+            {"text": "Never", score: 0},
+            {"text": "Less than monthly", score: 1},
+            {"text": "Monthly", score: 2},
+            {"text": "Weekly", score: 3},
+            {"text": "Daily or almost daily", score: 4}]
     },{
         "text": "Q5: How often in the last year have you failed to do what was normally expected from you because of drinking?",
         "answers": [
-            {"text": "Never"},
-            {"text": "Less than monthly"},
-            {"text": "Monthly"},
-            {"text": "Weekly"},
-            {"text": "Daily or almost daily"}]
+            {"text": "Never", score: 0},
+            {"text": "Less than monthly", score: 1},
+            {"text": "Monthly", score: 2},
+            {"text": "Weekly", score: 3},
+            {"text": "Daily or almost daily", score: 4}]
     },{
         "text": "Q6: How often in the last year have you needed a first drink in the morning to get yourself going after a night of drinking?",
         "answers": [
-            {"text": "Never"},
-            {"text": "Less than monthly"},
-            {"text": "Monthly"},
-            {"text": "Weekly"},
-            {"text": "Daily or almost daily"}]
+            {"text": "Never", score: 0},
+            {"text": "Less than monthly", score: 1},
+            {"text": "Monthly", score: 2},
+            {"text": "Weekly", score: 3},
+            {"text": "Daily or almost daily", score: 4}]
     },{
         "text": "Q7: How often in the last year have you had a feeling of guilt or remorse after drinking?",
         "answers": [
-            {"text": "Never"},
-            {"text": "Less than monthly"},
-            {"text": "Monthly"},
-            {"text": "Weekly"},
-            {"text": "Daily or almost daily"}]
+            {"text": "Never", score: 0},
+            {"text": "Less than monthly", score: 1},
+            {"text": "Monthly", score: 2},
+            {"text": "Weekly", score: 3},
+            {"text": "Daily or almost daily", score: 4}]
     },{
         "text": "Q8: How often in the last year have you been unable to remember what happened the night before because you had been drinking?",
         "answers": [
-            {"text": "Never"},
-            {"text": "Less than monthly"},
-            {"text": "Monthly"},
-            {"text": "Weekly"},
-            {"text": "Daily or almost daily"}]
+            {"text": "Never", score: 0},
+            {"text": "Less than monthly", score: 1},
+            {"text": "Monthly", score: 2},
+            {"text": "Weekly", score: 3},
+            {"text": "Daily or almost daily", score: 4}]
     },{
         "text": "Q9: Have you or someone else been injured as a result of your drinking?",
         "answers": [
-            {"text": "No"},
-            {"text": "Yes, but not in the last year"},
-            {"text": "Yes, during the last year"}]
+            {"text": "No", score: 0},
+            {"text": "Yes, but not in the last year", score: 2},
+            {"text": "Yes, during the last year", score: 4}]
     },{
         "text": "Q10: Has a relative or friend, or a doctor or another health worker been concerned about your drinking or suggested you cut down?",
         "answers": [
-            {"text": "No"},
-            {"text": "Yes, but not in the last year"},
-            {"text": "Yes, during the last year"}]
+            {"text": "No", score: 0},
+            {"text": "Yes, but not in the last year", score: 2},
+            {"text": "Yes, during the last year", score: 4}]
     }]
 
 var StoredSurvey = ReactRedux.connect(function(s) { return { survey: s.survey, gender: s.bio.gender } }, {update: store.Answer })
@@ -262,7 +262,26 @@ var Frames = React.createClass({
     }
 });
 
-const fbPage = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo })(Feedback)
+function surveyScore(survey) {
+    return survey.map(({answer}) => answer.score).reduce((a, b) => a + b)
+}
+
+function dailyScore(survey) {
+    // Q2 is index 1 (remember, 0-based!)
+    let answer = survey[1]
+
+    return !!answer ? answer.answer.score : 0
+}
+
+const fbPage = ReactRedux.connect(
+    state => ({
+        surveyScore: surveyScore(state.survey),
+        dailyScore: dailyScore(state.survey),
+        age: state.bio.age,
+        gender: state.bio.gender
+    }),
+    {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo }
+)(Feedback)
 
 var routeMap = {
     "/": [Intro, "Start"],
