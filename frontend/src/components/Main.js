@@ -11,6 +11,7 @@ import { Router, Route, Link } from 'react-router'
 import Question from 'components/Question'
 import AuditPage from 'components/AuditPage'
 import SurveyPage from 'components/SurveyPage'
+import Feedback from 'components/Feedback'
 
 var store = require('../stores');
 
@@ -220,34 +221,6 @@ var AuditTwo = StoredSurvey(React.createClass({
     }
 }));
 
-var Feedback = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo })(React.createClass({
-    render: function() {
-        return (
-                <section id="feedback">
-                <h1>Feedback</h1>
-
-                <p>Looking at this information, how do you feel about your level of drinking?</p>
-
-                <p>Only you can make the decision to change your consumption. Here are some strategies you can try if you want to cut back:</p>
-
-                <ul>
-                <li>Setting personal drinking limits and sticking to it;</li>
-                <li>Alternating alcoholic drinks with soft drinks;</li>
-                <li>Switching to low alcohol drinks;</li>
-                <li>Having regular alcohol-free days;</li>
-                <li>Identifying high risk situations for heavy drinking and creating a management plan;</li>
-                <li>Engaging in alternative activities to drinking</li>
-                </ul>
-
-            <div id="section-buttons">
-                <button className="mdl-button mdl-button--raised mdl-button--colored" onClick={this.props.emailToPatient}>Email to Patient</button>
-                <button className="mdl-button mdl-button--raised mdl-button--colored"  onClick={this.props.emailTo}>Email to…</button>
-                </div>
-                </section>
-        );
-    }
-}));
-
 var Frames = React.createClass({
     render: function() {
         return (
@@ -289,12 +262,14 @@ var Frames = React.createClass({
     }
 });
 
+const fbPage = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo })(Feedback)
+
 var routeMap = {
     "/": [Intro, "Start"],
     "info": [BasicInfo, "Basic Info"],
     "audit1": [AuditOne, "AUDIT 1"],
     "audit2": [AuditTwo, "AUDIT 2"],
-    "feedback": [Feedback, "Feedback"],
+    "feedback": [fbPage, "Feedback"],
     "frames": [Frames, "FRAMES"]
 }
 
