@@ -223,7 +223,7 @@ var AuditTwo = StoredSurvey(React.createClass({
 var Feedback = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo })(React.createClass({
     render: function() {
         return (
-                <section>
+                <section id="feedback">
                 <h1>Feedback</h1>
 
                 <p>Looking at this information, how do you feel about your level of drinking?</p>
@@ -239,8 +239,10 @@ var Feedback = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, e
                 <li>Engaging in alternative activities to drinking</li>
                 </ul>
 
-                <button onClick={this.props.emailToPatient}>Email to Patient</button>
-                <button onClick={this.props.emailTo}>Email to…</button>
+            <div id="section-buttons">
+                <button className="mdl-button mdl-button--raised mdl-button--colored" onClick={this.props.emailToPatient}>Email to Patient</button>
+                <button className="mdl-button mdl-button--raised mdl-button--colored"  onClick={this.props.emailTo}>Email to…</button>
+                </div>
                 </section>
         );
     }

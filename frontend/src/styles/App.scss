@@ -138,3 +138,14 @@ section.question {
         }
     }
 }
+
+#feedback {
+    #section-buttons {
+        display: flex;
+        justify-content: center;
+
+        button {
+            margin: 0 20px;
+        }
+    }
+}
