@@ -8,7 +8,7 @@ module.exports = {
   port: port,
   debug: true,
   output: {
-    path: path.join(__dirname, '/../dist/assets'),
+    path: path.join(__dirname, '/../../public/assets'),
     filename: 'app.js',
     publicPath: publicPath
   },
