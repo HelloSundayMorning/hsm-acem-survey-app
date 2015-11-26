@@ -1,7 +1,8 @@
 "use strict";
 
 require('normalize.css');
-require('styles/App.css');
+require('styles/mdl.css');
+require('styles/App.scss');
 
 import React from 'react'
 import * as ReactRedux from "react-redux";
@@ -17,7 +18,7 @@ var locations = store.Locations
 
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store.SetLocation })(function(props) {
     return (
-            <section>
+            <section id="intro">
             <h1>The <strong>FRAMES</strong> model</h1>
 
             <p><strong>F</strong>eedback: Many people are unaware that they are drinking at hazardous or harmful levels and highlighting risks linked to current drinking patterns can be a powerful motivator for change.</p>
@@ -32,17 +33,24 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store
 
             <p><strong>S</strong>elf-efficacy: Support the person&#8217;s self-efficacy for change, and communicate a sense of optimism. De-emphasise helplessness or powerlessness.</p>
 
+            <section id="disclaimer">
             <h2>Disclaimer (inform the Patient of this)</h2>
 
+            <div>
             <p>This information will be used by the Australasian College for Emergency Medicine, and Hello Sunday Morning, to follow up with the patient.</p>
 
             <p>Information and contact details will not be shared with third parties, and all data will be pooled and de-identified if it is used for analysis.</p>
+            </div>
+            </section>
 
-            <Link to="/info">Start</Link>
+            <Link id="start-survey" className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" to="/info">Start</Link>
 
+            <div id="location">
+            Current Location:
             <select value={props.location} onChange={event => props.update(event.target.value)}>
             {locations.map(l => <option key={l} value={l}>{l}</option> )}
         </select>
+            </div>
             </section>
     );
 })
@@ -73,14 +81,16 @@ var PatientBio = React.createClass({
     },
     render: function() {
         return (
-                <fieldset>
+                <fieldset id="patient-bio">
                 <legend>Patient Information</legend>
-                <label>Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className="simple-input">Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
                 <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-                <label>Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
-                <label>Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className="simple-input">Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
+                <div id="contact-information">
+                <label className="simple-input">Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
                 Or
-                <label>Patient mobile: <input type="tel" name="phone" value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className="simple-input">Patient mobile: <input type="tel" name="phone" value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
+                </div>
                 </fieldset>
         )
     }
@@ -100,7 +110,7 @@ var Interviewer = ReactRedux.connect(function(s) {
 var BasicInfo = React.createClass({
     render: function() {
         return (
-                <section>
+                <section id="basic-info">
                 <h1>Basic Information</h1>
                 <Interviewer />
                 <PatientBio />
@@ -213,7 +223,7 @@ var AuditTwo = StoredSurvey(React.createClass({
 var Feedback = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo })(React.createClass({
     render: function() {
         return (
-                <section>
+                <section id="feedback">
                 <h1>Feedback</h1>
 
                 <p>Looking at this information, how do you feel about your level of drinking?</p>
@@ -229,8 +239,10 @@ var Feedback = ReactRedux.connect(null, {emailToPatient: store.EmailToPatient, e
                 <li>Engaging in alternative activities to drinking</li>
                 </ul>
 
-                <button onClick={this.props.emailToPatient}>Email to Patient</button>
-                <button onClick={this.props.emailTo}>Email to…</button>
+            <div id="section-buttons">
+                <button className="mdl-button mdl-button--raised mdl-button--colored" onClick={this.props.emailToPatient}>Email to Patient</button>
+                <button className="mdl-button mdl-button--raised mdl-button--colored"  onClick={this.props.emailTo}>Email to…</button>
+                </div>
                 </section>
         );
     }
