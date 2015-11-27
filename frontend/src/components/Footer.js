@@ -36,7 +36,7 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
     );
 });
 
-const FooterLink = ({ currentPageIdx, thisPageIdx, title, target, className }) => {
+const FooterLink = ({ currentPageIdx, thisPageIdx, title, target }) => {
     if (thisPageIdx < currentPageIdx) {
         return <Link className="footer-link" to={target}>{title}</Link>
     } else if (thisPageIdx === currentPageIdx) {
@@ -54,9 +54,7 @@ var SpanToNext = function(props) {
     return <span className={props.className} disabled="disabled">{props.label}</span>
 }
 
-function valid(page, state) {
-    console.log(state)
-    const { interviewer, bio, survey } = state;
+function valid(page, { interviewer, bio, survey }) {
     if (page === "info") {
         return !!interviewer &&
             !!bio.gender &&

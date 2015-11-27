@@ -73,13 +73,13 @@ function Answer(index, question, answer) {
     }
 }
 
-function emailToPatient(state) {
+function emailToPatient() {
     return {
         type: EMAIL_TO_PATIENT
     }
 }
 
-function emailTo(state) {
+function emailTo() {
     return {
         type: EMAIL_TO
     }
@@ -123,7 +123,6 @@ function surveyApp(state, action) {
 var ReduxDev = require("redux-devtools");
 
 var create = Redux.compose(ReduxDev.devTools())(Redux.createStore)
-var store = create(surveyApp);
 
 const LOCATION_KEY = "location"
 

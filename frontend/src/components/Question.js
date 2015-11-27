@@ -8,7 +8,7 @@ const Question = ({ q, onChange, value, disabled }) => {
             <section className={disabled + " question"}>
             <span className="legend">{q.text}</span>
             <div>
-            {q.answers.map((answer, i) => {
+            {q.answers.map(answer => {
                 const val = answer.key || answer.text;
                 let checked = "";
                 let className = "";

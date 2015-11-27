@@ -31,7 +31,6 @@ const AuditPage = ({ survey, gender, update, questions, start, end }) => {
 
     const change = (i) =>
           (event, question, answer) => {
-              console.log(question, answer)
               update(i, question, answer)
           }
 

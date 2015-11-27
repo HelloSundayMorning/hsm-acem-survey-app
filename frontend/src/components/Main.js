@@ -104,7 +104,7 @@ var Interviewer = ReactRedux.connect(function(s) {
 }, {update: store.SetInterviewer})(function(props) {
 
     return (
-            <Question value={props.interviewer} onChange={(input, q, a) => props.update(input.value)} q={interviewerQuestion} />
+            <Question value={props.interviewer} onChange={input => props.update(input.value)} q={interviewerQuestion} />
     )
 })
 
