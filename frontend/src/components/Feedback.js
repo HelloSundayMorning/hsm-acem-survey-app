@@ -9,7 +9,7 @@ function Feedback({ emailToPatient, emailTo, surveyScore, dailyScore, age, gende
     }
 
     return (
-            <section id="feedback">
+            <section id='feedback'>
             <h1>Feedback ({surveyScore}, {dailyScore})</h1>
 
             <Prompt surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
@@ -27,9 +27,9 @@ function Feedback({ emailToPatient, emailTo, surveyScore, dailyScore, age, gende
             <li>Engaging in alternative activities to drinking</li>
             </ul>
 
-            <div id="section-buttons">
-            <button className="mdl-button mdl-button--raised mdl-button--colored" onClick={emailToPatient}>Email to Patient</button>
-            <button className="mdl-button mdl-button--raised mdl-button--colored"  onClick={emailTo}>Email to…</button>
+            <div id='section-buttons'>
+            <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={emailToPatient}>Email to Patient</button>
+            <button className='mdl-button mdl-button--raised mdl-button--colored'  onClick={emailTo}>Email to…</button>
             </div>
             </section>
     );
@@ -43,7 +43,7 @@ function EmpathyPrompt() {
 
 function LowRiskPrompt() {
     return (
-            <section className="lowRisk">
+            <section className='lowRisk'>
             <h1>Low Risk</h1>
 
             <EmpathyPrompt />
@@ -58,11 +58,11 @@ function LowRiskPrompt() {
 //////////////////////////////////////////
 // Data from document attached to: https://qortex.com/theplant#groups/56496e5d8d93e31c8210ef3d/entry/56496e9b8d93e31c8210efa1/cid/56539b8f8d93e30d5e0268ab
 const incidentRiskFactor = {
-    0: "unlikely", // 1 or 2
-    1: "twice as likely", // 3 or 4
-    2: "3 times more likely", // 5 or 6
-    3: "4-6 times more likely", // 7, 8 or 9
-    4: "7 times more likely" // 10 or more
+    0: 'unlikely', // 1 or 2
+    1: 'twice as likely', // 3 or 4
+    2: '3 times more likely', // 5 or 6
+    3: '4-6 times more likely', // 7, 8 or 9
+    4: '7 times more likely' // 10 or more
 }
 
 const consumptionRateData = {
@@ -74,7 +74,7 @@ const consumptionRateData = {
         { maxAge: 49,   abstain: 14.5, lowRisk: 53.9, risky: 31.7 },
         { maxAge: 59,   abstain: 15.1, lowRisk: 57.0, risky: 28.0 },
         { maxAge: 69,   abstain: 18.0, lowRisk: 53.5, risky: 28.6 },
-        { maxAge: 9999, abstain: 23.3, lowRisk: 59.3, risky: 17.4 }, // 9999 = 70+
+        { maxAge: 9999, abstain: 23.3, lowRisk: 59.3, risky: 17.4 } // 9999 = 70+
     ],
     female: [
         { maxAge: 17,   abstain: 73.3, lowRisk: 25.0, risky:  1.7 },
@@ -84,14 +84,14 @@ const consumptionRateData = {
         { maxAge: 49,   abstain: 17.1, lowRisk: 69.4, risky: 13.5 },
         { maxAge: 59,   abstain: 19.0, lowRisk: 68.8, risky: 12.3 },
         { maxAge: 69,   abstain: 24.4, lowRisk: 67.0, risky:  8.6 },
-        { maxAge: 9999, abstain: 40.3, lowRisk: 55.6, risky:  4.1 }, // 9999 = 70+
+        { maxAge: 9999, abstain: 40.3, lowRisk: 55.6, risky:  4.1 } // 9999 = 70+
     ]
 }
 //////////////////////////////////////////
 
 function consumptionRates(age, gender) {
-    if (gender == "other") {
-        gender = "female"
+    if (gender == 'other') {
+        gender = 'female'
     }
     const rates = consumptionRateData[gender]
     return rates.find(({maxAge}) => age < maxAge)
@@ -106,12 +106,12 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
     }
 
     return (
-            <section className={highRisk ? "high-risk" : "moderate" }>
-            <h1>{highRisk ? "High Risk" : "Moderate Risk"}</h1>
+            <section className={highRisk ? 'high-risk' : 'moderate' }>
+            <h1>{highRisk ? 'High Risk' : 'Moderate Risk'}</h1>
 
             <EmpathyPrompt />
 
-            <p>Your answers indicate that you are a {highRisk ? "high risk" : "moderate" } drinker.</p>
+            <p>Your answers indicate that you are a {highRisk ? 'high risk' : 'moderate' } drinker.</p>
 
             <p>The amount of alcohol that you are currently using increases your risk of harms from intoxication such as personal injury and long term health effects such as liver problems and cancer.</p>
 
@@ -164,7 +164,7 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
 
 function DependentPrompt() {
     return (
-            <section className="dependent">
+            <section className='dependent'>
             <h1>Dependence Likely</h1>
 
             <EmpathyPrompt />
