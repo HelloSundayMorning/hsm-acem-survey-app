@@ -60,7 +60,7 @@ var interviewerQuestion = {
     answers: [
         {key: 'nurse', text: 'Nurse'},
         {key: 'doctor', text: 'Doctor'},
-        {key: 'specialist', text: 'Specialist'},
+        {key: 'specialist', text: 'Specialist'}
     ]
 }
 
@@ -70,7 +70,7 @@ var genderQuestion = {
     answers: [
         {key: 'male', text: 'Male'},
         {key: 'female', text: 'Female'},
-        {key: 'other', text: 'Other'},
+        {key: 'other', text: 'Other'}
     ]
 }
 
