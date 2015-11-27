@@ -1,30 +1,28 @@
-"use strict";
-
-var Redux = require("redux");
+var Redux = require('redux');
 
 
-var UPDATE_BIO = "UPDATE_BIO";
-var ANSWER = "ANSWER";
-var SET_INTERVIEWER = "SET_INTERVIEWER";
-var EMAIL_TO_PATIENT = "EMAIL_TO_PATIENT";
-var EMAIL_TO = "EMAIL_TO";
+var UPDATE_BIO = 'UPDATE_BIO';
+var ANSWER = 'ANSWER';
+var SET_INTERVIEWER = 'SET_INTERVIEWER';
+var EMAIL_TO_PATIENT = 'EMAIL_TO_PATIENT';
+var EMAIL_TO = 'EMAIL_TO';
 
-const SET_LOCATION = "SET_LOCATION";
+const SET_LOCATION = 'SET_LOCATION';
 
-const Locations = ["Warrnambool", "Clayton", "Fitzroy", "Geelong"];
+const Locations = ['Warrnambool', 'Clayton', 'Fitzroy', 'Geelong'];
 
 
 var initialState = {
     bio: {},
     survey: [],
     interviewer: null,
-    location: ""
+    location: ''
 }
 
 function SetLocation(value) {
     return {
         type: SET_LOCATION,
-        field: "location",
+        field: 'location',
         value: value
     }
 }
@@ -32,7 +30,7 @@ function SetLocation(value) {
 function SetInterviewer(value) {
     return {
         type: SET_INTERVIEWER,
-        field: "interviewer",
+        field: 'interviewer',
         value: value
     };
 }
@@ -40,7 +38,7 @@ function SetInterviewer(value) {
 function UpdateBio(field, value) {
     return {
         type: UPDATE_BIO,
-        field: "bio",
+        field: 'bio',
         fn: function(state) {
             var update = {}
             update[field] = value
@@ -52,7 +50,7 @@ function UpdateBio(field, value) {
 function Answer(index, question, answer) {
     return {
         type: ANSWER,
-        field: "survey",
+        field: 'survey',
         fn: function(state) {
             var response = {
                 question: question.text,
@@ -86,11 +84,11 @@ function emailTo() {
 }
 
 function deliverEmail(state, email) {
-    window.alert("to "+email+": "+JSON.stringify(state)+" to user");
+    window.alert('to '+email+': '+JSON.stringify(state)+' to user');
 }
 
 function askAndDeliverEmail(state) {
-    var res = window.prompt("Enter email address");
+    var res = window.prompt('Enter email address');
     deliverEmail(state, res);
 }
 
@@ -120,11 +118,11 @@ function surveyApp(state, action) {
     return newState;
 }
 
-var ReduxDev = require("redux-devtools");
+var ReduxDev = require('redux-devtools');
 
 var create = Redux.compose(ReduxDev.devTools())(Redux.createStore)
 
-const LOCATION_KEY = "location"
+const LOCATION_KEY = 'location'
 
 function initialiseLocation() {
     let s = window.localStorage

@@ -1,17 +1,15 @@
-"use strict";
-
 import React from 'react'
 import { Link } from 'react-router'
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, state }) => {
     const i = pageOrder.indexOf(thisPage);
     if (i < pageOrder.length - 1) {
-        var label = "Continue"
+        var label = 'Continue'
         var link = pageOrder[i+1]
     } else {
-        var label = "Done"
-        var link = "/"
+        var label = 'Done'
+        var link = '/'
     }
 
     const Continue = valid(thisPage, state) ? LinkToNext : SpanToNext;
@@ -19,8 +17,8 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
     const pageCount = pageOrder.length;
 
     return (
-            <footer className={"page-"+thisPage}>
-            <section id="footer-links">
+            <footer className={'page-'+thisPage}>
+            <section id='footer-links'>
             {pageOrder.map((result, j) => {
                 const page = routeMap[result];
                 const fn = <FooterLink key={page} currentPageIdx={i} thisPageIdx={j} title={page[1]} target={result} />
@@ -31,18 +29,18 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
                 }
             })}
         </section>
-            <Continue className="mdl-button mdl-button--raised mdl-button--colored" link={link} label={label} />
+            <Continue className='mdl-button mdl-button--raised mdl-button--colored' link={link} label={label} />
             </footer>
     );
 });
 
 const FooterLink = ({ currentPageIdx, thisPageIdx, title, target }) => {
     if (thisPageIdx < currentPageIdx) {
-        return <Link className="footer-link" to={target}>{title}</Link>
+        return <Link className='footer-link' to={target}>{title}</Link>
     } else if (thisPageIdx === currentPageIdx) {
-        return <strong className="footer-link">{title}</strong>
+        return <strong className='footer-link'>{title}</strong>
     } else {
-        return <span className="footer-link">{title}</span>
+        return <span className='footer-link'>{title}</span>
     }
 }
 
@@ -51,22 +49,22 @@ var LinkToNext = function(props) {
 }
 
 var SpanToNext = function(props) {
-    return <span className={props.className} disabled="disabled">{props.label}</span>
+    return <span className={props.className} disabled='disabled'>{props.label}</span>
 }
 
 function valid(page, { interviewer, bio, survey }) {
-    if (page === "info") {
+    if (page === 'info') {
         return !!interviewer &&
             !!bio.gender &&
             !!bio.age &&
             !!bio.postcode
-    } else if (page === "audit1") {
+    } else if (page === 'audit1') {
         for (var i = 0; i < 4; ++i) {
             if (!survey[i] || !survey[i].answer) {
                 return false
             }
         }
-    } else if (page === "audit2") {
+    } else if (page === 'audit2') {
         for (var i = 4; i < 10; ++i) {
             if (!survey[i] || !survey[i].answer) {
                 return false

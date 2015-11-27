@@ -1,7 +1,5 @@
-"use strict";
-
 import React from 'react'
-import Question from "components/Question"
+import Question from 'components/Question'
 
 function questionDisabled(qid, survey, gender) {
     const q1 = (!!survey[0] && survey[0].answer.score) || 0
@@ -19,7 +17,7 @@ function questionDisabled(qid, survey, gender) {
             return true
         }
 
-        const cutoff = { "male": 4, "female": 3, "other": 3}
+        const cutoff = { 'male': 4, 'female': 3, 'other': 3}
 
         return q1 + q2 + q3 < cutoff[gender]
     }
