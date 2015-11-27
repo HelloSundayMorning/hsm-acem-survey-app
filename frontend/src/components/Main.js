@@ -1,11 +1,9 @@
-"use strict";
-
 require('normalize.css');
 require('styles/mdl.css');
 require('styles/App.scss');
 
 import React from 'react'
-import * as ReactRedux from "react-redux";
+import * as ReactRedux from 'react-redux';
 import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
 import Question from 'components/Question'
@@ -19,7 +17,7 @@ var locations = store.Locations
 
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store.SetLocation })(function(props) {
     return (
-            <section id="intro">
+            <section id='intro'>
             <h1>The <strong>FRAMES</strong> model</h1>
 
             <p><strong>F</strong>eedback: Many people are unaware that they are drinking at hazardous or harmful levels and highlighting risks linked to current drinking patterns can be a powerful motivator for change.</p>
@@ -34,7 +32,7 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store
 
             <p><strong>S</strong>elf-efficacy: Support the person&#8217;s self-efficacy for change, and communicate a sense of optimism. De-emphasise helplessness or powerlessness.</p>
 
-            <section id="disclaimer">
+            <section id='disclaimer'>
             <h2>Disclaimer (inform the Patient of this)</h2>
 
             <div>
@@ -44,9 +42,9 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store
             </div>
             </section>
 
-            <Link id="start-survey" className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" to="/info">Start</Link>
+            <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
 
-            <div id="location">
+            <div id='location'>
             Current Location:
             <select value={props.location} onChange={event => props.update(event.target.value)}>
             {locations.map(l => <option key={l} value={l}>{l}</option> )}
@@ -57,22 +55,22 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store
 })
 
 var interviewerQuestion = {
-    text: "Interviewer",
-    key: "interviewer",
+    text: 'Interviewer',
+    key: 'interviewer',
     answers: [
-        {key: "nurse", text: "Nurse"},
-        {key: "doctor", text: "Doctor"},
-        {key: "specialist", text: "Specialist"},
+        {key: 'nurse', text: 'Nurse'},
+        {key: 'doctor', text: 'Doctor'},
+        {key: 'specialist', text: 'Specialist'},
     ]
 }
 
 var genderQuestion = {
-    text: "Gender:",
-    key: "gender",
+    text: 'Gender:',
+    key: 'gender',
     answers: [
-        {key: "male", text: "Male"},
-        {key: "female", text: "Female"},
-        {key: "other", text: "Other"},
+        {key: 'male', text: 'Male'},
+        {key: 'female', text: 'Female'},
+        {key: 'other', text: 'Other'},
     ]
 }
 
@@ -82,15 +80,15 @@ var PatientBio = React.createClass({
     },
     render: function() {
         return (
-                <fieldset id="patient-bio">
+                <fieldset id='patient-bio'>
                 <legend>Patient Information</legend>
-                <label className="simple-input">Age: <input type="number" min="0" name="age" value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Age: <input type='number' min='0' name='age' value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
                 <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-                <label className="simple-input">Postcode: <input type="number" name="postcode" value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
-                <div id="contact-information">
-                <label className="simple-input">Patient email: <input type="email" name="email" value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Postcode: <input type='number' name='postcode' value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
+                <div id='contact-information'>
+                <label className='simple-input'>Patient email: <input type='email' name='email' value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
                 Or
-                <label className="simple-input">Patient mobile: <input type="tel" name="phone" value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Patient mobile: <input type='tel' name='phone' value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
                 </div>
                 </fieldset>
         )
@@ -104,14 +102,14 @@ var Interviewer = ReactRedux.connect(function(s) {
 }, {update: store.SetInterviewer})(function(props) {
 
     return (
-            <Question value={props.interviewer} onChange={(input, q, a) => props.update(input.value)} q={interviewerQuestion} />
+            <Question value={props.interviewer} onChange={input => props.update(input.value)} q={interviewerQuestion} />
     )
 })
 
 var BasicInfo = React.createClass({
     render: function() {
         return (
-                <section id="basic-info">
+                <section id='basic-info'>
                 <h1>Basic Information</h1>
                 <Interviewer />
                 <PatientBio />
@@ -122,81 +120,81 @@ var BasicInfo = React.createClass({
 
 var auditQuestions = [
     {
-        "text": "Q1: How often do you have a drink containing alcohol?",
-        "answers": [
-            {"text": "Never", score: 0},
-            {"text": "Monthly or less", score: 1},
-            {"text": "2-4 times a month", score: 2},
-            {"text": "2-3 times a week", score: 3},
-            {"text": "4 or more times a week", score: 4}]
+        'text': 'Q1: How often do you have a drink containing alcohol?',
+        'answers': [
+            {'text': 'Never', score: 0},
+            {'text': 'Monthly or less', score: 1},
+            {'text': '2-4 times a month', score: 2},
+            {'text': '2-3 times a week', score: 3},
+            {'text': '4 or more times a week', score: 4}]
     },{
-        "text": "Q2: How many standard drinks containing alcohol do you have in a typical day?",
-        "answers": [
-            {"text": "1 or 2", score: 0},
-            {"text": "3 or 4", score: 1},
-            {"text": "5 or 6", score: 2},
-            {"text": "7, 8 or 9", score: 3},
-            {"text": "10 or more", score: 4}]
+        'text': 'Q2: How many standard drinks containing alcohol do you have in a typical day?',
+        'answers': [
+            {'text': '1 or 2', score: 0},
+            {'text': '3 or 4', score: 1},
+            {'text': '5 or 6', score: 2},
+            {'text': '7, 8 or 9', score: 3},
+            {'text': '10 or more', score: 4}]
     },{
-        "text": "Q3: How often do you have six or more drinks on one occasion?",
-        "answers": [
-            {"text": "Never", score: 0},
-            {"text": "Monthly or less", score: 1},
-            {"text": "2-4 times a month", score: 2},
-            {"text": "2-3 times a week", score: 3},
-            {"text": "4 or more times a week", score: 4}]
+        'text': 'Q3: How often do you have six or more drinks on one occasion?',
+        'answers': [
+            {'text': 'Never', score: 0},
+            {'text': 'Monthly or less', score: 1},
+            {'text': '2-4 times a month', score: 2},
+            {'text': '2-3 times a week', score: 3},
+            {'text': '4 or more times a week', score: 4}]
     },{
-        "text": "Q4: How often during the last year have you found that you were not able to stop drinking once you had started?",
-        "answers": [
-            {"text": "Never", score: 0},
-            {"text": "Less than monthly", score: 1},
-            {"text": "Monthly", score: 2},
-            {"text": "Weekly", score: 3},
-            {"text": "Daily or almost daily", score: 4}]
+        'text': 'Q4: How often during the last year have you found that you were not able to stop drinking once you had started?',
+        'answers': [
+            {'text': 'Never', score: 0},
+            {'text': 'Less than monthly', score: 1},
+            {'text': 'Monthly', score: 2},
+            {'text': 'Weekly', score: 3},
+            {'text': 'Daily or almost daily', score: 4}]
     },{
-        "text": "Q5: How often in the last year have you failed to do what was normally expected from you because of drinking?",
-        "answers": [
-            {"text": "Never", score: 0},
-            {"text": "Less than monthly", score: 1},
-            {"text": "Monthly", score: 2},
-            {"text": "Weekly", score: 3},
-            {"text": "Daily or almost daily", score: 4}]
+        'text': 'Q5: How often in the last year have you failed to do what was normally expected from you because of drinking?',
+        'answers': [
+            {'text': 'Never', score: 0},
+            {'text': 'Less than monthly', score: 1},
+            {'text': 'Monthly', score: 2},
+            {'text': 'Weekly', score: 3},
+            {'text': 'Daily or almost daily', score: 4}]
     },{
-        "text": "Q6: How often in the last year have you needed a first drink in the morning to get yourself going after a night of drinking?",
-        "answers": [
-            {"text": "Never", score: 0},
-            {"text": "Less than monthly", score: 1},
-            {"text": "Monthly", score: 2},
-            {"text": "Weekly", score: 3},
-            {"text": "Daily or almost daily", score: 4}]
+        'text': 'Q6: How often in the last year have you needed a first drink in the morning to get yourself going after a night of drinking?',
+        'answers': [
+            {'text': 'Never', score: 0},
+            {'text': 'Less than monthly', score: 1},
+            {'text': 'Monthly', score: 2},
+            {'text': 'Weekly', score: 3},
+            {'text': 'Daily or almost daily', score: 4}]
     },{
-        "text": "Q7: How often in the last year have you had a feeling of guilt or remorse after drinking?",
-        "answers": [
-            {"text": "Never", score: 0},
-            {"text": "Less than monthly", score: 1},
-            {"text": "Monthly", score: 2},
-            {"text": "Weekly", score: 3},
-            {"text": "Daily or almost daily", score: 4}]
+        'text': 'Q7: How often in the last year have you had a feeling of guilt or remorse after drinking?',
+        'answers': [
+            {'text': 'Never', score: 0},
+            {'text': 'Less than monthly', score: 1},
+            {'text': 'Monthly', score: 2},
+            {'text': 'Weekly', score: 3},
+            {'text': 'Daily or almost daily', score: 4}]
     },{
-        "text": "Q8: How often in the last year have you been unable to remember what happened the night before because you had been drinking?",
-        "answers": [
-            {"text": "Never", score: 0},
-            {"text": "Less than monthly", score: 1},
-            {"text": "Monthly", score: 2},
-            {"text": "Weekly", score: 3},
-            {"text": "Daily or almost daily", score: 4}]
+        'text': 'Q8: How often in the last year have you been unable to remember what happened the night before because you had been drinking?',
+        'answers': [
+            {'text': 'Never', score: 0},
+            {'text': 'Less than monthly', score: 1},
+            {'text': 'Monthly', score: 2},
+            {'text': 'Weekly', score: 3},
+            {'text': 'Daily or almost daily', score: 4}]
     },{
-        "text": "Q9: Have you or someone else been injured as a result of your drinking?",
-        "answers": [
-            {"text": "No", score: 0},
-            {"text": "Yes, but not in the last year", score: 2},
-            {"text": "Yes, during the last year", score: 4}]
+        'text': 'Q9: Have you or someone else been injured as a result of your drinking?',
+        'answers': [
+            {'text': 'No', score: 0},
+            {'text': 'Yes, but not in the last year', score: 2},
+            {'text': 'Yes, during the last year', score: 4}]
     },{
-        "text": "Q10: Has a relative or friend, or a doctor or another health worker been concerned about your drinking or suggested you cut down?",
-        "answers": [
-            {"text": "No", score: 0},
-            {"text": "Yes, but not in the last year", score: 2},
-            {"text": "Yes, during the last year", score: 4}]
+        'text': 'Q10: Has a relative or friend, or a doctor or another health worker been concerned about your drinking or suggested you cut down?',
+        'answers': [
+            {'text': 'No', score: 0},
+            {'text': 'Yes, but not in the last year', score: 2},
+            {'text': 'Yes, during the last year', score: 4}]
     }]
 
 var StoredSurvey = ReactRedux.connect(function(s) { return { survey: s.survey, gender: s.bio.gender } }, {update: store.Answer })
@@ -284,15 +282,15 @@ const fbPage = ReactRedux.connect(
 )(Feedback)
 
 var routeMap = {
-    "/": [Intro, "Start"],
-    "info": [BasicInfo, "Basic Info"],
-    "audit1": [AuditOne, "AUDIT 1"],
-    "audit2": [AuditTwo, "AUDIT 2"],
-    "feedback": [fbPage, "Feedback"],
-    "frames": [Frames, "FRAMES"]
+    '/': [Intro, 'Start'],
+    'info': [BasicInfo, 'Basic Info'],
+    'audit1': [AuditOne, 'AUDIT 1'],
+    'audit2': [AuditTwo, 'AUDIT 2'],
+    'feedback': [fbPage, 'Feedback'],
+    'frames': [Frames, 'FRAMES']
 }
 
-var pageOrder = ["/", "info", "audit1", "audit2", "feedback", "frames"]
+var pageOrder = ['/', 'info', 'audit1', 'audit2', 'feedback', 'frames']
 
 
 var LogMonitor = ReduxDev.LogMonitor
@@ -305,8 +303,8 @@ var Survey = React.createClass({
                 <div>
                 <ReactRedux.Provider store={s}>
                 <Router>
-                <Route path="/" component={Intro} />
-                <Route path=":survey_page" component={SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
+                <Route path='/' component={Intro} />
+                <Route path=':survey_page' component={SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
                 </Router>
                 </ReactRedux.Provider>
                 <ReduxDev.DebugPanel top right bottom>

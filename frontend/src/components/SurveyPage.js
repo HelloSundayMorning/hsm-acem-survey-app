@@ -1,7 +1,5 @@
-"use strict";
-
 import React from 'react'
-import Footer from "components/Footer"
+import Footer from 'components/Footer'
 
 const SurveyPage = ({ route, params }) => {
     const routeMap = route.routeMap;
@@ -9,7 +7,7 @@ const SurveyPage = ({ route, params }) => {
     const page = params.survey_page;
     const Component = routeMap[page][0];
     return (
-            <div className="survey-page">
+            <div className='survey-page'>
             <Component />
             <Footer routeMap={routeMap} pageOrder={pageOrder} thisPage={page} />
             </div>
