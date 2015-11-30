@@ -1,0 +1,46 @@
+upstream hsm_app {
+    server 127.0.0.1:14000;
+}
+
+server {
+  listen 80;
+  server_name screener.waldenhealth.co;
+
+  rewrite     ^(.*) http://$server_name$1 permanent;
+}
+
+server {
+  listen 443;
+  server_name screener.waldenhealth.co;
+
+  ssl on;
+  ssl_certificate      /etc/nginx/sslcerts/screener.waldenhealth.co.crt.pem;
+  ssl_certificate_key  /etc/nginx/sslcerts/screener.waldenhealth.co.key.pem;
+
+
+  location ~* "\.(js|css|jpg|png|jpeg|gif|ico|bmp)" {
+    expires 1y;
+    try_files $uri @hsm_app;
+  }
+
+  location @app  {
+    proxy_pass http://hsm_app;
+    proxy_redirect      off;
+    proxy_set_header    Host    $host;
+    proxy_set_header    X-Real-IP       $remote_addr;
+    proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+    proxy_max_temp_file_size 0;
+    proxy_connect_timeout       90;
+    proxy_send_timeout  90;
+    proxy_read_timeout  90;
+    proxy_buffer_size   4k;
+    proxy_buffers       4 32k;
+    proxy_busy_buffers_size     64k;
+    proxy_temp_file_write_size  64k;
+  }
+
+  location = / {
+    try_files /index.html $uri @app;
+  }
+}
