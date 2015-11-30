@@ -1,7 +1,6 @@
 export default updateSurvey
 
 function updateSurvey({ survey: oldSurvey, bio: { gender } }, { index, question, answer }) {
-    console.log(oldSurvey, gender)
     let survey = []
 
     // Don't use slice, as it doesn't play nice with arrays with holes
@@ -11,7 +10,7 @@ function updateSurvey({ survey: oldSurvey, bio: { gender } }, { index, question,
 
     survey[index] = {
         question: question.text,
-        answer: answer,
+        answer: answer
     }
 
     let last = lastQuestion(survey, gender)
@@ -31,7 +30,6 @@ function lastQuestion(survey, gender) {
 
     const cutoff = { 'male': 4, 'female': 3, 'other': 3}[gender]
 
-    console.log(q1, q2, q3, gender, cutoff)
     if (q1 == 0) {
         return 0 // Q1
     } else if (q2 + q3 === 0) {
