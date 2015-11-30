@@ -1,7 +1,7 @@
 import React from 'react'
 import Question from 'components/Question'
 
-const AuditPage = ({ survey, gender, update }) => {
+const AuditPage = ({ survey, lastQuestion, update }) => {
     const change = (i) =>
           (event, question, answer) => {
               update(i, question, answer)
@@ -11,35 +11,13 @@ const AuditPage = ({ survey, gender, update }) => {
             <section>
             <h1>Audit Questionnaire</h1>
             {auditQuestions.map((q, i) =>
-                           <Question key={q.key || q.text} q={q} onChange={change(i)} value={(survey[i] || {answer: {}}).answer.text} disabled={questionDisabled(i, survey, gender)} />
+                                <Question key={q.key || q.text} q={q} onChange={change(i)} value={(survey[i] || {answer: {}}).answer.text} disabled={i > lastQuestion} />
                           )}
         </section>
     );
 }
 
 export default AuditPage
-
-function questionDisabled(qid, survey, gender) {
-    const q1 = (!!survey[0] && survey[0].answer.score) || 0
-    const q2 = (!!survey[1] && survey[1].answer.score) || 0
-    const q3 = (!!survey[2] && survey[2].answer.score) || 0
-
-    switch (qid) { // Zero-based!
-    case 0: // Q1
-        return false
-    case 1: // Q2
-    case 2: // Q3
-        return q1 == 0
-    default: // Q4-10
-        if (q1 === 0 || q2 + q3 === 0) {
-            return true
-        }
-
-        const cutoff = { 'male': 4, 'female': 3, 'other': 3}
-
-        return q1 + q2 + q3 < cutoff[gender]
-    }
-}
 
 const auditQuestions = [
     {

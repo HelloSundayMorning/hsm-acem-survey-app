@@ -119,7 +119,7 @@ var BasicInfo = React.createClass({
 });
 
 var Audit = ReactRedux.connect(
-    ({survey, bio}) => ({ survey, gender: bio.gender }),
+    ({survey, lastQuestion }) => ({ survey, lastQuestion }),
     {update: store.Answer }
 )(AuditPage);
 

@@ -52,14 +52,14 @@ var SpanToNext = function(props) {
     return <span className={props.className} disabled='disabled'>{props.label}</span>
 }
 
-function valid(page, { interviewer, bio, survey }) {
+function valid(page, { interviewer, bio, survey, lastQuestion }) {
     if (page === 'info') {
         return !!interviewer &&
             !!bio.gender &&
             !!bio.age &&
             !!bio.postcode
     } else if (page === 'audit') {
-        for (var i = 0; i < 10; ++i) {
+        for (var i = 0; i <= lastQuestion; ++i) {
             if (!survey[i] || !survey[i].answer) {
                 return false
             }
