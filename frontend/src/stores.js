@@ -1,5 +1,6 @@
 var Redux = require('redux');
 
+import updateSurvey from 'reducers/survey'
 
 var UPDATE_BIO = 'UPDATE_BIO';
 var ANSWER = 'ANSWER';
@@ -15,6 +16,7 @@ const Locations = ['Warrnambool', 'Clayton', 'Fitzroy', 'Geelong'];
 var initialState = {
     bio: {},
     survey: [],
+    lastQuestion: 0,
     interviewer: null,
     location: ''
 }
@@ -50,24 +52,9 @@ function UpdateBio(field, value) {
 function Answer(index, question, answer) {
     return {
         type: ANSWER,
-        field: 'survey',
-        fn: function(state) {
-            var response = {
-                question: question.text,
-                answer: answer
-            }
-
-            // Prefix might be shorter than index, so pad it out.
-            var newState = Array(state.length)
-            for (var i = 0; i < state.length; ++i) {
-                newState[i] = state[i]
-            }
-
-            // Set new one
-            newState[index] = response
-
-            return newState
-        }
+        index: index,
+        question: question,
+        answer: answer
     }
 }
 
@@ -92,6 +79,7 @@ function askAndDeliverEmail(state) {
     deliverEmail(state, res);
 }
 
+
 function surveyApp(state, action) {
     if (typeof state === 'undefined') {
         return initialState;
@@ -103,6 +91,8 @@ function surveyApp(state, action) {
         return state;
     } else if (action.type === SET_LOCATION) {
         window.localStorage.setItem(LOCATION_KEY, action.value);
+    } else if (action.type === ANSWER) {
+        return Object.assign({}, state, updateSurvey(state, action))
     }
 
     var newState = Object.assign({}, state);

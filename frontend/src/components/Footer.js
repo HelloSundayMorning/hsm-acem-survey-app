@@ -52,20 +52,14 @@ var SpanToNext = function(props) {
     return <span className={props.className} disabled='disabled'>{props.label}</span>
 }
 
-function valid(page, { interviewer, bio, survey }) {
+function valid(page, { interviewer, bio, survey, lastQuestion }) {
     if (page === 'info') {
         return !!interviewer &&
             !!bio.gender &&
             !!bio.age &&
             !!bio.postcode
-    } else if (page === 'audit1') {
-        for (var i = 0; i < 4; ++i) {
-            if (!survey[i] || !survey[i].answer) {
-                return false
-            }
-        }
-    } else if (page === 'audit2') {
-        for (var i = 4; i < 10; ++i) {
+    } else if (page === 'audit') {
+        for (var i = 0; i <= lastQuestion; ++i) {
             if (!survey[i] || !survey[i].answer) {
                 return false
             }
