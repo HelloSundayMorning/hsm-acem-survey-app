@@ -148,4 +148,16 @@ section.question {
             margin: 0 20px;
         }
     }
+
+    #feedback-charts {
+        display: flex;
+
+        figure {
+            flex: 1;
+
+            figcaption {
+                font-weight: bold;
+            }
+        }
+    }
 }

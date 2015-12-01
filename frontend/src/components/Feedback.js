@@ -12,20 +12,8 @@ function Feedback({ emailToPatient, emailTo, surveyScore, dailyScore, age, gende
             <section id='feedback'>
             <h1>Feedback ({surveyScore}, {dailyScore})</h1>
 
+            <FeedbackCharts surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
             <Prompt surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
-
-            <p>Looking at this information, how do you feel about your level of drinking?</p>
-
-            <p>Only you can make the decision to change your consumption. Here are some strategies you can try if you want to cut back:</p>
-
-            <ul>
-            <li>Setting personal drinking limits and sticking to it;</li>
-            <li>Alternating alcoholic drinks with soft drinks;</li>
-            <li>Switching to low alcohol drinks;</li>
-            <li>Having regular alcohol-free days;</li>
-            <li>Identifying high risk situations for heavy drinking and creating a management plan;</li>
-            <li>Engaging in alternative activities to drinking</li>
-            </ul>
 
             <div id='section-buttons'>
             <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={emailToPatient}>Email to Patient</button>
@@ -97,13 +85,18 @@ function consumptionRates(age, gender) {
     return rates.find(({maxAge}) => age < maxAge)
 }
 
-function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
-    const highRisk = surveyScore >= 16;
+function drinkPercentage(age, gender, dailyScore) {
     const rate = consumptionRates(age, gender)
     let percentage = rate.abstain;
     if (dailyScore > 0) {
         percentage += rate.lowRisk;
     }
+    return percentage;
+}
+
+function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
+    const highRisk = surveyScore >= 16;
+    const percentage = drinkPercentage(age, gender, dailyScore)
 
     return (
             <section className={highRisk ? 'high-risk' : 'moderate' }>
@@ -204,6 +197,95 @@ function DependentPrompt() {
             <p>If not committed to change/plan – ok, I can see you aren’t quite ready to make any changes yet.</p>
 
         </section>
+    )
+}
+
+function FeedbackCharts({ surveyScore, dailyScore, age, gender }) {
+    return (
+            <section id='feedback-charts'>
+            <AuditScoreChart score={surveyScore} />
+            <RiskFactorChart dailyScore={dailyScore} />
+            <FrequencyChart age={age} gender={gender} dailyScore={dailyScore} />
+            </section>
+    )
+}
+
+const defaults = [
+    `chs=250x200` // Size
+]
+
+function AuditScoreChart({ score }) {
+    const average = 10
+
+    const max = 40 // Maximum survey score
+    const recommended = 7 // Recommended survey score
+    const rangeMax = max + 5 // Top value of the graph
+    const data = [
+        `cht=bvs`, // Column chart
+        `chbh=r,1.0`, // Column spacing
+        `chds=0,${rangeMax}`, // Scale the Y values
+        `chd=t:${average},${score}`, // data
+        `chxl=0:|Average|You|1:|Recomm.+Max|Score+Max`, // Axis labels
+        `chxt=x,y`, // Show x and y axes
+        `chxr=1,0,${rangeMax}`, // Scale Y axis
+        `chxp=1,${recommended},${max}`, // Axis label position
+        `chxtc=1,-500`, // Axis tick length
+        `chxs=0,,16|1,,16`, // Axis Label format
+        `chma=0,0,0,53` // LRTB Margins, RiskFactor has a double axis label at bottom, so compensate with bigger bottom margin
+    ]
+    return <Chart title="AUDIT Score" params={data} />
+}
+
+function FrequencyChart({age, gender, dailyScore}) {
+    const percentage = drinkPercentage(age, gender, dailyScore)/100
+
+    const data = [
+        `cht=p`, // Pie chart
+        `chd=t:${percentage},${1-percentage}`, // Data
+        `chdl=Less+than+you|More+than+you`, // Data labels
+        `chdlp=b`, // Legend position
+        `chp=-1.571`, // Initial angle (Pi/2)
+        `chdls=,16` // Legend style
+    ]
+    return <Chart title="Drink Frequency" params={data} />
+}
+
+const riskFactor = {
+    0: '0,1|0,1', // 0-2 = 1x
+    1: '0,3|0,2', // 3-4 = 2x
+    2: '0,5|0,3', // 5-6 = 3x
+    3: '0,7|0,4', // 7-8,9 = 4x (survey has 7-9 but table breaks into 7-8 @ 4x & 9 @ 6x)
+    4: '0,10|0,7' // 10+ = 7x
+}
+
+function RiskFactorChart({dailyScore}) {
+    const data = [
+        `cht=lxy`, // X-Y line
+        `chxt=x,y,x,y`, // Axes displayed: 2 & 3 (0-based) are for axis labels
+        `chls=3`, // Line style
+
+        // Series 0 is static data of risk factor graph
+        // Series 1 is a fake point, then the risk factor point for the daily score
+        `chd=t:1,3,5,7,9,10|1,2,3,4,6,7|${riskFactor[dailyScore]}`,
+
+        `chds=1,10,1,7,1,10,1,7`, // Data scales
+        `chxr=0,1,10,2|1,1,7,1`, // Axis ranges
+        `chm=x,FF0000,1,1,20`, // score mark formatting
+        `chxs=0,,16|1N**x,,16|2,,16|3,,16`, // Axis Label format
+        `chxl=0:|2|4|6|8||10%2B|2:|Number+of+Drinks+Consumed|3:|Risk`, // Axis labels
+        `chxp=2,50|3,50`, // Axis Label position
+        `chma=0,10,10,0` // LRTB Margins, give a margin at top right for when the X is in the corner
+    ]
+    return <Chart title='Risks of Harm' params={data} />
+}
+
+function Chart({title, params}) {
+    const url = `https://chart.googleapis.com/chart?${defaults.concat(params).join('&')}`
+    return (
+            <figure>
+            <figcaption>{title}</figcaption>
+            <img src={url} />
+            </figure>
     )
 }
 
