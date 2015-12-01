@@ -4,8 +4,11 @@ import initialState from 'stores/initialState'
 
 import updateSurvey from 'reducers/survey'
 
-import { ROUTE_CHANGED } from 'actions/history'
+import { type as HISTORY } from 'actions/history'
 import routeChanged from 'reducers/routeChanged'
+
+let reducerMap = {}
+reducerMap[HISTORY] = routeChanged
 
 var UPDATE_BIO = 'UPDATE_BIO';
 var ANSWER = 'ANSWER';
@@ -90,8 +93,8 @@ function surveyApp(state, action) {
         window.localStorage.setItem(LOCATION_KEY, action.value);
     } else if (action.type === ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
-    } else if (action.type === ROUTE_CHANGED) {
-        return routeChanged(state, action)
+    } else if (!!reducerMap[action.type]) {
+        return reducerMap[action.type](state, action)
     }
 
     var newState = Object.assign({}, state);

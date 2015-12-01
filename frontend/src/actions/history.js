@@ -1,10 +1,10 @@
-const ROUTE_CHANGED = 'ROUTE_CHANGED'
+const type = 'HISTORY'
 
 export default location => ({
-    type: ROUTE_CHANGED,
+    type,
     location
 })
 
 export {
-    ROUTE_CHANGED
+    type
 }
