@@ -6,10 +6,12 @@ import React from 'react'
 import * as ReactRedux from 'react-redux';
 import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
+import createBrowserHistory from 'history/lib/createBrowserHistory'
 import Question from 'components/Question'
 import AuditPage from 'components/AuditPage'
 import SurveyPage from 'components/SurveyPage'
 import Feedback from 'components/Feedback'
+import history from 'actions/history'
 
 var store = require('../stores');
 
@@ -199,13 +201,15 @@ var pageOrder = ['/', 'info', 'audit', 'feedback', 'frames']
 var LogMonitor = ReduxDev.LogMonitor
 
 var s = store.NewStore()
+var h = createBrowserHistory()
+h.listen(l => s.dispatch(history(l)))
 
 var Survey = React.createClass({
     render: function() {
         return (
                 <div>
                 <ReactRedux.Provider store={s}>
-                <Router>
+                <Router history={h}>
                 <Route path='/' component={Intro} />
                 <Route path=':survey_page' component={SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
                 </Router>

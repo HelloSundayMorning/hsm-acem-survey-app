@@ -1,6 +1,11 @@
 var Redux = require('redux');
 
+import initialState from 'stores/initialState'
+
 import updateSurvey from 'reducers/survey'
+
+import { ROUTE_CHANGED } from 'actions/history'
+import routeChanged from 'reducers/routeChanged'
 
 var UPDATE_BIO = 'UPDATE_BIO';
 var ANSWER = 'ANSWER';
@@ -12,14 +17,6 @@ const SET_LOCATION = 'SET_LOCATION';
 
 const Locations = ['Warrnambool', 'Clayton', 'Fitzroy', 'Geelong'];
 
-
-var initialState = {
-    bio: {},
-    survey: [],
-    lastQuestion: 0,
-    interviewer: null,
-    location: ''
-}
 
 function SetLocation(value) {
     return {
@@ -93,6 +90,8 @@ function surveyApp(state, action) {
         window.localStorage.setItem(LOCATION_KEY, action.value);
     } else if (action.type === ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
+    } else if (action.type === ROUTE_CHANGED) {
+        return routeChanged(state, action)
     }
 
     var newState = Object.assign({}, state);
