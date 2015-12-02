@@ -18,23 +18,12 @@ let reducerMap = {}
 reducerMap[HISTORY] = routeChanged
 reducerMap[bio.interviewer.type] = on("interviewer", actionValue)
 reducerMap[bio.bio.type] = on("bio", actionFieldValue)
+reducerMap[bio.location.type] = on("location", actionValue)
 
 
 var ANSWER = 'ANSWER';
 var EMAIL_TO_PATIENT = 'EMAIL_TO_PATIENT';
 var EMAIL_TO = 'EMAIL_TO';
-
-const SET_LOCATION = 'SET_LOCATION';
-
-const Locations = ['Warrnambool', 'Clayton', 'Fitzroy', 'Geelong'];
-
-function SetLocation(value) {
-    return {
-        type: SET_LOCATION,
-        field: 'location',
-        value: value
-    }
-}
 
 function Answer(index, question, answer) {
     return {
@@ -76,8 +65,6 @@ function surveyApp(state, action) {
     } else if (action.type === EMAIL_TO) {
         askAndDeliverEmail(state);
         return state;
-    } else if (action.type === SET_LOCATION) {
-        window.localStorage.setItem(LOCATION_KEY, action.value);
     } else if (action.type === ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
     } else if (!!reducerMap[action.type]) {
@@ -98,28 +85,15 @@ var ReduxDev = require('redux-devtools');
 
 var create = Redux.compose(ReduxDev.devTools())(Redux.createStore)
 
-const LOCATION_KEY = 'location'
-
-function initialiseLocation() {
-    let s = window.localStorage
-    var location = s.getItem(LOCATION_KEY);
-    if (!location) {
-        location = Locations[0]
-    }
-    initialState.location = location
-}
 
 module.exports = {
     NewStore: () => {
-        initialiseLocation();
         return create(surveyApp);
     },
 
     SurveyApp: surveyApp,
-    Locations,
 
     Answer,
     EmailToPatient: emailToPatient,
-    EmailTo: emailTo,
-    SetLocation
+    EmailTo: emailTo
 }

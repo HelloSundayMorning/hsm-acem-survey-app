@@ -15,9 +15,28 @@ import history from 'actions/history'
 
 var store = require('../stores');
 
-var locations = store.Locations
+const LOCATION_KEY = 'location'
 
-var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store.SetLocation })(function(props) {
+const Locations = ['Warrnambool', 'Clayton', 'Fitzroy', 'Geelong'];
+
+function initialiseLocation(s, locations, action) {
+    const storage = window.localStorage
+    let location = storage.getItem(LOCATION_KEY)
+    if (!location || locations.indexOf(location) === -1) {
+        location = locations[0]
+    }
+    storage.setItem(LOCATION_KEY, location)
+    s.dispatch(action(location))
+}
+
+function updateLocation(location, cb) {
+    window.localStorage.setItem(LOCATION_KEY, location)
+    cb(location)
+}
+
+import * as bio from 'actions/bio'
+
+var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.location.action })(function(props) {
     return (
             <section id='intro'>
             <h1>The <strong>FRAMES</strong> model</h1>
@@ -48,8 +67,8 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store
 
             <div id='location'>
             Current Location:
-            <select value={props.location} onChange={event => props.update(event.target.value)}>
-            {locations.map(l => <option key={l} value={l}>{l}</option> )}
+            <select value={props.location} onChange={({target: {value}}) => updateLocation(value, props.update)}>
+            {Locations.map(l => <option key={l} value={l}>{l}</option> )}
         </select>
             </div>
             </section>
@@ -96,8 +115,6 @@ var PatientBio = React.createClass({
         )
     }
 });
-
-import * as bio from 'actions/bio'
 
 var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: bio.bio.action})(PatientBio);
 
@@ -200,12 +217,13 @@ var routeMap = {
 
 var pageOrder = ['/', 'info', 'audit', 'feedback', 'frames']
 
-
 var LogMonitor = ReduxDev.LogMonitor
 
 var s = store.NewStore()
 var h = createBrowserHistory()
 h.listen(l => s.dispatch(history(l)))
+
+initialiseLocation(s, Locations, bio.location.action)
 
 var Survey = React.createClass({
     render: function() {
