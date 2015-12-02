@@ -99,9 +99,11 @@ var PatientBio = React.createClass({
 
 var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: store.UpdateBio})(PatientBio);
 
+import * as bio from 'actions/bio'
+
 var Interviewer = ReactRedux.connect(function(s) {
     return {interviewer: s.interviewer}
-}, {update: store.SetInterviewer})(function(props) {
+}, {update: bio.interviewer.action})(function(props) {
 
     return (
             <Question value={props.interviewer} onChange={input => props.update(input.value)} q={interviewerQuestion} />

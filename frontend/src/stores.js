@@ -2,17 +2,22 @@ var Redux = require('redux');
 
 import initialState from 'stores/initialState'
 
+import { setField } from 'reducers/generic'
+
 import updateSurvey from 'reducers/survey'
 
 import { type as HISTORY } from 'actions/history'
 import routeChanged from 'reducers/routeChanged'
 
+import * as bio from 'actions/bio'
+
 let reducerMap = {}
 reducerMap[HISTORY] = routeChanged
+reducerMap[bio.interviewer.type] = setField("interviewer")
+
 
 var UPDATE_BIO = 'UPDATE_BIO';
 var ANSWER = 'ANSWER';
-var SET_INTERVIEWER = 'SET_INTERVIEWER';
 var EMAIL_TO_PATIENT = 'EMAIL_TO_PATIENT';
 var EMAIL_TO = 'EMAIL_TO';
 
@@ -20,21 +25,12 @@ const SET_LOCATION = 'SET_LOCATION';
 
 const Locations = ['Warrnambool', 'Clayton', 'Fitzroy', 'Geelong'];
 
-
 function SetLocation(value) {
     return {
         type: SET_LOCATION,
         field: 'location',
         value: value
     }
-}
-
-function SetInterviewer(value) {
-    return {
-        type: SET_INTERVIEWER,
-        field: 'interviewer',
-        value: value
-    };
 }
 
 function UpdateBio(field, value) {
@@ -136,7 +132,6 @@ module.exports = {
 
     UpdateBio,
     Answer,
-    SetInterviewer,
     EmailToPatient: emailToPatient,
     EmailTo: emailTo,
     SetLocation
