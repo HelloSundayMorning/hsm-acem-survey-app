@@ -2,7 +2,7 @@ var Redux = require('redux');
 
 import initialState from 'stores/initialState'
 
-import { setField } from 'reducers/generic'
+import { on } from 'reducers/generic'
 
 import updateSurvey from 'reducers/survey'
 
@@ -11,12 +11,15 @@ import routeChanged from 'reducers/routeChanged'
 
 import * as bio from 'actions/bio'
 
+const actionValue = (_, action) => action.value
+const actionFieldValue = (state, action) => on(action.field, actionValue)(state, action)
+
 let reducerMap = {}
 reducerMap[HISTORY] = routeChanged
-reducerMap[bio.interviewer.type] = setField("interviewer")
+reducerMap[bio.interviewer.type] = on("interviewer", actionValue)
+reducerMap[bio.bio.type] = on("bio", actionFieldValue)
 
 
-var UPDATE_BIO = 'UPDATE_BIO';
 var ANSWER = 'ANSWER';
 var EMAIL_TO_PATIENT = 'EMAIL_TO_PATIENT';
 var EMAIL_TO = 'EMAIL_TO';
@@ -31,18 +34,6 @@ function SetLocation(value) {
         field: 'location',
         value: value
     }
-}
-
-function UpdateBio(field, value) {
-    return {
-        type: UPDATE_BIO,
-        field: 'bio',
-        fn: function(state) {
-            var update = {}
-            update[field] = value
-            return Object.assign({}, state, update)
-        }
-    };
 }
 
 function Answer(index, question, answer) {
@@ -97,9 +88,6 @@ function surveyApp(state, action) {
 
     if (!!action.value) {
         newState[action.field] = action.value;
-    } else if (!!action.fn) {
-        var field = state[action.field];
-        newState[action.field] = action.fn(field);
     } else {
         newState = state; // Don't make a new one
     }
@@ -130,7 +118,6 @@ module.exports = {
     SurveyApp: surveyApp,
     Locations,
 
-    UpdateBio,
     Answer,
     EmailToPatient: emailToPatient,
     EmailTo: emailTo,

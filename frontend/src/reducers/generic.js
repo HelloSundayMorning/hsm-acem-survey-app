@@ -1,13 +1,15 @@
-function setField(field) {
-    return (state, { value }) => {
-        if (state[field] == value) {
+function on(field, reducer) {
+    return (state, action) => {
+        const oldState = state[field]
+        const newState = reducer(oldState, action)
+        if (oldState === newState) {
             return state
         } else {
-            return Object.assign({}, state, { [field]: value })
+            return Object.assign({}, state, { [field]: newState })
         }
     }
 }
 
 export {
-    setField
+    on
 }

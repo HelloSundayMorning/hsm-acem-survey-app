@@ -78,7 +78,7 @@ var genderQuestion = {
 
 var PatientBio = React.createClass({
     handleChange: function(input) {
-        this.props.update(input.name, input.value)
+        this.props.update(input.value, input.name)
     },
     render: function() {
         return (
@@ -97,9 +97,10 @@ var PatientBio = React.createClass({
     }
 });
 
-var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: store.UpdateBio})(PatientBio);
-
 import * as bio from 'actions/bio'
+
+var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: bio.bio.action})(PatientBio);
+
 
 var Interviewer = ReactRedux.connect(function(s) {
     return {interviewer: s.interviewer}
