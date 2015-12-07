@@ -3,7 +3,8 @@ const initialState = {
     survey: [],
     lastQuestion: 0,
     interviewer: null,
-    location: ''
+    location: '',
+    postingSurvey: null
 }
 
 export default initialState

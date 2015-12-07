@@ -1,6 +1,7 @@
 import React from 'react'
+import { posting, postfailed } from  'actions/survey'
 
-function Feedback({ emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
+function Feedback({ postStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
     let Prompt = DependentPrompt
     if (surveyScore <= 7) {
         Prompt = LowRiskPrompt
@@ -10,6 +11,7 @@ function Feedback({ emailToPatient, emailTo, surveyScore, dailyScore, age, gende
 
     return (
             <section id='feedback'>
+            <PostingStatus status={postStatus} />
             <h1>Feedback ({surveyScore}, {dailyScore})</h1>
 
             <FeedbackCharts surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
@@ -21,6 +23,16 @@ function Feedback({ emailToPatient, emailTo, surveyScore, dailyScore, age, gende
             </div>
             </section>
     );
+}
+
+function PostingStatus({ status }) {
+    if (status == posting) {
+        return <p>Posting survey</p>
+    } else if (status == postfailed) {
+        return <p>failed to post survey</p>
+    } else {
+        return <p>Posted survey</p>
+    }
 }
 
 function EmpathyPrompt() {

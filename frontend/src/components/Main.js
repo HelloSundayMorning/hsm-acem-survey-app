@@ -199,6 +199,7 @@ function dailyScore(survey) {
 
 const fbPage = ReactRedux.connect(
     state => ({
+        postStatus: state.postingSurvey,
         surveyScore: surveyScore(state.survey),
         dailyScore: dailyScore(state.survey),
         age: state.bio.age,

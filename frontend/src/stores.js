@@ -1,9 +1,11 @@
-var Redux = require('redux');
+import { compose, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 import initialState from 'stores/initialState'
 
 import { on } from 'reducers/generic'
 
+import * as survey from 'actions/survey'
 import updateSurvey from 'reducers/survey'
 
 import { type as HISTORY } from 'actions/history'
@@ -13,13 +15,19 @@ import * as bio from 'actions/bio'
 
 const actionValue = (_, action) => action.value
 const actionFieldValue = (state, action) => on(action.field, actionValue)(state, action)
+const actionType = (_, action) => action.type
 
 let reducerMap = {}
 reducerMap[HISTORY] = routeChanged
+
 reducerMap[bio.interviewer.type] = on('interviewer', actionValue)
 reducerMap[bio.bio.type] = on('bio', actionFieldValue)
 reducerMap[bio.location.type] = on('location', actionValue)
 
+const postingSurvey = on('postingSurvey', actionType)
+reducerMap[survey.posting] = postingSurvey
+reducerMap[survey.posted] = postingSurvey
+reducerMap[survey.postFailed] = postingSurvey
 
 var ANSWER = 'ANSWER';
 var EMAIL_TO_PATIENT = 'EMAIL_TO_PATIENT';
@@ -83,7 +91,7 @@ function surveyApp(state, action) {
 
 var ReduxDev = require('redux-devtools');
 
-var create = Redux.compose(ReduxDev.devTools())(Redux.createStore)
+var create = compose(applyMiddleware(thunk), ReduxDev.devTools())(createStore)
 
 
 module.exports = {
