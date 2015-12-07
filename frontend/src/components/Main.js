@@ -6,16 +6,37 @@ import React from 'react'
 import * as ReactRedux from 'react-redux';
 import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
+import createBrowserHistory from 'history/lib/createBrowserHistory'
 import Question from 'components/Question'
 import AuditPage from 'components/AuditPage'
 import SurveyPage from 'components/SurveyPage'
 import Feedback from 'components/Feedback'
+import history from 'actions/history'
 
 var store = require('../stores');
 
-var locations = store.Locations
+const LOCATION_KEY = 'location'
 
-var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store.SetLocation })(function(props) {
+const Locations = ['Warrnambool', 'Clayton', 'Fitzroy', 'Geelong'];
+
+function initialiseLocation(s, locations, action) {
+    const storage = window.localStorage
+    let location = storage.getItem(LOCATION_KEY)
+    if (!location || locations.indexOf(location) === -1) {
+        location = locations[0]
+    }
+    storage.setItem(LOCATION_KEY, location)
+    s.dispatch(action(location))
+}
+
+function updateLocation(location, cb) {
+    window.localStorage.setItem(LOCATION_KEY, location)
+    cb(location)
+}
+
+import * as bio from 'actions/bio'
+
+var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.location.action })(function(props) {
     return (
             <section id='intro'>
             <h1>The <strong>FRAMES</strong> model</h1>
@@ -46,8 +67,8 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: store
 
             <div id='location'>
             Current Location:
-            <select value={props.location} onChange={event => props.update(event.target.value)}>
-            {locations.map(l => <option key={l} value={l}>{l}</option> )}
+            <select value={props.location} onChange={({target: {value}}) => updateLocation(value, props.update)}>
+            {Locations.map(l => <option key={l} value={l}>{l}</option> )}
         </select>
             </div>
             </section>
@@ -76,7 +97,7 @@ var genderQuestion = {
 
 var PatientBio = React.createClass({
     handleChange: function(input) {
-        this.props.update(input.name, input.value)
+        this.props.update(input.value, input.name)
     },
     render: function() {
         return (
@@ -95,11 +116,12 @@ var PatientBio = React.createClass({
     }
 });
 
-var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: store.UpdateBio})(PatientBio);
+var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: bio.bio.action})(PatientBio);
+
 
 var Interviewer = ReactRedux.connect(function(s) {
     return {interviewer: s.interviewer}
-}, {update: store.SetInterviewer})(function(props) {
+}, {update: bio.interviewer.action})(function(props) {
 
     return (
             <Question value={props.interviewer} onChange={input => props.update(input.value)} q={interviewerQuestion} />
@@ -195,17 +217,20 @@ var routeMap = {
 
 var pageOrder = ['/', 'info', 'audit', 'feedback', 'frames']
 
-
 var LogMonitor = ReduxDev.LogMonitor
 
 var s = store.NewStore()
+var h = createBrowserHistory()
+h.listen(l => s.dispatch(history(l)))
+
+initialiseLocation(s, Locations, bio.location.action)
 
 var Survey = React.createClass({
     render: function() {
         return (
                 <div>
                 <ReactRedux.Provider store={s}>
-                <Router>
+                <Router history={h}>
                 <Route path='/' component={Intro} />
                 <Route path=':survey_page' component={SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
                 </Router>

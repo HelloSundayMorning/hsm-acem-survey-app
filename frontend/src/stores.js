@@ -1,53 +1,29 @@
 var Redux = require('redux');
 
+import initialState from 'stores/initialState'
+
+import { on } from 'reducers/generic'
+
 import updateSurvey from 'reducers/survey'
 
-var UPDATE_BIO = 'UPDATE_BIO';
+import { type as HISTORY } from 'actions/history'
+import routeChanged from 'reducers/routeChanged'
+
+import * as bio from 'actions/bio'
+
+const actionValue = (_, action) => action.value
+const actionFieldValue = (state, action) => on(action.field, actionValue)(state, action)
+
+let reducerMap = {}
+reducerMap[HISTORY] = routeChanged
+reducerMap[bio.interviewer.type] = on('interviewer', actionValue)
+reducerMap[bio.bio.type] = on('bio', actionFieldValue)
+reducerMap[bio.location.type] = on('location', actionValue)
+
+
 var ANSWER = 'ANSWER';
-var SET_INTERVIEWER = 'SET_INTERVIEWER';
 var EMAIL_TO_PATIENT = 'EMAIL_TO_PATIENT';
 var EMAIL_TO = 'EMAIL_TO';
-
-const SET_LOCATION = 'SET_LOCATION';
-
-const Locations = ['Warrnambool', 'Clayton', 'Fitzroy', 'Geelong'];
-
-
-var initialState = {
-    bio: {},
-    survey: [],
-    lastQuestion: 0,
-    interviewer: null,
-    location: ''
-}
-
-function SetLocation(value) {
-    return {
-        type: SET_LOCATION,
-        field: 'location',
-        value: value
-    }
-}
-
-function SetInterviewer(value) {
-    return {
-        type: SET_INTERVIEWER,
-        field: 'interviewer',
-        value: value
-    };
-}
-
-function UpdateBio(field, value) {
-    return {
-        type: UPDATE_BIO,
-        field: 'bio',
-        fn: function(state) {
-            var update = {}
-            update[field] = value
-            return Object.assign({}, state, update)
-        }
-    };
-}
 
 function Answer(index, question, answer) {
     return {
@@ -89,19 +65,16 @@ function surveyApp(state, action) {
     } else if (action.type === EMAIL_TO) {
         askAndDeliverEmail(state);
         return state;
-    } else if (action.type === SET_LOCATION) {
-        window.localStorage.setItem(LOCATION_KEY, action.value);
     } else if (action.type === ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
+    } else if (!!reducerMap[action.type]) {
+        return reducerMap[action.type](state, action)
     }
 
     var newState = Object.assign({}, state);
 
     if (!!action.value) {
         newState[action.field] = action.value;
-    } else if (!!action.fn) {
-        var field = state[action.field];
-        newState[action.field] = action.fn(field);
     } else {
         newState = state; // Don't make a new one
     }
@@ -112,30 +85,15 @@ var ReduxDev = require('redux-devtools');
 
 var create = Redux.compose(ReduxDev.devTools())(Redux.createStore)
 
-const LOCATION_KEY = 'location'
-
-function initialiseLocation() {
-    let s = window.localStorage
-    var location = s.getItem(LOCATION_KEY);
-    if (!location) {
-        location = Locations[0]
-    }
-    initialState.location = location
-}
 
 module.exports = {
     NewStore: () => {
-        initialiseLocation();
         return create(surveyApp);
     },
 
     SurveyApp: surveyApp,
-    Locations,
 
-    UpdateBio,
     Answer,
-    SetInterviewer,
     EmailToPatient: emailToPatient,
-    EmailTo: emailTo,
-    SetLocation
+    EmailTo: emailTo
 }
