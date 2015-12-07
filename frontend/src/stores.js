@@ -16,9 +16,9 @@ const actionFieldValue = (state, action) => on(action.field, actionValue)(state,
 
 let reducerMap = {}
 reducerMap[HISTORY] = routeChanged
-reducerMap[bio.interviewer.type] = on("interviewer", actionValue)
-reducerMap[bio.bio.type] = on("bio", actionFieldValue)
-reducerMap[bio.location.type] = on("location", actionValue)
+reducerMap[bio.interviewer.type] = on('interviewer', actionValue)
+reducerMap[bio.bio.type] = on('bio', actionFieldValue)
+reducerMap[bio.location.type] = on('location', actionValue)
 
 
 var ANSWER = 'ANSWER';
