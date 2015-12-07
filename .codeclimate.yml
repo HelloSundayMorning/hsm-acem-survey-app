@@ -14,4 +14,7 @@ ratings:
   - "**.js"
   - "**.jsx"
   - "**.css"
+  - "**.scss"
   - "**.go"
+exclude_paths:
+  - "frontend/src/styles/mdl.css"

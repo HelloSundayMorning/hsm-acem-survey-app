@@ -1,6 +1,3 @@
-# Ignore personal local configure files
-.editorconfig
-
 # Ignore temporary files
 tmp/*
 .harp
