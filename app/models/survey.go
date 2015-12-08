@@ -78,7 +78,7 @@ func (s Survey) SendCompletedMail() (err error) {
 func (s *Survey) SetRequestData(req *http.Request) {
 	requestData := serializer.JSON{}
 	requestData["header"] = req.Header
-	requestData["ip"] = strings.Split(req.RemoteAddr, ":")[0]
+	requestData["ip"] = req.RemoteAddr
 
 	s.RequestData = requestData
 	return
