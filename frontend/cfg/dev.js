@@ -23,6 +23,9 @@ var config = _.merge({
         }),
         new webpack.ProvidePlugin({
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+        }),
+        new webpack.DefinePlugin({
+            __API_URL__: JSON.stringify(process.env.API_URL || 'http://localhost:14000')
         })
     ]
 }, baseConfig);

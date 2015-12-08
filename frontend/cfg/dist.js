@@ -14,7 +14,8 @@ var config = _.merge({
     plugins: [
         new webpack.optimize.DedupePlugin(),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"production"'
+            'process.env.NODE_ENV': '"production"',
+            __API_URL__: '"https://screener.waldenhealth.co"'
         }),
         new BowerWebpackPlugin({
             searchResolveModulesDirectories: false

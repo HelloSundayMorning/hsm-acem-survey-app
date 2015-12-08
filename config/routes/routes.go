@@ -30,9 +30,8 @@ func Mux() *http.ServeMux {
 		log.Println("No Airbrake Client")
 	}
 
-	var api = engine.Group("/api")
-
-	api.POST("/surveys", controllers.SurveysCreate)
+	engine.OPTIONS("/surveys", controllers.SurveysOptions)
+	engine.POST("/surveys", controllers.SurveysCreate)
 
 	// Need to run SetCurrentUser middleware for QOR admin
 	engine.Group("/admin", controllers.SetCurrentUser)

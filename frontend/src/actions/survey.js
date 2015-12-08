@@ -9,7 +9,9 @@ function action(dispatch, getState) {
                 type: posted
             })
         } else {
-            failure(dispatch)
+            const error = new Error(response.statusText)
+            error.response = response
+            throw error
         }
     }).catch(failure.bind(null, dispatch))
 
@@ -19,14 +21,30 @@ function action(dispatch, getState) {
 }
 
 function postState(state) {
-    console.log("getting", state)
-    return fetch('http://localhost:8000')
+    return fetch(__API_URL__ + '/surveys', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(mapState(state))
+    })
 }
 
 function failure(dispatch, ex) {
+    // FIXME Log this error into...?
     dispatch({
         type: postFailed
     })
+}
+
+function mapState({ location, bio, interviewer, survey }) {
+    return {
+        interviewer,
+        location,
+        patient: bio,
+        answers: survey
+    }
 }
 
 export default action

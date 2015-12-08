@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,8 +15,14 @@ const HTTPStatusUnprocessableEntity = 422
 // SurveysCreate captures a survey results and email the survey's patient.
 func SurveysCreate(ctx *gin.Context) {
 	survey := models.Survey{}
-	if ctx.BindJSON(&survey) != nil {
-		ctx.JSON(HTTPStatusUnprocessableEntity, gin.H{"error": `Missing required attributes.`})
+
+	ctx.Header("Access-Control-Allow-Origin", "http://localhost:8000")
+	ctx.Header("Access-Control-Allow-Headers", "Content-type")
+
+	if err := ctx.BindJSON(&survey); err != nil {
+		//		ctx.JSON(HTTPStatusUnprocessableEntity, gin.H{"error": `Missing required attributes.`})
+		fmt.Println(err)
+		ctx.String(HTTPStatusUnprocessableEntity, err.Error())
 		return
 	}
 
@@ -28,4 +35,11 @@ func SurveysCreate(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, survey)
+
+}
+
+func SurveysOptions(ctx *gin.Context) {
+	ctx.Header("Access-Control-Allow-Origin", "http://localhost:8000")
+	ctx.Header("Access-Control-Allow-Headers", "Content-type")
+	ctx.AbortWithStatus(http.StatusOK)
 }
