@@ -12,6 +12,7 @@ import AuditPage from 'components/AuditPage'
 import SurveyPage from 'components/SurveyPage'
 import Feedback from 'components/Feedback'
 import history from 'actions/history'
+import * as email from 'actions/email'
 
 var store = require('../stores');
 
@@ -205,7 +206,7 @@ const fbPage = ReactRedux.connect(
         age: state.bio.age,
         gender: state.bio.gender
     }),
-    {emailToPatient: store.EmailToPatient, emailTo: store.EmailTo }
+    { emailToPatient: email.emailToPatient, emailTo: email.emailTo }
 )(Feedback)
 
 var routeMap = {

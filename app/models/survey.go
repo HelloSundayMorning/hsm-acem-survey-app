@@ -1,14 +1,8 @@
 package models
 
 import (
-	"errors"
-	"fmt"
 	"net/http"
-	"strings"
 
-	"github.com/jinzhu/gorm"
-	"github.com/keighl/mandrill"
-	"github.com/theplant/hsm-acem-survey-app/config"
 	"github.com/theplant/hsm-acem-survey-app/serializer"
 )
 
@@ -31,46 +25,6 @@ type Survey struct {
 	Patient     `json:"patient" binding:"required"`
 	Answers     serializer.JSONArray `sql:"type:json;not null;default:'[]'" json:"answers" binding:"required"`
 	RequestData serializer.JSON      `sql:"type:json;not null;default:'{}'" json:"-"`
-}
-
-// AfterCreate a survey, it sends out completed email to patient automatically.
-func (s *Survey) AfterCreate(db *gorm.DB) (err error) {
-	go func() {
-		err := s.SendCompletedMail()
-		if err != nil {
-			config.AirbrakeNotify(fmt.Errorf("send survey (%d) completed mail failed, error: %v", s.ID, err))
-		}
-	}()
-	return
-}
-
-var (
-	// ErrNoEmailAddress represents no email address as recipient.
-	ErrNoEmailAddress = errors.New("no email address")
-)
-
-// SendCompletedMail sends survey completed mail to the survey's patient.
-func (s Survey) SendCompletedMail() (err error) {
-	email := s.Patient.Email
-	if email == "" {
-		err = ErrNoEmailAddress
-		return
-	}
-
-	message := &mandrill.Message{}
-	message.AddRecipient(email, email, "to")
-
-	responses, err := config.Mandrill.Client.MessagesSendTemplate(message, config.Mandrill.SurveyCompletedEmailTemplateSlug, nil)
-	if err != nil {
-		return
-	}
-
-	for _, resp := range responses {
-		if resp.Status == "invalid" || resp.Status == "rejected" {
-			err = fmt.Errorf("send email via mandrill api failed (%s) response: %#v", resp.Status, resp)
-		}
-	}
-	return
 }
 
 // SetRequestData exchange the http request header and ip information

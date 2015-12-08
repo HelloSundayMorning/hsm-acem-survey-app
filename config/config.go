@@ -102,12 +102,4 @@ func initMandrill() {
 	}
 
 	Mandrill.Client = mandrill.ClientWithKey(mandrillAPIKey)
-
-	surveyCompletedEmailTemplateSlug := os.Getenv("MANDRILL_SURVEY_COMPLETED_EMAIL_TEMPLATE_SLUG")
-
-	if surveyCompletedEmailTemplateSlug == "" {
-		panic(errors.New("no mandrill survey completed email template slug"))
-	}
-
-	Mandrill.SurveyCompletedEmailTemplateSlug = surveyCompletedEmailTemplateSlug
 }

@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 
 import initialState from 'stores/initialState'
 
-import { on, actionValue, actionFieldValue, actionType } from 'reducers/generic'
+import { on, actionValue, actionType } from 'reducers/generic'
 
 import * as survey from 'actions/survey'
 import updateSurvey from 'reducers/survey'
@@ -27,8 +27,6 @@ reducerMap[survey.posted] = postingSurvey
 reducerMap[survey.postFailed] = postingSurvey
 
 var ANSWER = 'ANSWER';
-var EMAIL_TO_PATIENT = 'EMAIL_TO_PATIENT';
-var EMAIL_TO = 'EMAIL_TO';
 
 function Answer(index, question, answer) {
     return {
@@ -39,37 +37,10 @@ function Answer(index, question, answer) {
     }
 }
 
-function emailToPatient() {
-    return {
-        type: EMAIL_TO_PATIENT
-    }
-}
-
-function emailTo() {
-    return {
-        type: EMAIL_TO
-    }
-}
-
-function deliverEmail(state, email) {
-    window.alert('to '+email+': '+JSON.stringify(state)+' to user');
-}
-
-function askAndDeliverEmail(state) {
-    var res = window.prompt('Enter email address');
-    deliverEmail(state, res);
-}
-
 
 function surveyApp(state, action) {
     if (typeof state === 'undefined') {
         return initialState;
-    } else if (action.type === EMAIL_TO_PATIENT) {
-        deliverEmail(state);
-        return state;
-    } else if (action.type === EMAIL_TO) {
-        askAndDeliverEmail(state);
-        return state;
     } else if (action.type === ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
     } else if (!!reducerMap[action.type]) {
@@ -98,7 +69,5 @@ module.exports = {
 
     SurveyApp: surveyApp,
 
-    Answer,
-    EmailToPatient: emailToPatient,
-    EmailTo: emailTo
+    Answer
 }
