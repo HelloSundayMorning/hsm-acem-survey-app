@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 
 import initialState from 'stores/initialState'
 
-import { on } from 'reducers/generic'
+import { on, actionValue, actionFieldValue, actionType } from 'reducers/generic'
 
 import * as survey from 'actions/survey'
 import updateSurvey from 'reducers/survey'
@@ -12,16 +12,13 @@ import { type as HISTORY } from 'actions/history'
 import routeChanged from 'reducers/routeChanged'
 
 import * as bio from 'actions/bio'
-
-const actionValue = (_, action) => action.value
-const actionFieldValue = (state, action) => on(action.field, actionValue)(state, action)
-const actionType = (_, action) => action.type
+import { default as bioReducer } from 'reducers/bio'
 
 let reducerMap = {}
 reducerMap[HISTORY] = routeChanged
 
 reducerMap[bio.interviewer.type] = on('interviewer', actionValue)
-reducerMap[bio.bio.type] = on('bio', actionFieldValue)
+reducerMap[bio.bio.type] = on('bio', bioReducer)
 reducerMap[bio.location.type] = on('location', actionValue)
 
 const postingSurvey = on('postingSurvey', actionType)

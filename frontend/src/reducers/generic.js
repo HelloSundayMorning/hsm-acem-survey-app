@@ -10,6 +10,14 @@ function on(field, reducer) {
     }
 }
 
+const actionValue = (_, action) => action.value
+const actionFieldValue = (state, action) => on(action.field, actionValue)(state, action)
+const actionType = (_, action) => action.type
+
+
 export {
-    on
+    on,
+    actionValue,
+    actionFieldValue,
+    actionType
 }
