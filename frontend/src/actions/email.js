@@ -47,7 +47,7 @@ function mapState(email, state) {
     const template = surveyData.riskCategory(surveyScore)
 
     return {
-        Email: 'bodhi@theplant.jp',
+        Email: email,
         Template: template,
         FrequencyChart: `<img src="${frequencyGraphLink(age, gender, dailyScore)}">`,
         RiskChart: `<img src="${riskFactorGraphLink(dailyScore)}">`,
