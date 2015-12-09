@@ -23,7 +23,7 @@
 		"prod": [{
 			"gopath": "/home/app/gopkg",
 			"user": "app",
-			"host": "52.64.242.130",
+			"host": "52.65.6.209",
 			"envs": {},
 			"port": ":22"
 		}]

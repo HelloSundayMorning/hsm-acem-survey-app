@@ -9,6 +9,7 @@ import (
 // Tables returns a slice of all tables.
 var Tables = []interface{}{
 	&models.User{},
+	&models.Survey{},
 }
 
 func init() {

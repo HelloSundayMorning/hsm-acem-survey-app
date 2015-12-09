@@ -8,31 +8,47 @@ import (
 	"path/filepath"
 
 	"github.com/gorilla/sessions"
+	"github.com/keighl/mandrill"
 	gobrake "gopkg.in/airbrake/gobrake.v1"
 
 	"github.com/theplant/hsm-acem-survey-app/middleware"
 )
 
 var (
+	// Root is application root path
 	Root = os.Getenv("GOPATH") + "/src/github.com/theplant/hsm-acem-survey-app"
 
+	// DB is global DB configuration data
 	DB struct {
 		Params string
 		Debug  bool
 	}
 
+	// Monitor is InfluxDB monitor configuration
 	Monitor *middleware.Monitor
 
+	// Airbrake for error logging
 	Airbrake struct {
 		Client *gobrake.Notifier
 	}
 
+	// Mandrill is global client for sending emails with Mandrill
+	Mandrill struct {
+		Client                           *mandrill.Client
+		SurveyCompletedEmailTemplateSlug string
+	}
+
+	// SessionStore is global app cookie store
 	SessionStore *sessions.CookieStore
-	SessionKey   = "hsm-acem-survey-app"
+
+	// SessionKey is key used for session cookie
+	SessionKey = "hsm-acem-survey-app"
 )
 
 func init() {
 	Airbrake.Client = initAirbrake()
+
+	initMandrill()
 
 	loadDBConfig()
 
@@ -84,4 +100,14 @@ func initMonitor() {
 	}
 
 	Monitor = monitor
+}
+
+func initMandrill() {
+	mandrillAPIKey := os.Getenv("MANDRILL_APIKEY")
+
+	if mandrillAPIKey == "" {
+		panic(errors.New("no mandrill api key"))
+	}
+
+	Mandrill.Client = mandrill.ClientWithKey(mandrillAPIKey)
 }

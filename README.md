@@ -6,7 +6,9 @@ Something like:
 
 1. Install NodeJS
 2. `npm install`
-3. Start webpack dev server: `webpack-dev-server`
+3. `cd frontend && API_URL=http://localhost:14000 npm run serve`
+
+(dev default for `API_URL` is `http://localhost:14000`)
 
 # Backend
 
@@ -36,5 +38,5 @@ Something like:
     # Get harp
     $ go get -u github.com/bom-d-van/harp
     
-    # Deploy to demo
-    $ harp -s dev -log deploy
+    # Deploy to production
+    $ harp -s prod -log deploy
