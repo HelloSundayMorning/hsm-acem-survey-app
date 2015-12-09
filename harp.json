@@ -13,6 +13,10 @@
 				"delete": true
 			},
 			{
+				"path": "github.com/theplant/hsm-acem-survey-app/public",
+				"delete": true
+			},
+			{
 				"path": "github.com/qor/qor",
 				"excludes": ["example/"],
 				"delete": true
