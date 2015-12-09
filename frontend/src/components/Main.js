@@ -13,6 +13,7 @@ import SurveyPage from 'components/SurveyPage'
 import Feedback from 'components/Feedback'
 import history from 'actions/history'
 import * as email from 'actions/email'
+import { surveyScore, dailyScore } from 'src/surveyResults'
 
 var store = require('../stores');
 
@@ -186,17 +187,6 @@ var Frames = React.createClass({
         );
     }
 });
-
-function surveyScore(survey) {
-    return survey.map(({answer}) => answer.score).reduce((a, b) => a + b)
-}
-
-function dailyScore(survey) {
-    // Q2 is index 1 (remember, 0-based!)
-    let answer = survey[1]
-
-    return !!answer ? answer.answer.score : 0
-}
 
 const fbPage = ReactRedux.connect(
     state => ({
