@@ -6,44 +6,12 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/keighl/mandrill"
 	"github.com/theplant/hsm-acem-survey-app/app/models"
-	"github.com/theplant/hsm-acem-survey-app/config"
 	"github.com/theplant/hsm-acem-survey-app/test/utils"
 
 	"github.com/gin-gonic/gin/binding"
 )
 
-func TestSurveySendCompletedMailWithoutPatientEmail(t *testing.T) {
-	successMandrillConfigure()
-
-	survey := newSurvey()
-	survey.Patient.Email = ""
-
-	if err := survey.SendCompletedMail(); err != models.ErrNoEmailAddress {
-		t.Fatalf("Unexpected error: %v", err)
-	}
-}
-
-func TestSurveySendCompletedMailFailure(t *testing.T) {
-	errorMandrillConfigure()
-
-	survey := newSurvey()
-
-	if err := survey.SendCompletedMail(); err == nil {
-		t.Fatal("Expected sent mail failure, but it sent out successfully")
-	}
-}
-
-func TestSurveySendCompletedMailSuccess(t *testing.T) {
-	successMandrillConfigure()
-
-	survey := newSurvey()
-
-	if err := survey.SendCompletedMail(); err != nil {
-		t.Fatalf("Unexpected error: %v", err)
-	}
-}
 func newSurvey() *models.Survey {
 	return &models.Survey{
 		Interviewer: "doctor",
@@ -55,14 +23,6 @@ func newSurvey() *models.Survey {
 		},
 		Patient: models.Patient{Age: 21, Gender: "male", Postcode: "0123456789", Email: "patient@person.com", Mobile: "+8612345678901"},
 	}
-}
-
-func successMandrillConfigure() {
-	config.Mandrill.Client = mandrill.ClientWithKey("SANDBOX_SUCCESS")
-}
-
-func errorMandrillConfigure() {
-	config.Mandrill.Client = mandrill.ClientWithKey("SANDBOX_ERROR")
 }
 
 func TestSurveyBindingSuccess(t *testing.T) {
