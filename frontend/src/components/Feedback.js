@@ -1,15 +1,14 @@
 import React from 'react'
+import { posting, postfailed } from  'actions/survey'
+import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
+import { drinkPercentage, riskCategory, HIGH_RISK } from 'src/surveyResults'
 
-function Feedback({ emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
-    let Prompt = DependentPrompt
-    if (surveyScore <= 7) {
-        Prompt = LowRiskPrompt
-    } else if (surveyScore <= 19) {
-        Prompt = ModerateHighRiskPrompt
-    }
+function Feedback({ postStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
+    let Prompt = riskComponentMap[riskCategory(surveyScore)]
 
     return (
             <section id='feedback'>
+            <PostingStatus status={postStatus} />
             <h1>Feedback ({surveyScore}, {dailyScore})</h1>
 
             <FeedbackCharts surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
@@ -21,6 +20,16 @@ function Feedback({ emailToPatient, emailTo, surveyScore, dailyScore, age, gende
             </div>
             </section>
     );
+}
+
+function PostingStatus({ status }) {
+    if (status == posting) {
+        return <p>Posting survey</p>
+    } else if (status == postfailed) {
+        return <p>failed to post survey</p>
+    } else {
+        return <p>Posted survey</p>
+    }
 }
 
 function EmpathyPrompt() {
@@ -43,8 +52,6 @@ function LowRiskPrompt() {
     )
 }
 
-//////////////////////////////////////////
-// Data from document attached to: https://qortex.com/theplant#groups/56496e5d8d93e31c8210ef3d/entry/56496e9b8d93e31c8210efa1/cid/56539b8f8d93e30d5e0268ab
 const incidentRiskFactor = {
     0: 'unlikely', // 1 or 2
     1: 'twice as likely', // 3 or 4
@@ -53,49 +60,15 @@ const incidentRiskFactor = {
     4: '7 times more likely' // 10 or more
 }
 
-const consumptionRateData = {
-    male: [
-        { maxAge: 17,   abstain: 71.4, lowRisk: 25.2, risky:  3.3 },
-        { maxAge: 24,   abstain: 16.5, lowRisk: 55.9, risky: 27.6 },
-        { maxAge: 29,   abstain: 13.6, lowRisk: 54.5, risky: 31.9 },
-        { maxAge: 39,   abstain: 14.8, lowRisk: 56.8, risky: 28.3 },
-        { maxAge: 49,   abstain: 14.5, lowRisk: 53.9, risky: 31.7 },
-        { maxAge: 59,   abstain: 15.1, lowRisk: 57.0, risky: 28.0 },
-        { maxAge: 69,   abstain: 18.0, lowRisk: 53.5, risky: 28.6 },
-        { maxAge: 9999, abstain: 23.3, lowRisk: 59.3, risky: 17.4 } // 9999 = 70+
-    ],
-    female: [
-        { maxAge: 17,   abstain: 73.3, lowRisk: 25.0, risky:  1.7 },
-        { maxAge: 24,   abstain: 18.0, lowRisk: 67.5, risky: 14.6 },
-        { maxAge: 29,   abstain: 20.5, lowRisk: 69.7, risky:  9.8 },
-        { maxAge: 39,   abstain: 21.1, lowRisk: 69.6, risky:  9.3 },
-        { maxAge: 49,   abstain: 17.1, lowRisk: 69.4, risky: 13.5 },
-        { maxAge: 59,   abstain: 19.0, lowRisk: 68.8, risky: 12.3 },
-        { maxAge: 69,   abstain: 24.4, lowRisk: 67.0, risky:  8.6 },
-        { maxAge: 9999, abstain: 40.3, lowRisk: 55.6, risky:  4.1 } // 9999 = 70+
-    ]
-}
-//////////////////////////////////////////
-
-function consumptionRates(age, gender) {
-    if (gender == 'other') {
-        gender = 'female'
-    }
-    const rates = consumptionRateData[gender]
-    return rates.find(({maxAge}) => age < maxAge)
-}
-
-function drinkPercentage(age, gender, dailyScore) {
-    const rate = consumptionRates(age, gender)
-    let percentage = rate.abstain;
-    if (dailyScore > 0) {
-        percentage += rate.lowRisk;
-    }
-    return percentage;
+const riskComponentMap = {
+    "low-risk": LowRiskPrompt,
+    "moderate-risk": ModerateHighRiskPrompt,
+    "high-risk": ModerateHighRiskPrompt,
+    "dependence-likely": DependentPrompt
 }
 
 function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
-    const highRisk = surveyScore >= 16;
+    const highRisk = riskCategory(surveyScore) === HIGH_RISK
     const percentage = drinkPercentage(age, gender, dailyScore)
 
     return (
@@ -210,77 +183,19 @@ function FeedbackCharts({ surveyScore, dailyScore, age, gender }) {
     )
 }
 
-const defaults = [
-    `chs=250x200` // Size
-]
-
 function AuditScoreChart({ score }) {
-    const average = 10
-
-    const max = 40 // Maximum survey score
-    const recommended = 7 // Recommended survey score
-    const rangeMax = max + 5 // Top value of the graph
-    const data = [
-        `cht=bvs`, // Column chart
-        `chbh=r,1.0`, // Column spacing
-        `chds=0,${rangeMax}`, // Scale the Y values
-        `chd=t:${average},${score}`, // data
-        `chxl=0:|Average|You|1:|Recomm.+Max|Score+Max`, // Axis labels
-        `chxt=x,y`, // Show x and y axes
-        `chxr=1,0,${rangeMax}`, // Scale Y axis
-        `chxp=1,${recommended},${max}`, // Axis label position
-        `chxtc=1,-500`, // Axis tick length
-        `chxs=0,,16|1,,16`, // Axis Label format
-        `chma=0,0,0,53` // LRTB Margins, RiskFactor has a double axis label at bottom, so compensate with bigger bottom margin
-    ]
-    return <Chart title="AUDIT Score" params={data} />
+    return <Chart title="AUDIT Score" url={auditScoreGraphLink(score)} />
 }
 
 function FrequencyChart({age, gender, dailyScore}) {
-    const percentage = drinkPercentage(age, gender, dailyScore)/100
-
-    const data = [
-        `cht=p`, // Pie chart
-        `chd=t:${percentage},${1-percentage}`, // Data
-        `chdl=Less+than+you|More+than+you`, // Data labels
-        `chdlp=b`, // Legend position
-        `chp=-1.571`, // Initial angle (Pi/2)
-        `chdls=,16` // Legend style
-    ]
-    return <Chart title="Drink Frequency" params={data} />
-}
-
-const riskFactor = {
-    0: '0,1|0,1', // 0-2 = 1x
-    1: '0,3|0,2', // 3-4 = 2x
-    2: '0,5|0,3', // 5-6 = 3x
-    3: '0,7|0,4', // 7-8,9 = 4x (survey has 7-9 but table breaks into 7-8 @ 4x & 9 @ 6x)
-    4: '0,10|0,7' // 10+ = 7x
+    return <Chart title="Drink Frequency" url={frequencyGraphLink(age, gender, dailyScore)} />
 }
 
 function RiskFactorChart({dailyScore}) {
-    const data = [
-        `cht=lxy`, // X-Y line
-        `chxt=x,y,x,y`, // Axes displayed: 2 & 3 (0-based) are for axis labels
-        `chls=3`, // Line style
-
-        // Series 0 is static data of risk factor graph
-        // Series 1 is a fake point, then the risk factor point for the daily score
-        `chd=t:1,3,5,7,9,10|1,2,3,4,6,7|${riskFactor[dailyScore]}`,
-
-        `chds=1,10,1,7,1,10,1,7`, // Data scales
-        `chxr=0,1,10,2|1,1,7,1`, // Axis ranges
-        `chm=x,FF0000,1,1,20`, // score mark formatting
-        `chxs=0,,16|1N**x,,16|2,,16|3,,16`, // Axis Label format
-        `chxl=0:|2|4|6|8||10%2B|2:|Number+of+Drinks+Consumed|3:|Risk`, // Axis labels
-        `chxp=2,50|3,50`, // Axis Label position
-        `chma=0,10,10,0` // LRTB Margins, give a margin at top right for when the X is in the corner
-    ]
-    return <Chart title='Risks of Harm' params={data} />
+    return <Chart title='Risks of Harm' url={riskFactorGraphLink(dailyScore)} />
 }
 
-function Chart({title, params}) {
-    const url = `https://chart.googleapis.com/chart?${defaults.concat(params).join('&')}`
+function Chart({title, url}) {
     return (
             <figure>
             <figcaption>{title}</figcaption>

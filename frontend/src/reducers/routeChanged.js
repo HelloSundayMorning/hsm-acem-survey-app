@@ -1,7 +1,7 @@
 import initialState from 'stores/initialState'
 
-export default (state, action) => {
-    if (action.location.pathname === '/') {
+export default (state, {location: { pathname }}) => {
+    if (pathname === '/') {
         state = initialState
     }
     return state

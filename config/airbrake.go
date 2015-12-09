@@ -2,7 +2,9 @@ package config
 
 import (
 	"log"
+	"net/http"
 	"os"
+	"runtime/debug"
 	"strconv"
 
 	gobrake "gopkg.in/airbrake/gobrake.v1"
@@ -29,4 +31,22 @@ func initAirbrake() (airbrake *gobrake.Notifier) {
 	}
 
 	return
+}
+
+// AirbrakeNotify is used for easy report message to airbrake service manually.
+func AirbrakeNotify(e interface{}) {
+	log.Println("[ERROR]", e)
+
+	debug.PrintStack()
+
+	if Airbrake.Client == nil {
+		log.Println("[WARNING] Report error failed (no airbrake client) reporting error:", e)
+		return
+	}
+
+	var req *http.Request
+
+	// not using goroutine here in order to keep the whole backtrace in
+	// airbrake report
+	Airbrake.Client.Notify(e, req)
 }
