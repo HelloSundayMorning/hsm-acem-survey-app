@@ -4,7 +4,6 @@ require('styles/App.scss');
 
 import React from 'react'
 import * as ReactRedux from 'react-redux';
-import * as ReduxDev from 'redux-devtools/lib/react';
 import { Router, Route, Link } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import Question from 'components/Question'
@@ -14,6 +13,7 @@ import Feedback from 'components/Feedback'
 import history from 'actions/history'
 import * as email from 'actions/email'
 import { surveyScore, dailyScore } from 'src/surveyResults'
+import * as config from 'config'
 
 var store = require('../stores');
 
@@ -209,8 +209,6 @@ var routeMap = {
 
 var pageOrder = ['/', 'info', 'audit', 'feedback', 'frames']
 
-var LogMonitor = ReduxDev.LogMonitor
-
 var s = store.NewStore()
 var h = createBrowserHistory()
 h.listen(l => s.dispatch(history(l)))
@@ -227,9 +225,7 @@ var Survey = React.createClass({
                 <Route path=':survey_page' component={SurveyPage} routeMap={routeMap} pageOrder={pageOrder}/>
                 </Router>
                 </ReactRedux.Provider>
-                <ReduxDev.DebugPanel top right bottom>
-                <ReduxDev.DevTools store={s} monitor={LogMonitor} />
-                </ReduxDev.DebugPanel>
+                <config.debugPanel.component store={s} />
                 </div>
         )
     }

@@ -1,7 +1,15 @@
-'use strict';
+function emptyComponent() {
+    return {
+        render: () => null
+    }
+}
 
-const config = {
-  appEnv: 'dist'  // feel free to remove the appEnv property here
-};
 
-export default config;
+const debugPanel = {
+    component: emptyComponent,
+    storeMiddleware: middleware => middleware
+}
+
+export {
+    debugPanel
+}

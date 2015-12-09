@@ -1,6 +1,7 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
+import * as config from 'config'
 import initialState from 'stores/initialState'
 
 import { on, actionValue, actionType } from 'reducers/generic'
@@ -57,10 +58,7 @@ function surveyApp(state, action) {
     return newState;
 }
 
-var ReduxDev = require('redux-devtools');
-
-var create = compose(applyMiddleware(thunk), ReduxDev.devTools())(createStore)
-
+const create = config.debugPanel.storeMiddleware(applyMiddleware(thunk))(createStore)
 
 module.exports = {
     NewStore: () => {

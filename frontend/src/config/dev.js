@@ -1,7 +1,25 @@
-'use strict';
+import React from 'react'
+import { compose } from 'redux';
+import * as ReduxDev from 'redux-devtools/lib/react'
+import { devTools } from 'redux-devtools'
 
-const config = {
-  appEnv: 'dev'  // feel free to remove the appEnv property here
-};
+function debugPanelComponent({ store }) {
+    return (
+            <ReduxDev.DebugPanel top right bottom>
+            <ReduxDev.DevTools store={store} monitor={ReduxDev.LogMonitor} />
+            </ReduxDev.DebugPanel>
+    )
+}
 
-export default config;
+function storeMiddleware(middleware) {
+    return compose(middleware, devTools())
+}
+
+const debugPanel = {
+    component: debugPanelComponent,
+    storeMiddleware
+}
+
+export {
+    debugPanel
+}
