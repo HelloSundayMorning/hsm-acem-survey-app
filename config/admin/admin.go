@@ -36,7 +36,7 @@ func init() {
 	user := Admin.AddResource(&models.User{})
 	user.IndexAttrs("ID", "Email", "Role")
 	user.EditAttrs("Email", "Role", "Password")
-	user.NewAttrs(user.EditAttrs()...)
+	user.NewAttrs("Email", "Role", "Password")
 	user.Meta(&admin.Meta{Name: "Password", Label: "Password", Type: "password"})
 	user.Meta(&admin.Meta{Name: "Role", Type: "select_one", Collection: func(resource interface{}, context *qor.Context) (results [][]string) {
 		for _, role := range models.UserRoles {
