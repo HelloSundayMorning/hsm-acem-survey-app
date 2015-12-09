@@ -20,6 +20,9 @@ const debugPanel = {
     storeMiddleware
 }
 
+const apiRoot = 'http://localhost:14000'
+
 export {
-    debugPanel
+    debugPanel,
+    apiRoot
 }

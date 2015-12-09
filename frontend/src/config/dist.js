@@ -10,6 +10,9 @@ const debugPanel = {
     storeMiddleware: middleware => middleware
 }
 
+const apiRoot = 'https://screener.waldenhealth.co'
+
 export {
-    debugPanel
+    debugPanel,
+    apiRoot
 }

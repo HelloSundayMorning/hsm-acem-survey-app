@@ -1,3 +1,5 @@
+import * as config from 'config'
+
 const posting = 'POSTING_SURVEY'
 const posted = 'SURVEY_POSTED'
 const postFailed = 'SURVEY_POST_FAILED'
@@ -21,7 +23,7 @@ function action(dispatch, getState) {
 }
 
 function postState(state) {
-    return fetch(__API_URL__ + '/surveys', {
+    return fetch(config.apiRoot + '/surveys', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

@@ -6,9 +6,9 @@ Something like:
 
 1. Install NodeJS
 2. `npm install`
-3. `cd frontend && API_URL=http://localhost:14000 npm run serve`
+3. `cd frontend && npm run serve`
 
-(dev default for `API_URL` is `http://localhost:14000`)
+(configure API root in `src/config/dev.js`)
 
 # Backend
 

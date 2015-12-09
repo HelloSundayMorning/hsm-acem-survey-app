@@ -1,3 +1,4 @@
+import * as config from 'config'
 import { frequencyGraphLink, auditScoreGraphLink, riskFactorGraphLink } from 'components/Graphs'
 import * as surveyData from 'src/surveyResults'
 
@@ -55,7 +56,7 @@ function mapState(email, state) {
 }
 
 function postEmail(email, state) {
-    return fetch(__API_URL__ + '/surveys/email', {
+    return fetch(config.apiRoot + '/surveys/email', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
