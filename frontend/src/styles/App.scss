@@ -1,9 +1,23 @@
 /* Base Application Styles */
+
+/* rgba(0,0,0,0.83) */
+$black: #212121;
+
+/* rgba(0,0,0,0.54) */
+$light-grey: #757575;
+
+$accent-color: #00BCD4;
+
 body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     min-height: 100%;
+
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color: $black;
+    line-height: 24px;
 }
 
 #app {
@@ -20,13 +34,16 @@ body {
 
 header {
     box-sizing: border-box;
-    background: #20BCD2;
+    background: $accent-color;
     color: white;
     height: 68px;
     width: 100%;
     display: flex;
     align-items: center;
     padding: 0 24px;
+    font-family: Roboto-Medium, sans-serif;
+    font-size: 20px;
+    line-height: 24px;
 
     * {
         flex: 1;
@@ -56,47 +73,108 @@ header {
     display: flex;
     flex-direction: column;
 
-    #disclaimer {
-        div {
-            border: 1px solid black;
-            padding: 0 5px;
-        }
-    }
-
     #start-survey {
         align-self: center;
 
         margin: 20px 0;
     }
-
-    #location {
-        align-self: center;
-
-        select {
-            margin-left: 5px;
-        }
-    }
-}
-
-h1, h2 {
-    font-size: 1em;
 }
 
 h1 {
+    font-weight: regular;
     text-align: center;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.mdl-button {
+    height: 40px;
+    line-height: 40px;
+}
+.mdl-button--colored {
+    color: white !important;
+
+    &[disabled] {
+        color: $light-grey !important;
+    }
 }
 
 footer {
     margin: 0 auto;
     width: 480px;
-    min-height: 50px;
+    min-height: 70px;
     flex: 0 1;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+
+    /* Override MDL accent */
+    a.footer-link {
+        color: $accent-color;
+        font-weight: normal;
+    }
+
+    .footer-separator {
+        padding: 0 10px;
+    }
+
+    #location {
+        font-family: Roboto-Medium, sans-serif;
+        color: $black;
+        line-height: 24px;
+
+        select {
+            margin-left: 5px;
+            /* Doesn't really work */
+            font-size: 16px;
+            line-height: 24px;
+            height: 24px;
+        }
+    }
+}
+
+blockquote {
+    background: #EEEEEE;
+    border-radius: 4px;
+
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 14px;
+    color: black;
+    line-height: 24px;
+
+    /* Override all the MDL defaults */
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: inherit;
+    margin: 0;
+    padding: 24px 24px 8px;
+    margin-bottom: 48px;
+
+    h2 {
+        font-family: Roboto-Medium, sans-serif;
+        font-size: 20px;
+        color: $black;
+        line-height: 24px;
+    }
+
+    &:before,
+    &:after {
+        content: none;
+    }
 }
 
 section.question {
+    height: 100px;
+
+    .legend {
+        display: block;
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 13px;
+        color: $light-grey;
+        line-height: 12px;
+        padding-bottom: 14px;
+    }
 
     div {
         display: flex;
@@ -110,7 +188,7 @@ section.question {
             /* override mdl settings */
             overflow: visible;
             min-height: 36px;
-            height: auto;
+            height: 40px;
             text-transform: initial;
 
             border-radius: 0;
@@ -121,6 +199,16 @@ section.question {
 
             &:last-child {
                 border-radius: 0 2px 2px 0;
+            }
+
+            span { /* Hack: spans are added by React */
+                font-family: Roboto-Medium, sans-serif;
+                font-size: 14px;
+                color: $light-grey;
+                line-height: 16px;
+            }
+            &.mdl-button--colored span {
+                color: white;
             }
         }
 
@@ -134,21 +222,61 @@ section.question {
 
 #basic-info {
 
-    legend {
-        font-weight: bold;
+    fieldset {
+        margin-top: 40px;
+
+        legend {
+            font-family: Roboto-Medium, sans-serif;
+            font-size: 16px;
+            color: $black;
+            line-height: 24px;
+            margin-bottom: 8px;
+        }
     }
 
-    .simple-input input {
+    .simple-input {
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 13px;
+        color: $light-grey;
+        line-height: 12px;
         display: block;
-        width: 100%;
+        height: 100px;
+
+        input {
+            box-sizing: border-box;
+            display: block;
+
+            width: 100%;
+            line-height: 34px;
+            margin-top: 14px;
+            font-family: Roboto-Regular, sans-serif;
+            font-size: 16px;
+            color: $black;
+            padding-left: 10px;
+
+        }
     }
 
 }
 
 #audit, #feedback {
-    width: 800px;
+    width: 721px;
     margin: 0 auto;
 }
+
+#audit {
+    .question {
+        height: 160px;
+
+        .legend {
+            font-family: Roboto-Medium, sans-serif;
+            font-size: 20px;
+            color: $black;
+            line-height: 24px;
+        }
+    }
+}
+
 
 .disabled {
     opacity: 0.1;
@@ -174,13 +302,35 @@ section.question {
 
     #feedback-charts {
         display: flex;
+        justify-content: space-between;
 
         figure {
             flex: 1;
+            margin: 0;
 
             figcaption {
                 font-weight: bold;
             }
         }
+    }
+}
+
+#reminder {
+    h2 {
+        font-family: Roboto-Medium, sans-serif;
+        font-size: 20px;
+        color: $black;
+        line-height: 24px;
+    }
+}
+
+.instructions {
+    h2 {
+        /* Read this to your pa: */
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 13px;
+        color: $light-grey;
+        line-height: 12px;
+        margin: 36px 0 18px;
     }
 }

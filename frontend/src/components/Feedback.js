@@ -36,13 +36,15 @@ function LowRiskPrompt({ surveyScore, dailyScore, age, gender }) {
 
             <FeedbackCharts surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
 
-            <p>Tell your patient the following, and show them the graphs to illustrate:</p>
+            <section className='instructions'>
+            <h2>Tell your patient the following, and show them the graphs to illustrate:</h2>
 
             <blockquote>
             <p>Your AUDIT score is {surveyScore} out of a maximum of 40.</p>
 
             <p>Well Done! You are drinking within the recommended limits that reduce your risk of harm related to intoxication and chronic health problems associated with alcohol use.</p>
             </blockquote>
+            </section>
             </section>
     )
 }
@@ -67,12 +69,14 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
     return (
             <section>
 
-            <p>Tell your patient the following, and show them the graphs to illustrate:</p>
+            <FeedbackCharts surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
+
+
+            <section className='instructions'>
+            <h2>Tell your patient the following, and show them the graphs to illustrate:</h2>
 
             <blockquote>
             <p>Your AUDIT score is {surveyScore} out of a maximum of 40.</p>
-
-            <FeedbackCharts surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
 
             <p>The amount of alcohol that you are currently using increases your risk of harms from intoxication such as personal injury and long term health effects such as liver problems and cancer.</p>
 
@@ -92,6 +96,7 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
 
             <p>Hello Sunday Morning is an anonymous online support program that helps people feel better about drinking less. They will follow you up with an email or text message tomorrow with some steps to help you make a change.</p>
             </blockquote>
+            </section>
 
         {dependencePrompt}
 
