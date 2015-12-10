@@ -25,23 +25,21 @@ header {
     height: 68px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 0 24px;
 
     * {
-        flex: 1 1 0px;
+        flex: 1;
         white-space: nowrap;
     }
 
     img {
         height: 48px;
         flex: 0 0 48px;
-        align-self: center;
     }
 
     &::after {
-        flex: 1 1 auto;
+        flex: 1;
         content: "";
     }
 
