@@ -49,6 +49,7 @@ function Header() {
 
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.location.action })(function(props) {
     return (
+        <div className='survey-page'>
             <section id='intro'>
             <h1>The <strong>FRAMES</strong> model</h1>
 
@@ -69,6 +70,7 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
 
             <blockquote>“I would like to ask you a few questions about your alcohol use. The information will be used by the Australasian College for Emergency Medicine in partnership with Hello Sunday Morning. Your information and contact details will not be shared with third parties, and all data will be de-identified for analysis.”</blockquote>
             </section>
+            </section>
 
         <footer>
 
@@ -82,7 +84,7 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
             <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
 
         </footer>
-            </section>
+            </div>
     );
 })
 
@@ -159,7 +161,7 @@ var Audit = ReactRedux.connect(
 var Frames = React.createClass({
     render: function() {
         return (
-                <section>
+                <section id='reminder'>
                 <h1>FRAMES reminder</h1>
 
                 <h2>Feedback</h2>

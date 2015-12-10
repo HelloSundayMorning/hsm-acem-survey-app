@@ -10,8 +10,6 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    width: 480px;
-    margin: 0 auto;
 }
 
 #app > div {
@@ -151,7 +149,7 @@ section.question {
 
 #audit, #feedback {
     width: 800px;
-    margin-left: -160px;
+    margin: 0 auto;
 }
 
 .disabled {
