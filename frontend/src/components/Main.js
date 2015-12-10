@@ -14,6 +14,7 @@ import history from 'actions/history'
 import * as email from 'actions/email'
 import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
+import logo from 'src/images/ACEM_V1_CMYK.png' // @_@
 
 var store = require('../stores');
 
@@ -42,7 +43,7 @@ function Header() {
     return (
             <header>
             Alcohol Screener
-            <img src='/images/ACEM_V1_CMYK.png' />
+            <img src={logo} />
             </header>
     )
 }
