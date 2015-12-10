@@ -8,7 +8,7 @@ const AuditPage = ({ survey, lastQuestion, update }) => {
           }
 
     return (
-            <section>
+            <section id='audit'>
             <h1>Audit Questionnaire</h1>
             {auditQuestions.map((q, i) =>
                                 <Question key={q.key || q.text} q={q} onChange={change(i)} value={(survey[i] || {answer: {}}).answer.text} disabled={i > lastQuestion} />

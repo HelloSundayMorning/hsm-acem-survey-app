@@ -25,7 +25,7 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
                 if (j == pageCount - 1) {
                     return fn
                 } else {
-                    return <span>{fn} › </span>
+                    return <span>{fn}<span className='footer-separator'>›</span></span>
                 }
             })}
         </section>

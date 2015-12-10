@@ -9,7 +9,7 @@ const riskFactor = {
 }
 
 const defaults = [
-    `chs=250x200` // Size
+    `chs=230x200` // Size
 ]
 
 function auditScoreGraphLink(score) {

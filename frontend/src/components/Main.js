@@ -38,10 +38,20 @@ function updateLocation(location, cb) {
 
 import * as bio from 'actions/bio'
 
+function Header() {
+    return (
+            <header>
+            Alcohol Screener
+            <img src='/images/ACEM_V1_CMYK.png' />
+            </header>
+    )
+}
+
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.location.action })(function(props) {
     return (
+        <div className='survey-page'>
             <section id='intro'>
-            <h1>The <strong>FRAMES</strong> model</h1>
+            <h1>The FRAMES model</h1>
 
             <p><strong>F</strong>eedback: Many people are unaware that they are drinking at hazardous or harmful levels and highlighting risks linked to current drinking patterns can be a powerful motivator for change.</p>
 
@@ -55,13 +65,16 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
 
             <p><strong>S</strong>elf-efficacy: Support the person&#8217;s self-efficacy for change, and communicate a sense of optimism. De-emphasise helplessness or powerlessness.</p>
 
-            <section id='disclaimer'>
+            <section id='disclaimer' className='instructions'>
             <h2>Disclaimer - Please tell your patient:</h2>
 
-            <blockquote>“I would like to ask you a few questions about your alcohol use. The information will be used by the Australasian College for Emergency Medicine in partnership with Hello Sunday Morning. Your information and contact details will not be shared with third parties, and all data will be de-identified for analysis.”</blockquote>
+            <blockquote>
+            <p>I would like to ask you a few questions about your alcohol use. The information will be used by the Australasian College for Emergency Medicine in partnership with Hello Sunday Morning. Your information and contact details will not be shared with third parties, and all data will be de-identified for analysis.</p>
+            </blockquote>
+            </section>
             </section>
 
-            <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
+        <footer>
 
             <div id='location'>
             Current Location:
@@ -69,7 +82,11 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
             {Locations.map(l => <option key={l} value={l}>{l}</option> )}
         </select>
             </div>
-            </section>
+
+            <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
+
+        </footer>
+            </div>
     );
 })
 
@@ -104,11 +121,8 @@ var PatientBio = React.createClass({
                 <label className='simple-input'>Age: <input type='number' min='0' name='age' value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
                 <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
                 <label className='simple-input'>Postcode: <input type='number' name='postcode' value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
-                <div id='contact-information'>
-                <label className='simple-input'>Patient email: <input type='email' name='email' value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
-                Or
-                <label className='simple-input'>Patient mobile: <input type='tel' name='phone' value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
-                </div>
+                <label className='simple-input'>Patient email (optional): <input type='email' name='email' value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Patient mobile (optional): <input type='tel' name='phone' value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
                 </fieldset>
         )
     }
@@ -146,7 +160,7 @@ var Audit = ReactRedux.connect(
 var Frames = React.createClass({
     render: function() {
         return (
-                <section>
+                <section id='reminder'>
                 <h1>FRAMES reminder</h1>
 
                 <h2>Feedback</h2>
@@ -215,6 +229,7 @@ var Survey = React.createClass({
     render: function() {
         return (
                 <div>
+                <Header />
                 <ReactRedux.Provider store={s}>
                 <Router history={h}>
                 <Route path='/' component={Intro} />
