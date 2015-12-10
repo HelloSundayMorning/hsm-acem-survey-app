@@ -61,7 +61,7 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
             <blockquote>“I would like to ask you a few questions about your alcohol use. The information will be used by the Australasian College for Emergency Medicine in partnership with Hello Sunday Morning. Your information and contact details will not be shared with third parties, and all data will be de-identified for analysis.”</blockquote>
             </section>
 
-            <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
+        <footer>
 
             <div id='location'>
             Current Location:
@@ -69,6 +69,10 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
             {Locations.map(l => <option key={l} value={l}>{l}</option> )}
         </select>
             </div>
+
+            <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
+
+        </footer>
             </section>
     );
 })

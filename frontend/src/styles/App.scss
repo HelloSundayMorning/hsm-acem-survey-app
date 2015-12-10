@@ -11,6 +11,8 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    width: 480px;
+    margin: 0 auto;
 }
 
 #app > div {
@@ -22,10 +24,6 @@ body {
 #intro {
     display: flex;
     flex-direction: column;
-
-    h1, h2 {
-        font-size: 1em;
-    }
 
     #disclaimer {
         div {
@@ -49,6 +47,24 @@ body {
     }
 }
 
+h1, h2 {
+    font-size: 1em;
+}
+
+h1 {
+    text-align: center;
+}
+
+footer {
+    margin: 0 auto;
+    width: 480px;
+    min-height: 50px;
+    flex: 0 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
 section.question {
 
     div {
@@ -58,12 +74,23 @@ section.question {
         align-content: stretch;
 
         label {
-            flex: 1 1 auto;
+            flex: 1 0 auto;
 
             /* override mdl settings */
             overflow: visible;
             min-height: 36px;
             height: auto;
+            text-transform: initial;
+
+            border-radius: 0;
+
+            &:first-child {
+                border-radius: 2px 0 0 2px;
+            }
+
+            &:last-child {
+                border-radius: 0 2px 2px 0;
+            }
         }
 
         input {
@@ -73,45 +100,23 @@ section.question {
 
 }
 
+
 #basic-info {
 
-    legend, .legend {
+    legend {
         font-weight: bold;
     }
 
-    #patient-bio {
-        .question {
-            display: inline-flex;
-            align-items: baseline;
-
-            .legend {
-                font-weight: normal;
-                width: 200px;
-            }
-
-            div {
-                display: inline-flex;
-                margin-bottom: 0;
-            }
-        }
+    .simple-input input {
+        display: block;
+        width: 100%;
     }
 
-    .simple-input {
-        height: 40px;
+}
 
-        display: flex;
-        align-items: center;
-
-        span {
-            flex: 0 0 200px;
-        }
-
-        input {
-            flex: 0 0 auto;
-        }
-
-    }
-
+#audit, #feedback {
+    width: 800px;
+    margin-left: -160px;
 }
 
 .disabled {
@@ -125,17 +130,6 @@ section.question {
 
     > section {
         flex: 1 1;
-    }
-
-    footer {
-        min-height: 50px;
-        flex: 0 1;
-        display: flex;
-        align-items: baseline;
-
-        #footer-links {
-            flex: 1;
-        }
     }
 }
 
