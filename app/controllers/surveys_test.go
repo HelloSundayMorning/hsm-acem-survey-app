@@ -131,12 +131,16 @@ func TestSendEmailFailingMandrill(t *testing.T) {
 }
 
 func emailParams() models.EmailTemplate {
+	var score uint = 10
 	return models.EmailTemplate{
-		Email:          "test@example.com",
-		Template:       "low-risk",
-		FrequencyChart: `<img src="http://thecatapi.com/api/images/get?format=src&type=gif">`,
-		AuditChart:     `<img src="http://thecatapi.com/api/images/get?format=src&type=gif">`,
-		RiskChart:      `<img src="http://thecatapi.com/api/images/get?format=src&type=gif">`,
+		Email:                "test@example.com",
+		Template:             "low-risk",
+		FrequencyChart:       "http://thecatapi.com/api/images/get?format=src&type=gif",
+		AuditChart:           "http://thecatapi.com/api/images/get?format=src&type=gif",
+		RiskChart:            "http://thecatapi.com/api/images/get?format=src&type=gif",
+		SurveyScore:          &score,
+		RiskFactorString:     "twice as likely",
+		PopulationPercentage: 70,
 	}
 }
 
