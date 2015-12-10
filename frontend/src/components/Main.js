@@ -38,6 +38,15 @@ function updateLocation(location, cb) {
 
 import * as bio from 'actions/bio'
 
+function Header() {
+    return (
+            <header>
+            Alcohol Screener
+            <img src='/images/ACEM_V1_CMYK.png' />
+            </header>
+    )
+}
+
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.location.action })(function(props) {
     return (
             <section id='intro'>
@@ -219,6 +228,7 @@ var Survey = React.createClass({
     render: function() {
         return (
                 <div>
+                <Header />
                 <ReactRedux.Provider store={s}>
                 <Router history={h}>
                 <Route path='/' component={Intro} />
