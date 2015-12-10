@@ -40,9 +40,16 @@ function drinkPercentage(age, gender, dailyScore) {
     if (dailyScore > 0) {
         percentage += rate.lowRisk;
     }
-    return percentage;
+    return Math.round(percentage);
 }
 
+const incidentRiskFactor = {
+    0: 'unlikely', // 1 or 2
+    1: 'twice as likely', // 3 or 4
+    2: '3 times more likely', // 5 or 6
+    3: '4-6 times more likely', // 7, 8 or 9
+    4: '7 times more likely' // 10 or more
+}
 
 function surveyScore(survey) {
     return survey.map(({answer}) => answer.score).reduce((a, b) => a + b)
@@ -85,6 +92,7 @@ export {
     surveyScore,
     dailyScore,
     riskCategory,
+    incidentRiskFactor,
     LOW_RISK,
     MODERATE_RISK,
     HIGH_RISK,

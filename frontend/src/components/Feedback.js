@@ -1,7 +1,7 @@
 import React from 'react'
 import { posting, postfailed } from  'actions/survey'
 import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
-import { drinkPercentage, riskCategory, DEPENDENCE_LIKELY } from 'src/surveyResults'
+import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } from 'src/surveyResults'
 
 function Feedback({ postStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
     let Prompt = riskComponentMap[riskCategory(surveyScore)]
@@ -47,25 +47,17 @@ function LowRiskPrompt({ surveyScore, dailyScore, age, gender }) {
     )
 }
 
-const incidentRiskFactor = {
-    0: 'unlikely', // 1 or 2
-    1: 'twice as likely', // 3 or 4
-    2: '3 times more likely', // 5 or 6
-    3: '4-6 times more likely', // 7, 8 or 9
-    4: '7 times more likely' // 10 or more
-}
-
 const riskComponentMap = {
-    "low-risk": LowRiskPrompt,
-    "moderate-risk": ModerateHighRiskPrompt,
-    "high-risk": ModerateHighRiskPrompt,
-    "dependence-likely": ModerateHighRiskPrompt
+    'low-risk': LowRiskPrompt,
+    'moderate-risk': ModerateHighRiskPrompt,
+    'high-risk': ModerateHighRiskPrompt,
+    'dependence-likely': ModerateHighRiskPrompt
 }
 
 function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
     const percentage = drinkPercentage(age, gender, dailyScore)
 
-    let dependencePrompt = ""
+    let dependencePrompt = ''
     if (riskCategory(surveyScore) === DEPENDENCE_LIKELY) {
         dependencePrompt = <p>
             Your patient is possibly dependent on alcohol and should receive further care by a specialist. Tell your patient: “I would like you to speak with our Drug and Alcohol specialist. If it’s OK with you, I’ll ask them to come and speak with you.
@@ -118,11 +110,11 @@ function FeedbackCharts({ surveyScore, dailyScore, age, gender }) {
 }
 
 function AuditScoreChart({ score }) {
-    return <Chart title="AUDIT Score" url={auditScoreGraphLink(score)} />
+    return <Chart title='AUDIT Score' url={auditScoreGraphLink(score)} />
 }
 
 function FrequencyChart({age, gender, dailyScore}) {
-    return <Chart title="Drink Frequency" url={frequencyGraphLink(age, gender, dailyScore)} />
+    return <Chart title='Drink Frequency' url={frequencyGraphLink(age, gender, dailyScore)} />
 }
 
 function RiskFactorChart({dailyScore}) {

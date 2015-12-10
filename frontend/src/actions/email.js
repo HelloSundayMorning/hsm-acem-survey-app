@@ -44,14 +44,18 @@ function mapState(email, state) {
     const { age, gender } = state.bio
     const dailyScore = surveyData.dailyScore(state.survey)
     const surveyScore = surveyData.surveyScore(state.survey)
-    const template = surveyData.riskCategory(surveyScore)
+    const template = surveyData.riskCategory(surveyScore)  === surveyData.LOW_RISK ? 'low-risk' : 'high-risk'
+    const riskFactorString = surveyData.incidentRiskFactor[dailyScore]
 
     return {
         Email: email,
         Template: template,
-        FrequencyChart: `<img src="${frequencyGraphLink(age, gender, dailyScore)}">`,
-        RiskChart: `<img src="${riskFactorGraphLink(dailyScore)}">`,
-        AuditChart: `<img src="${auditScoreGraphLink(surveyScore)}">`
+        FrequencyChart: frequencyGraphLink(age, gender, dailyScore),
+        RiskChart: riskFactorGraphLink(dailyScore),
+        AuditChart: auditScoreGraphLink(surveyScore),
+        SurveyScore: surveyScore,
+        RiskFactorString: riskFactorString,
+        PopulationPercentage: surveyData.drinkPercentage(age, gender, dailyScore)
     }
 }
 

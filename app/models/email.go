@@ -21,6 +21,17 @@ type EmailTemplate struct {
 	// Mandrill template to use
 	Template string `binding:"required"`
 
+	// Total score of survey
+	SurveyScore *uint `binding:"exists"` // `binding:"required"` rejects a value of 0, and "exists" requires a pointer to work correctly
+
+	// Text fragment for risk factor (twice as likely, 3 times as likely, etc)
+	RiskFactorString string `binding:"required"`
+
+	// Number 0-100 that indicates percentage of similar population
+	// that drinks less than the patient as indicated by their survey
+	// results.
+	PopulationPercentage uint `binding:"required"`
+
 	// Chart image tags that link to (deprecated) Google Static Charts
 	FrequencyChart string `binding:"required"`
 	AuditChart     string `binding:"required"`
@@ -37,12 +48,17 @@ func SendCompletedMail(t EmailTemplate) (err error) {
 	message.AddRecipient(t.Email, t.Email, "to")
 
 	data := map[string]string{
-		"frequency-chart": t.FrequencyChart,
-		"risk-chart":      t.RiskChart,
-		"audit-chart":     t.AuditChart,
+		"FREQUENCY_CHART":  t.FrequencyChart,
+		"RISK_CHART":       t.RiskChart,
+		"AUDIT_CHART":      t.AuditChart,
+		"RISK_FACTOR":      t.RiskFactorString,
+		"SURVEY_SCORE":     fmt.Sprintf("%d", *t.SurveyScore),
+		"DRINK_PERCENTAGE": fmt.Sprintf("%d", t.PopulationPercentage),
 	}
 
-	responses, err := config.Mandrill.Client.MessagesSendTemplate(&message, t.Template, data)
+	message.GlobalMergeVars = mandrill.ConvertMapToVariables(data)
+
+	responses, err := config.Mandrill.Client.MessagesSendTemplate(&message, t.Template, nil)
 	if err != nil {
 		return
 	}
