@@ -1,9 +1,12 @@
 import React from 'react'
-import { posting, postfailed } from  'actions/survey'
+import { posting, postFailed } from  'actions/survey'
 import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
 import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } from 'src/surveyResults'
+import * as email from 'actions/email'
+import PoorSnackbar from 'components/PoorSnackbar'
+import EmptyComponent from 'components/EmptyComponent'
 
-function Feedback({ postStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
+function Feedback({ postStatus, emailStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
     let Prompt = riskComponentMap[riskCategory(surveyScore)]
 
     return (
@@ -15,19 +18,37 @@ function Feedback({ postStatus, emailToPatient, emailTo, surveyScore, dailyScore
             <div id='section-buttons'>
             <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={emailToPatient}>Email to Patient</button>
             <button className='mdl-button mdl-button--raised mdl-button--colored'  onClick={emailTo}>Email to…</button>
+
+            <EmailStatus key={emailStatus} status={emailStatus} />
             </div>
             </section>
     );
 }
 
 function PostingStatus({ status }) {
-    if (status == posting) {
-        return <p>Posting survey</p>
-    } else if (status == postfailed) {
-        return <p>failed to post survey</p>
+    let text = ''
+    if (status === posting) {
+        text  = 'Saving survey…'
+    } else if (status === postFailed) {
+        text  = 'Failed to save survey.'
     } else {
-        return <p>Posted survey</p>
+        text  = 'Survey saved.'
     }
+    return <PoorSnackbar text={text} />
+}
+
+function EmailStatus({ status }) {
+    let text = ''
+    if (status === null) {
+        return <EmptyComponent />
+    } else if (status === email.emailSending) {
+        text = 'Sending email…'
+    } else if (status === email.emailFailed) {
+        text = 'Failed to send email.'
+    } else {
+        text = 'Email sent.'
+    }
+    return <PoorSnackbar text={text} />
 }
 
 function LowRiskPrompt({ surveyScore, dailyScore, age, gender }) {

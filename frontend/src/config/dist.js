@@ -1,9 +1,4 @@
-function emptyComponent() {
-    return {
-        render: () => null
-    }
-}
-
+import emptyComponent from 'components/EmptyComponent'
 
 const debugPanel = {
     component: emptyComponent,

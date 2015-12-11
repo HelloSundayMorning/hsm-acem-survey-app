@@ -4,7 +4,8 @@ const initialState = {
     lastQuestion: 0,
     interviewer: null,
     location: '',
-    postingSurvey: null
+    postingSurvey: null,
+    postingEmail: null
 }
 
 export default initialState

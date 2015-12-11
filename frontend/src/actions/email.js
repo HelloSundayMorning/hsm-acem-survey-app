@@ -2,41 +2,55 @@ import * as config from 'config'
 import { frequencyGraphLink, auditScoreGraphLink, riskFactorGraphLink } from 'components/Graphs'
 import * as surveyData from 'src/surveyResults'
 
+const emailSending = 'EMAIL_SENDING'
+const emailSent = 'EMAIL_SENT'
+const emailFailed = 'EMAIL_FAILED'
+
 const emailToPatient = () => (dispatch, getState) => {
     const state = getState()
     const { bio: { email }} = state
     if (/@/.test(email)) {
-        deliverEmail(email, state)
+        deliverEmail(email, state, dispatch)
     } else {
-        askAndDeliverEmail(state)
+        askAndDeliverEmail(state, dispatch)
     }
 }
 
 const emailTo = () => (dispatch, getState) => {
-    askAndDeliverEmail(getState())
+    askAndDeliverEmail(getState(), dispatch)
 }
 
 
-function deliverEmail(email, state) {
+function deliverEmail(email, state, dispatch) {
+    dispatch({
+        type: emailSending
+    })
+
     postEmail(email, state).then(response => {
         if (response.status < 400) {
-            // FIXME Do what on success?
+            dispatch({
+                type: emailSent
+            })
         } else {
             const error = new Error(response.statusText)
             error.response = response
             throw error
         }
-    }).catch(failure)
+    }).catch(failure.bind(null, dispatch))
 }
 
-function failure(ex) {
-    // FIXME Log this error into...?
+function failure(dispatch, ex) {
+    dispatch({
+        type: emailFailed
+    })
+
+    throw ex
 }
 
-function askAndDeliverEmail(state) {
+function askAndDeliverEmail(state, dispatch) {
     var email = window.prompt('Enter email address');
     if (email !== null) {
-        deliverEmail(email, state);
+        deliverEmail(email, state, dispatch);
     } // else user cancelled the prompt
 }
 
@@ -73,5 +87,8 @@ function postEmail(email, state) {
 
 export {
     emailToPatient,
-    emailTo
+    emailTo,
+    emailSending,
+    emailSent,
+    emailFailed
 }

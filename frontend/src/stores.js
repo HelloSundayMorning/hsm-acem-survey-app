@@ -15,6 +15,8 @@ import routeChanged from 'reducers/routeChanged'
 import * as bio from 'actions/bio'
 import { default as bioReducer } from 'reducers/bio'
 
+import * as email from 'actions/email'
+
 let reducerMap = {}
 reducerMap[HISTORY] = routeChanged
 
@@ -26,6 +28,11 @@ const postingSurvey = on('postingSurvey', actionType)
 reducerMap[survey.posting] = postingSurvey
 reducerMap[survey.posted] = postingSurvey
 reducerMap[survey.postFailed] = postingSurvey
+
+const postingEmail = on('postingEmail', actionType)
+reducerMap[email.emailSending] = postingEmail
+reducerMap[email.emailSent] = postingEmail
+reducerMap[email.emailFailed] = postingEmail
 
 var ANSWER = 'ANSWER';
 

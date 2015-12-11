@@ -54,7 +54,7 @@ function Header() {
 
 var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.location.action })(function(props) {
     return (
-        <div className='survey-page'>
+            <div className='survey-page'>
             <section id='intro'>
             <h1>The FRAMES model</h1>
 
@@ -206,6 +206,7 @@ var Frames = React.createClass({
 const fbPage = ReactRedux.connect(
     state => ({
         postStatus: state.postingSurvey,
+        emailStatus: state.postingEmail,
         surveyScore: surveyScore(state.survey),
         dailyScore: dailyScore(state.survey),
         age: state.bio.age,

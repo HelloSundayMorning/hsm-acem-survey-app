@@ -34,10 +34,11 @@ function postState(state) {
 }
 
 function failure(dispatch, ex) {
-    // FIXME Log this error into...?
     dispatch({
         type: postFailed
     })
+
+    throw ex
 }
 
 function mapState({ location, bio, interviewer, survey }) {
