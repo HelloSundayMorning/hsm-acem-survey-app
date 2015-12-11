@@ -60,16 +60,17 @@
     "redux-devtools": "^2.1.5"
   },
   "dependencies": {
+    "history": "^1.13.1",
     "lodash": "^3.10.1",
+    "node-sass": "^3.3.3",
     "normalize.css": "^3.0.3",
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
     "react-dom": "^0.14.0",
-    "sass-loader": "^1.0.1",
-    "node-sass": "^3.3.3",
-    "history": "^1.13.1",
     "react-redux": "^4.0.0",
     "react-router": "^1.0.0",
-    "redux": "^3.0.4"
+    "redux": "^3.0.4",
+    "sass-loader": "^1.0.1",
+    "scroll-behavior": "^0.3.0"
   }
 }

@@ -6,6 +6,7 @@ import React from 'react'
 import * as ReactRedux from 'react-redux';
 import { Router, Route, Link } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
+import useScroll from 'scroll-behavior/lib/useScrollToTop'
 import Question from 'components/Question'
 import AuditPage from 'components/AuditPage'
 import SurveyPage from 'components/SurveyPage'
@@ -224,7 +225,7 @@ var routeMap = {
 var pageOrder = ['/', 'info', 'audit', 'feedback', 'frames']
 
 var s = store.NewStore()
-var h = createBrowserHistory()
+var h = useScroll(createBrowserHistory)()
 h.listen(l => s.dispatch(history(l)))
 
 initialiseLocation(s, Locations, bio.location.action)
