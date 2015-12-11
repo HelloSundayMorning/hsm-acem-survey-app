@@ -15,6 +15,9 @@ import * as email from 'actions/email'
 import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
 import logo from 'src/images/ACEM_V1_CMYK.png' // @_@
+import installPolyfills from 'src/polyfills'
+
+installPolyfills()
 
 var store = require('../stores');
 

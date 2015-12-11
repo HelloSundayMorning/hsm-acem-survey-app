@@ -7,7 +7,7 @@ const asInt = s => {
     if (s === '' || isNaN(ns)) {
         return null
     } else {
-        return Math.trunc(ns)
+        return Math.floor(ns)
     }
 }
 
