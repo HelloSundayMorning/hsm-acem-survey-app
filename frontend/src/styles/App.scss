@@ -62,47 +62,7 @@ header {
 
 }
 
-
-#intro, #basic-info, #reminder {
-    width: 480px;
-    margin: 0 auto;
-}
-
-
-#intro {
-    display: flex;
-    flex-direction: column;
-
-    #start-survey {
-        align-self: center;
-
-        margin: 20px 0;
-    }
-}
-
-h1 {
-    font-weight: regular;
-    text-align: center;
-    font-family: Roboto-Regular, sans-serif;
-    font-size: 24px;
-    line-height: 32px;
-}
-
-.mdl-button {
-    height: 40px;
-    line-height: 40px;
-}
-.mdl-button--colored {
-    color: white !important;
-
-    &[disabled] {
-        color: $light-grey !important;
-    }
-}
-
 footer {
-    margin: 0 auto;
-    width: 480px;
     min-height: 70px;
     flex: 0 1;
     display: flex;
@@ -134,6 +94,21 @@ footer {
     }
 }
 
+h1 {
+    font-weight: regular;
+    text-align: center;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+h2 {
+    font-family: Roboto-Medium, sans-serif;
+    font-size: 20px;
+    color: $black;
+    line-height: 24px;
+}
+
 blockquote {
     background: #EEEEEE;
     border-radius: 4px;
@@ -142,25 +117,50 @@ blockquote {
     font-size: 14px;
     color: black;
     line-height: 24px;
+    margin: 0 0 48px;
+    padding: 24px 24px 8px;
 
     /* Override all the MDL defaults */
     font-weight: normal;
     font-style: normal;
     letter-spacing: inherit;
-    margin: 0;
-    padding: 24px 24px 8px;
-    margin-bottom: 48px;
-
-    h2 {
-        font-family: Roboto-Medium, sans-serif;
-        font-size: 20px;
-        color: $black;
-        line-height: 24px;
-    }
-
     &:before,
     &:after {
         content: none;
+    }
+}
+
+/* Override MDL defaults. For some reason, Cyan as a primary colour
+   comes with black text on buttons */
+.mdl-button {
+    height: 40px;
+    line-height: 40px;
+}
+.mdl-button--colored {
+    color: white !important;
+
+    &[disabled] {
+        color: $light-grey !important;
+    }
+}
+
+.survey-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    > section {
+        flex: 1 1;
+    }
+}
+
+.instructions {
+    h2 {
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 13px;
+        color: $light-grey;
+        line-height: 12px;
+        margin: 36px 0 18px;
     }
 }
 
@@ -208,7 +208,7 @@ section.question {
                 line-height: 16px;
             }
             &.mdl-button--colored span {
-                color: white;
+                color: inherit;
             }
         }
 
@@ -219,6 +219,26 @@ section.question {
 
 }
 
+#intro, #basic-info, #reminder, footer {
+    width: 480px;
+    margin: 0 auto;
+}
+
+#audit, #feedback {
+    width: 721px;
+    margin: 0 auto;
+}
+
+#intro {
+    display: flex;
+    flex-direction: column;
+
+    #start-survey {
+        align-self: center;
+
+        margin: 20px 0;
+    }
+}
 
 #basic-info {
 
@@ -259,11 +279,6 @@ section.question {
 
 }
 
-#audit, #feedback {
-    width: 721px;
-    margin: 0 auto;
-}
-
 #audit {
     .question {
         height: 160px;
@@ -274,21 +289,10 @@ section.question {
             color: $black;
             line-height: 24px;
         }
-    }
-}
 
-
-.disabled {
-    opacity: 0.1;
-}
-
-.survey-page {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-
-    > section {
-        flex: 1 1;
+        &.disabled {
+            opacity: 0.1;
+        }
     }
 }
 
@@ -312,25 +316,5 @@ section.question {
                 font-weight: bold;
             }
         }
-    }
-}
-
-#reminder {
-    h2 {
-        font-family: Roboto-Medium, sans-serif;
-        font-size: 20px;
-        color: $black;
-        line-height: 24px;
-    }
-}
-
-.instructions {
-    h2 {
-        /* Read this to your pa: */
-        font-family: Roboto-Regular, sans-serif;
-        font-size: 13px;
-        color: $light-grey;
-        line-height: 12px;
-        margin: 36px 0 18px;
     }
 }

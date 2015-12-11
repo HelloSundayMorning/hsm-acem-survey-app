@@ -61,9 +61,7 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
 
     let dependencePrompt = ''
     if (riskCategory(surveyScore) === DEPENDENCE_LIKELY) {
-        dependencePrompt = <p>
-            Your patient is possibly dependent on alcohol and should receive further care by a specialist. Tell your patient: “I would like you to speak with our Drug and Alcohol specialist. If it’s OK with you, I’ll ask them to come and speak with you.
-            </p>
+        dependencePrompt = DependencePrompt()
     }
 
     return (
@@ -98,11 +96,23 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
             </blockquote>
             </section>
 
-        {dependencePrompt}
+            {dependencePrompt}
 
             </section>
     )
 }
+
+function DependencePrompt() {
+    return (
+            <section>
+            <h2>Your patient is possibly dependent on alcohol and should receive further care by a specialist.</h2>
+            <p>
+            <strong>Tell your patient:</strong> “I would like you to speak with our Drug and Alcohol specialist. If it’s OK with you, I’ll ask them to come and speak with you.
+            </p>
+            </section>
+    )
+}
+
 
 function FeedbackCharts({ surveyScore, dailyScore, age, gender }) {
     return (
