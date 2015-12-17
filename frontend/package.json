@@ -34,8 +34,10 @@
     "eslint": "^1.2.1",
     "eslint-loader": "^1.0.0",
     "eslint-plugin-react": "^3.3.0",
+    "exports-loader": "^0.6.2",
     "file-loader": "^0.8.4",
     "glob": "^5.0.15",
+    "imports-loader": "^0.6.5",
     "isparta-instrumenter-loader": "^1.0.0",
     "karma": "^0.13.9",
     "karma-chai": "^0.1.0",
@@ -52,12 +54,12 @@
     "open": "0.0.5",
     "phantomjs": "^1.9.18",
     "react-hot-loader": "^1.2.9",
+    "redux-devtools": "^2.1.5",
     "rimraf": "^2.4.3",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.0",
-    "webpack-dev-server": "^1.12.0",
-    "redux-devtools": "^2.1.5"
+    "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
     "history": "^1.13.1",
@@ -70,6 +72,7 @@
     "react-redux": "^4.0.0",
     "react-router": "^1.0.0",
     "redux": "^3.0.4",
+    "redux-thunk": "^1.0.2",
     "sass-loader": "^1.0.1",
     "scroll-behavior": "^0.3.0"
   }
