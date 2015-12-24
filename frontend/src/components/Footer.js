@@ -17,20 +17,20 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
     const pageCount = pageOrder.length;
 
     return (
-            <footer className={'page-'+thisPage}>
+        <footer className={'page-'+thisPage}>
             <section id='footer-links'>
-            {pageOrder.map((result, j) => {
-                const page = routeMap[result];
-                const fn = <FooterLink key={page} currentPageIdx={i} thisPageIdx={j} title={page[1]} target={result} />
-                if (j == pageCount - 1) {
-                    return fn
-                } else {
-                    return <span key={page}>{fn}<span className='footer-separator'>›</span></span>
-                }
-            })}
-        </section>
+                {pageOrder.map((result, j) => {
+                     const page = routeMap[result];
+                     const fn = <FooterLink key={page} currentPageIdx={i} thisPageIdx={j} title={page[1]} target={result} />
+                     if (j == pageCount - 1) {
+                         return fn
+                     } else {
+                         return <span key={page}>{fn}<span className='footer-separator'>›</span></span>
+                     }
+                 })}
+            </section>
             <Continue className='mdl-button mdl-button--raised mdl-button--colored' link={link} label={label} />
-            </footer>
+        </footer>
     );
 });
 
@@ -55,9 +55,9 @@ var SpanToNext = function(props) {
 function valid(page, { interviewer, bio, survey, lastQuestion }) {
     if (page === 'info') {
         return !!interviewer &&
-            !!bio.gender &&
-            !!bio.age &&
-            !!bio.postcode
+               !!bio.gender &&
+               !!bio.age &&
+               !!bio.postcode
     } else if (page === 'audit') {
         for (var i = 0; i <= lastQuestion; ++i) {
             if (!survey[i] || !survey[i].answer) {

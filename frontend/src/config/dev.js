@@ -5,9 +5,9 @@ import { devTools } from 'redux-devtools'
 
 function debugPanelComponent({ store }) {
     return (
-            <ReduxDev.DebugPanel top right bottom>
+        <ReduxDev.DebugPanel top right bottom>
             <ReduxDev.DevTools store={store} monitor={ReduxDev.LogMonitor} />
-            </ReduxDev.DebugPanel>
+        </ReduxDev.DebugPanel>
     )
 }
 

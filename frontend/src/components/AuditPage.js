@@ -3,16 +3,16 @@ import Question from 'components/Question'
 
 const AuditPage = ({ survey, lastQuestion, update }) => {
     const change = (i) =>
-          (event, question, answer) => {
-              update(i, question, answer)
-          }
+        (event, question, answer) => {
+            update(i, question, answer)
+        }
 
     return (
-            <section id='audit'>
+        <section id='audit'>
             <h1>Audit Questionnaire</h1>
             {auditQuestions.map((q, i) =>
-                                <Question key={q.key || q.text} q={q} onChange={change(i)} value={(survey[i] || {answer: {}}).answer.text} disabled={i > lastQuestion} />
-                          )}
+                <Question key={q.key || q.text} q={q} onChange={change(i)} value={(survey[i] || {answer: {}}).answer.text} disabled={i > lastQuestion} />
+             )}
         </section>
     );
 }

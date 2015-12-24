@@ -7,10 +7,10 @@ const SurveyPage = ({ route, params }) => {
     const page = params.survey_page;
     const Component = routeMap[page][0];
     return (
-            <div className='survey-page'>
+        <div className='survey-page'>
             <Component />
             <Footer routeMap={routeMap} pageOrder={pageOrder} thisPage={page} />
-            </div>
+        </div>
     )
 }
 
