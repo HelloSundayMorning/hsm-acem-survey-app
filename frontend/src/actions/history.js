@@ -1,18 +1,13 @@
 import post from 'actions/survey'
-
-const type = 'HISTORY'
+import { HISTORY } from 'src/constants'
 
 export default location => {
     if (location.pathname === 'feedback') {
         return post
     } else {
         return {
-            type,
+            type: HISTORY,
             location
         }
     }
-}
-
-export {
-    type
 }

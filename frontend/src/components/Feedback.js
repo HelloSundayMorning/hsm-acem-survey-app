@@ -1,8 +1,7 @@
 import React from 'react'
-import { posting, postFailed } from  'actions/survey'
+import { POSTING_SURVEY, SURVEY_POST_FAILED, EMAIL_SENDING, EMAIL_FAILED } from  'src/constants'
 import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
 import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } from 'src/surveyResults'
-import * as email from 'actions/email'
 import PoorSnackbar from 'components/PoorSnackbar'
 import EmptyComponent from 'components/EmptyComponent'
 
@@ -27,9 +26,9 @@ function Feedback({ postStatus, emailStatus, emailToPatient, emailTo, surveyScor
 
 function PostingStatus({ status }) {
     let text = ''
-    if (status === posting) {
+    if (status === POSTING_SURVEY) {
         text  = 'Saving survey…'
-    } else if (status === postFailed) {
+    } else if (status === SURVEY_POST_FAILED) {
         text  = 'Failed to save survey.'
     } else {
         text  = 'Survey saved.'
@@ -41,9 +40,9 @@ function EmailStatus({ status }) {
     let text = ''
     if (status === null) {
         return <EmptyComponent />
-    } else if (status === email.emailSending) {
+    } else if (status === EMAIL_SENDING) {
         text = 'Sending email…'
-    } else if (status === email.emailFailed) {
+    } else if (status === EMAIL_FAILED) {
         text = 'Failed to send email.'
     } else {
         text = 'Email sent.'

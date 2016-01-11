@@ -4,41 +4,34 @@ import thunk from 'redux-thunk';
 import * as config from 'config'
 import initialState from 'stores/initialState'
 
+import * as actions from 'src/constants'
+
 import { on, actionValue, actionType } from 'reducers/generic'
-
-import * as survey from 'actions/survey'
 import updateSurvey from 'reducers/survey'
-
-import { type as HISTORY } from 'actions/history'
 import routeChanged from 'reducers/routeChanged'
-
-import * as bio from 'actions/bio'
 import { default as bioReducer } from 'reducers/bio'
 
-import * as email from 'actions/email'
 
 let reducerMap = {}
-reducerMap[HISTORY] = routeChanged
+reducerMap[actions.HISTORY] = routeChanged
 
-reducerMap[bio.interviewer.type] = on('interviewer', actionValue)
-reducerMap[bio.bio.type] = on('bio', bioReducer)
-reducerMap[bio.location.type] = on('location', actionValue)
+reducerMap[actions.SET_INTERVIEWER] = on('interviewer', actionValue)
+reducerMap[actions.UPDATE_BIO] = on('bio', bioReducer)
+reducerMap[actions.UPDATE_LOCATION] = on('location', actionValue)
 
 const postingSurvey = on('postingSurvey', actionType)
-reducerMap[survey.posting] = postingSurvey
-reducerMap[survey.posted] = postingSurvey
-reducerMap[survey.postFailed] = postingSurvey
+reducerMap[actions.POSTING_SURVEY] = postingSurvey
+reducerMap[actions.SURVEY_POSTED] = postingSurvey
+reducerMap[actions.SURVEY_POST_FAILED] = postingSurvey
 
 const postingEmail = on('postingEmail', actionType)
-reducerMap[email.emailSending] = postingEmail
-reducerMap[email.emailSent] = postingEmail
-reducerMap[email.emailFailed] = postingEmail
-
-var ANSWER = 'ANSWER';
+reducerMap[actions.EMAIL_SENDING] = postingEmail
+reducerMap[actions.EMAIL_SENT] = postingEmail
+reducerMap[actions.EMAIL_FAILED] = postingEmail
 
 function Answer(index, question, answer) {
     return {
-        type: ANSWER,
+        type: actions.ANSWER,
         index: index,
         question: question,
         answer: answer
@@ -49,7 +42,7 @@ function Answer(index, question, answer) {
 function surveyApp(state, action) {
     if (typeof state === 'undefined') {
         return initialState;
-    } else if (action.type === ANSWER) {
+    } else if (action.type === actions.ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
     } else if (!!reducerMap[action.type]) {
         return reducerMap[action.type](state, action)

@@ -1,14 +1,11 @@
 import * as config from 'config'
-
-const posting = 'POSTING_SURVEY'
-const posted = 'SURVEY_POSTED'
-const postFailed = 'SURVEY_POST_FAILED'
+import { POSTING_SURVEY, SURVEY_POSTED, SURVEY_POST_FAILED } from 'src/constants'
 
 function action(dispatch, getState) {
     postState(getState()).then(response => {
         if (response.status < 400) {
             dispatch({
-                type: posted
+                type: SURVEY_POSTED
             })
         } else {
             const error = new Error(response.statusText)
@@ -18,7 +15,7 @@ function action(dispatch, getState) {
     }).catch(failure.bind(null, dispatch))
 
     dispatch({
-        type: posting
+        type: POSTING_SURVEY
     })
 }
 
@@ -35,7 +32,7 @@ function postState(state) {
 
 function failure(dispatch, ex) {
     dispatch({
-        type: postFailed
+        type: SURVEY_POST_FAILED
     })
 
     throw ex
@@ -54,7 +51,4 @@ export default action
 
 export {
     action,
-    posting,
-    posted,
-    postFailed
 }

@@ -1,10 +1,7 @@
 import * as config from 'config'
 import { frequencyGraphLink, auditScoreGraphLink, riskFactorGraphLink } from 'components/Graphs'
 import * as surveyData from 'src/surveyResults'
-
-const emailSending = 'EMAIL_SENDING'
-const emailSent = 'EMAIL_SENT'
-const emailFailed = 'EMAIL_FAILED'
+import { EMAIL_SENDING, EMAIL_SENT, EMAIL_FAILED } from 'src/constants'
 
 const emailToPatient = () => (dispatch, getState) => {
     const state = getState()
@@ -23,13 +20,13 @@ const emailTo = () => (dispatch, getState) => {
 
 function deliverEmail(email, state, dispatch) {
     dispatch({
-        type: emailSending
+        type: EMAIL_SENDING
     })
 
     postEmail(email, state).then(response => {
         if (response.status < 400) {
             dispatch({
-                type: emailSent
+                type: EMAIL_SENT
             })
         } else {
             const error = new Error(response.statusText)
@@ -41,7 +38,7 @@ function deliverEmail(email, state, dispatch) {
 
 function failure(dispatch, ex) {
     dispatch({
-        type: emailFailed
+        type: EMAIL_FAILED
     })
 
     throw ex
@@ -87,8 +84,5 @@ function postEmail(email, state) {
 
 export {
     emailToPatient,
-    emailTo,
-    emailSending,
-    emailSent,
-    emailFailed
+    emailTo
 }
