@@ -130,9 +130,15 @@ function DependencePrompt() {
     return (
         <section>
             <h2>Your patient is possibly dependent on alcohol and should receive further care by a specialist.</h2>
+
             <p>
-                <strong>Tell your patient:</strong> “I would like you to speak with our Drug and Alcohol specialist. If it’s OK with you, I’ll ask them to come and speak with you.
+                <strong>Tell your patient:</strong> “The answers you’ve given me indicate that you maybe dependent on alcohol. I am going to refer you to a drug and alcohol clinician now.”
             </p>
+
+            <p>
+                <strong>If out of hours or unavailable, tell your patient:</strong> “I am going to give you a card with contact details for DirectLine 24 hours counselling and referral in your area – (1800 888 236), and I will let your doctor here know.”
+            </p>
+
         </section>
     )
 }
