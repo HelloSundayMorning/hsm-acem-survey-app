@@ -6,7 +6,7 @@ import (
 
 	// Using postgres sql driver
 	_ "github.com/lib/pq"
-	"github.com/qor/qor/validations"
+	"github.com/qor/validations"
 
 	"github.com/jinzhu/gorm"
 	"github.com/theplant/hsm-acem-survey-app/config"

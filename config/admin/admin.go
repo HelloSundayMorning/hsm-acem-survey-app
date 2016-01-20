@@ -6,7 +6,7 @@ import (
 
 	"github.com/qor/qor"
 	"github.com/qor/qor/admin"
-	"github.com/qor/qor/roles"
+	"github.com/qor/roles"
 
 	"github.com/theplant/hsm-acem-survey-app/app/models"
 	"github.com/theplant/hsm-acem-survey-app/db"
@@ -22,7 +22,7 @@ func init() {
 	Admin.SetAuth(Auth{})
 
 	// Register roles "admin"
-	roles.Register("admin", func(req *http.Request, currentUser qor.CurrentUser) bool {
+	roles.Register("admin", func(req *http.Request, currentUser interface{}) bool {
 		if currentUser != nil && currentUser.(*models.User).IsAdmin() {
 			return true
 		}

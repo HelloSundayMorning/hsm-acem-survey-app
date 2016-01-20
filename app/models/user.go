@@ -6,7 +6,7 @@ import (
 
 	"github.com/asaskevich/govalidator"
 	"github.com/jinzhu/gorm"
-	"github.com/qor/qor/validations"
+	"github.com/qor/validations"
 	"github.com/theplant/hsm-acem-survey-app/db"
 	"golang.org/x/crypto/bcrypt"
 )
