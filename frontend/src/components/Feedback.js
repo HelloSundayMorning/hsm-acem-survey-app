@@ -108,11 +108,11 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
 
                     <p>And I can say that at the moment, the way you are using alcohol, that I am concerned for your health and safety.</p>
 
-                    <p>Do you think you are drinking too much?</p>
+                    <p>What concerns you most about this information?</p>
 
                     <p>&lt;listen to response></p>
 
-                    <p>Do you want to change how much you are drinking?</p>
+                    <p>How do you think you can reduce these risks?</p>
 
                     <p>&lt;listen to response></p>
 
