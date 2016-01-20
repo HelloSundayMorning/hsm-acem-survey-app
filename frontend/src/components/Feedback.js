@@ -157,7 +157,7 @@ function FrequencyChart({age, gender, dailyScore}) {
 }
 
 function RiskFactorChart({dailyScore}) {
-    return <Chart title='Risks of Harm' url={riskFactorGraphLink(dailyScore)} />
+    return <Chart title='Risk of hospitalisation' url={riskFactorGraphLink(dailyScore)} />
 }
 
 function Chart({title, url}) {
