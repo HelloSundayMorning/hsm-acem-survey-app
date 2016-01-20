@@ -50,5 +50,5 @@ function mapState({ location, bio, interviewer, survey }) {
 export default action
 
 export {
-    action,
+    action
 }

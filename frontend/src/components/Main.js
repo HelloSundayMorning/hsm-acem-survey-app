@@ -117,24 +117,24 @@ var genderQuestion = {
 }
 
 var PatientBio = React.createClass({
-    handleChange: function(input) {
+    handleChange(input) {
         this.props.update(input.value, input.name)
     },
-    render: function() {
+    render() {
         return (
             <fieldset id='patient-bio'>
                 <legend>Patient Information</legend>
                 <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-                <label className='simple-input'>Age: <input type='number' min='0' name='age' value={this.props.bio.age} onChange={(event) => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Postcode: <input type='number' name='postcode' value={this.props.bio.postcode} onChange={(event) => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Patient email (optional): <input type='email' name='email' value={this.props.bio.email} onChange={(event) => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Patient mobile (optional): <input type='tel' name='phone' value={this.props.bio.phone}  onChange={(event) => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Age: <input type='number' min='0' name='age' value={this.props.bio.age} onChange={event => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Postcode: <input type='number' name='postcode' value={this.props.bio.postcode} onChange={event => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Patient email (optional): <input type='email' name='email' value={this.props.bio.email} onChange={event => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Patient mobile (optional): <input type='tel' name='phone' value={this.props.bio.phone}  onChange={event => this.handleChange(event.target)}/></label>
             </fieldset>
         )
     }
 });
 
-var PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: bio.bio.action})(PatientBio);
+PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: bio.bio.action})(PatientBio);
 
 
 var Interviewer = ReactRedux.connect(function(s) {
@@ -147,7 +147,7 @@ var Interviewer = ReactRedux.connect(function(s) {
 })
 
 var BasicInfo = React.createClass({
-    render: function() {
+    render() {
         return (
             <section id='basic-info'>
                 <h1>Basic Information</h1>
@@ -192,7 +192,7 @@ h.listen(l => s.dispatch(history(l)))
 initialiseLocation(s, Locations, bio.location.action)
 
 var Survey = React.createClass({
-    render: function() {
+    render() {
         return (
             <div>
                 <Header />

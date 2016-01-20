@@ -2,7 +2,7 @@ import React from 'react'
 import Question from 'components/Question'
 
 const AuditPage = ({ survey, lastQuestion, update }) => {
-    const change = (i) =>
+    const change = i =>
         (event, question, answer) => {
             update(i, question, answer)
         }

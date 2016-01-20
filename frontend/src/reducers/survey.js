@@ -10,7 +10,7 @@ function updateSurvey({ survey: oldSurvey, bio: { gender } }, { index, question,
 
     survey[index] = {
         question: question.text,
-        answer: answer
+        answer
     }
 
     let last = lastQuestion(survey, gender)

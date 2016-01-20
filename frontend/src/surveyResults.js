@@ -59,7 +59,7 @@ function dailyScore(survey) {
     // Q2 is index 1 (remember, 0-based!)
     let answer = survey[1]
 
-    return !!answer ? answer.answer.score : 0
+    return answer ? answer.answer.score : 0
 }
 
 const LOW_RISK = 'low-risk'

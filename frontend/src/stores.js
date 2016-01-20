@@ -32,9 +32,9 @@ reducerMap[actions.EMAIL_FAILED] = postingEmail
 function Answer(index, question, answer) {
     return {
         type: actions.ANSWER,
-        index: index,
-        question: question,
-        answer: answer
+        index,
+        question,
+        answer
     }
 }
 
@@ -44,13 +44,13 @@ function surveyApp(state, action) {
         return initialState;
     } else if (action.type === actions.ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
-    } else if (!!reducerMap[action.type]) {
+    } else if (reducerMap[action.type]) {
         return reducerMap[action.type](state, action)
     }
 
     var newState = Object.assign({}, state);
 
-    if (!!action.value) {
+    if (action.value) {
         newState[action.field] = action.value;
     } else {
         newState = state; // Don't make a new one
@@ -61,9 +61,7 @@ function surveyApp(state, action) {
 const create = config.debugPanel.storeMiddleware(applyMiddleware(thunk))(createStore)
 
 module.exports = {
-    NewStore: () => {
-        return create(surveyApp);
-    },
+    NewStore: () => create(surveyApp),
 
     SurveyApp: surveyApp,
 

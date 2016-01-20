@@ -5,7 +5,7 @@ export default () => {
             enumerable: false,
             configurable: true,
             writable: true,
-            value: function(target) {
+            value(target) {
                 'use strict';
                 if (target === undefined || target === null) {
                     throw new TypeError('Cannot convert first argument to object');

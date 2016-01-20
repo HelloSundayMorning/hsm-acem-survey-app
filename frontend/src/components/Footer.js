@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 
 const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, state }) => {
     const i = pageOrder.indexOf(thisPage);
+    let label = 'Done';
+    let link = '/';
     if (i < pageOrder.length - 1) {
-        var label = 'Continue'
-        var link = pageOrder[i+1]
-    } else {
-        var label = 'Done'
-        var link = '/'
+        label = 'Continue'
+        link = pageOrder[i+1]
     }
 
     const Continue = valid(thisPage, state) ? LinkToNext : SpanToNext;
@@ -20,14 +19,14 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
         <footer className={'page-'+thisPage}>
             <section id='footer-links'>
                 {pageOrder.map((result, j) => {
-                     const page = routeMap[result];
-                     const fn = <FooterLink key={page} currentPageIdx={i} thisPageIdx={j} title={page[1]} target={result} />
-                     if (j == pageCount - 1) {
-                         return fn
-                     } else {
-                         return <span key={page}>{fn}<span className='footer-separator'>›</span></span>
-                     }
-                 })}
+                    const page = routeMap[result];
+                    const fn = <FooterLink key={page} currentPageIdx={i} thisPageIdx={j} title={page[1]} target={result} />
+                    if (j == pageCount - 1) {
+                        return fn
+                    } else {
+                        return <span key={page}>{fn}<span className='footer-separator'>›</span></span>
+                    }
+                })}
             </section>
             <Continue className='mdl-button mdl-button--raised mdl-button--colored' link={link} label={label} />
         </footer>
