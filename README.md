@@ -5,8 +5,9 @@
 Something like:
 
 1. Install NodeJS
+2. `cd frontend`
 2. `npm install`
-3. `cd frontend && npm run serve`
+3. `npm start`
 
 (configure API root in `src/config/dev.js`)
 
@@ -29,14 +30,23 @@ Something like:
     $ go get -d -t ./...
     $ go run db/reset.go
     $ go run db/seeds.go
+
+    # Setup environment
+    ...
     
     # Run Application
     $ go run main.go
 
-## Deployment
+# Deployment
 
-    # Get harp
-    $ go get -u github.com/bom-d-van/harp
-    
-    # Deploy to production
-    $ harp -s prod -log deploy
+Install harp
+
+    go get -u github.com/bom-d-van/harp
+
+Build front-end
+
+    cd frontend && npm run dist
+
+Deploy to production
+
+    harp -s prod -log deploy
