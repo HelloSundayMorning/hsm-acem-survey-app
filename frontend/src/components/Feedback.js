@@ -14,6 +14,10 @@ function Feedback({ postStatus, emailStatus, emailToPatient, emailTo, surveyScor
 
             <Prompt surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
 
+            <div id='note'>
+                *National Health and Medical Research Council. (2009). <em>Australian guidelines to reduce health risks from drinking alcohol.</em> Commonwealth of Australia: Australian Capital Territory.
+            </div>
+
             <div id='section-buttons'>
                 <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={emailToPatient}>Email to Patient</button>
                 <button className='mdl-button mdl-button--raised mdl-button--colored'  onClick={emailTo}>Email to…</button>
@@ -104,11 +108,11 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
 
                     <p>And I can say that at the moment, the way you are using alcohol, that I am concerned for your health and safety.</p>
 
-                    <p>Do you think you are drinking too much?</p>
+                    <p>What concerns you most about this information?</p>
 
                     <p>&lt;listen to response></p>
 
-                    <p>Do you want to change how much you are drinking?</p>
+                    <p>How do you think you can reduce these risks?</p>
 
                     <p>&lt;listen to response></p>
 
@@ -126,9 +130,15 @@ function DependencePrompt() {
     return (
         <section>
             <h2>Your patient is possibly dependent on alcohol and should receive further care by a specialist.</h2>
+
             <p>
-                <strong>Tell your patient:</strong> “I would like you to speak with our Drug and Alcohol specialist. If it’s OK with you, I’ll ask them to come and speak with you.
+                <strong>Tell your patient:</strong> “The answers you’ve given me indicate that you maybe dependent on alcohol. I am going to refer you to a drug and alcohol clinician now.”
             </p>
+
+            <p>
+                <strong>If out of hours or unavailable, tell your patient:</strong> “I am going to give you a card with contact details for DirectLine 24 hours counselling and referral in your area – (1800 888 236), and I will let your doctor here know.”
+            </p>
+
         </section>
     )
 }
@@ -153,7 +163,7 @@ function FrequencyChart({age, gender, dailyScore}) {
 }
 
 function RiskFactorChart({dailyScore}) {
-    return <Chart title='Risks of Harm' url={riskFactorGraphLink(dailyScore)} />
+    return <Chart title='Risk of hospitalisation' url={riskFactorGraphLink(dailyScore)} />
 }
 
 function Chart({title, url}) {

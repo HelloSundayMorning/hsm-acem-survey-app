@@ -60,7 +60,7 @@ function riskFactorGraphLink(dailyScore) {
         `chxr=0,1,10,2|1,1,7,1`, // Axis ranges
         `chm=x,FF0000,1,1,20`, // score mark formatting
         `chxs=0,,16|1N**x,,16|2,,16|3,,16`, // Axis Label format
-        `chxl=0:|2|4|6|8||10%2B|2:|Number+of+Drinks+Consumed|3:|Risk`, // Axis labels
+        `chxl=0:|2|4|6|8||10%2B|2:|%23+of+drinks+consumed|3:|Risk`, // Axis labels
         `chxp=2,50|3,50`, // Axis Label position
         `chma=0,10,10,0` // LRTB Margins, give a margin at top right for when the X is in the corner
     ]
