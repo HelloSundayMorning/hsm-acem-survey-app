@@ -14,6 +14,10 @@ function Feedback({ postStatus, emailStatus, emailToPatient, emailTo, surveyScor
 
             <Prompt surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
 
+            <div id='note'>
+                *National Health and Medical Research Council. (2009). <em>Australian guidelines to reduce health risks from drinking alcohol.</em> Commonwealth of Australia: Australian Capital Territory.
+            </div>
+
             <div id='section-buttons'>
                 <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={emailToPatient}>Email to Patient</button>
                 <button className='mdl-button mdl-button--raised mdl-button--colored'  onClick={emailTo}>Email to…</button>
