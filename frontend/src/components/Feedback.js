@@ -132,7 +132,7 @@ function DependencePrompt() {
             <h2>Your patient is possibly dependent on alcohol and should receive further care by a specialist.</h2>
 
             <p>
-                <strong>Tell your patient:</strong> “The answers you’ve given me indicate that you maybe dependent on alcohol. I am going to refer you to a drug and alcohol clinician now.”
+                <strong>Tell your patient:</strong> “The answers you’ve given me indicate that you may be dependent on alcohol. I am going to refer you to a drug and alcohol clinician now.”
             </p>
 
             <p>
