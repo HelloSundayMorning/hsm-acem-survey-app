@@ -29,7 +29,7 @@ const auditQuestions = [
             {'text': '2-3 times a week', score: 3},
             {'text': '4 or more times a week', score: 4}]
     },{
-        'text': 'Q2: How many standard drinks containing alcohol do you have in a typical day when you are drinking?',
+        'text': 'Q2: How many standard drinks containing alcohol do you have in a typical day?',
         'answers': [
             {'text': '1 or 2', score: 0},
             {'text': '3 or 4', score: 1},

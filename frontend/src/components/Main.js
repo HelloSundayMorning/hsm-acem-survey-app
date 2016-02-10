@@ -1,7 +1,6 @@
 require('normalize.css');
 require('styles/mdl.css');
 require('styles/App.scss');
-require('styles/responsive.css');
 
 import React from 'react'
 import * as ReactRedux from 'react-redux';
@@ -103,8 +102,7 @@ var interviewerQuestion = {
     answers: [
         {key: 'nurse', text: 'Nurse'},
         {key: 'doctor', text: 'Doctor'},
-        {key: 'allied', text: 'Allied Health'},
-        {key: 'other', text: 'Other'}
+        {key: 'specialist', text: 'Specialist'}
     ]
 }
 
