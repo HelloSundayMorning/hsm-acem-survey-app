@@ -44,11 +44,11 @@ function drinkPercentage(age, gender, dailyScore) {
 }
 
 const incidentRiskFactor = {
-    0: 'unlikely', // 1 or 2
-    1: 'twice as likely', // 3 or 4
-    2: '3 times more likely', // 5 or 6
-    3: '4-6 times more likely', // 7, 8 or 9
-    4: '7 times more likely' // 10 or more
+    0: 'Your current alcohol use does not increase your risk of hospitalisation.', // 1 or 2
+    1: 'Your current alcohol use makes you twice as likely to be hospitalised.', // 3 or 4
+    2: 'Your current alcohol use makes you three times more likely to be hospitalised.', // 5 or 6
+    3: 'Your current alcohol use makes you four to six times more likely to be hospitalised.', // 7, 8 or 9
+    4: 'Your current alcohol use makes you  seven times more likely to be hospitalised.' // 10 or more
 }
 
 function surveyScore(survey) {
