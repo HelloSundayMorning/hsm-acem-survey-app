@@ -294,7 +294,8 @@ section.question {
 
 #audit {
     .question {
-        height: 160px;
+        height: 100%;
+        padding-top: 14px;
 
         .legend {
             font-family: Roboto-Medium, sans-serif;
