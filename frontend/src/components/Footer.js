@@ -27,11 +27,8 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
                         return <span key={page}>{fn}<span className='footer-separator'>›</span></span>
                     }
                 })}
-              <div id='start-button'>
-                <Continue className='mdl-button mdl-button--raised mdl-button--colored' link={link} label={label} />
-              </div>
             </section>
-
+            <Continue className='mdl-button mdl-button--raised mdl-button--colored' link={link} label={label} />
         </footer>
     );
 });
