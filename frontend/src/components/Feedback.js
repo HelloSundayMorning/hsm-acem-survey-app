@@ -102,7 +102,7 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
 
                     <p>The amount of alcohol that you are currently using increases your risk of harms from intoxication such as personal injury and long term health effects such as liver problems and cancer.</p>
 
-                    <p>Your current alcohol use makes you {incidentRiskFactor[dailyScore]} to be hospitalised.</p>
+                    <p>{incidentRiskFactor[dailyScore]}</p>
 
                     <p>You drink more than {percentage}% of people of a similar age and gender.</p>
 
