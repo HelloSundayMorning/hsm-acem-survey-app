@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	influxdb "github.com/influxdb/influxdb/client"
+	influxdb "github.com/influxdata/influxdb/client"
 )
 
 // Monitor is opaque type for monitoring middleware configuration
