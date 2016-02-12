@@ -88,9 +88,9 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
                     <select value={props.location} onChange={({target: {value}}) => updateLocation(value, props.update)}>
                         {Locations.map(l => <option key={l} value={l}>{l}</option> )}
                     </select>
-                  <div id='start-button'>
-                    <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>    
-                  </div>
+                    <div id='start-button'>
+                        <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
+                    </div>
                 </div>
 
 

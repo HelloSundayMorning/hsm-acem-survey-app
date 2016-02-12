@@ -11,6 +11,8 @@ Something like:
 
 (configure API root in `src/config/dev.js`)
 
+If you are not working on the front-end and just need it to build for distribution/deployment, run `npm install --production instead`
+
 # Backend
 
 ## Quick Started
