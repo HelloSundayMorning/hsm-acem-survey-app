@@ -55,11 +55,14 @@ var SpanToNext = function(props) {
 }
 
 function valid(page, { interviewer, bio, survey, lastQuestion }) {
+    if (bio.age < 12 || bio.age > 110) {
+        return false;
+    }
     if (page === 'info') {
         return !!interviewer &&
-               !!bio.gender &&
-               !!bio.age &&
-               !!bio.postcode
+            !!bio.gender &&
+            !!bio.age &&
+            !!bio.postcode
     } else if (page === 'audit') {
         for (var i = 0; i <= lastQuestion; ++i) {
             if (!survey[i] || !survey[i].answer) {
