@@ -31,10 +31,10 @@ function lastQuestion(survey, gender) {
     const cutoff = { 'male': 4, 'female': 3, 'other': 3}[gender]
 
     if (q1 == 0) {
-        return 0 // Q1
+        return 0
     } else if (q2 + q3 === 0) {
-        return 2 // Q3
+        return 2
     } else {
-        return q1 + q2 + q3 >= cutoff ? 9 : 2 // Q3 or Q10
+        return q1 + q2 + q3 >= cutoff ? 10 : 2
     }
 }
