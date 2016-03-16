@@ -1,8 +1,8 @@
 package admin
 
 import (
+	"github.com/qor/admin"
 	"github.com/qor/qor"
-	"github.com/qor/qor/admin"
 
 	"github.com/theplant/hsm-acem-survey-app/app/models"
 	"github.com/theplant/hsm-acem-survey-app/config"

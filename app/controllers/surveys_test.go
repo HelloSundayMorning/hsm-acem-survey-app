@@ -65,7 +65,15 @@ func TestSurveysCreateLogRequestHeader(t *testing.T) {
 	jsonData := jsonResponse(t, res)
 
 	survey := models.Survey{}
-	u.AssertNoErr(t, db.DB.Find(&survey, jsonData["id"].(float64)).Error)
+
+	// Why `Last` and not `First`?
+	// Because the `First` with id return the wrong record, see: https://github.com/theplant/hsm-acem-survey-app/issues/41
+	u.AssertNoErr(t, db.DB.Last(&survey).Error)
+	surveyID := jsonData["id"].(float64)
+	if survey.ID != uint(surveyID) {
+		t.Fatalf("Unexpected survey data: %+v", survey)
+	}
+
 	header := survey.RequestData["header"]
 
 	if _, ok := header.(map[string]interface{})["My-Custom-Header"]; !ok {
