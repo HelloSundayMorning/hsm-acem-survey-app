@@ -48,4 +48,5 @@ func init() {
 	// Add Survey
 	survey := Admin.AddResource(&models.Survey{}, &admin.Config{Permission: roles.Deny(roles.Create, roles.Anyone).Deny(roles.Update, roles.Anyone)})
 	survey.IndexAttrs("ID", "Interviewer", "Age", "Gender", "Postcode", "Email", "Mobile")
+	survey.ShowAttrs("-UpdatedAt")
 }
