@@ -4,8 +4,8 @@ package admin
 import (
 	"net/http"
 
+	"github.com/qor/admin"
 	"github.com/qor/qor"
-	"github.com/qor/qor/admin"
 	"github.com/qor/roles"
 
 	"github.com/theplant/hsm-acem-survey-app/app/models"
@@ -46,6 +46,6 @@ func init() {
 	}})
 
 	// Add Survey
-	survey := Admin.AddResource(&models.Survey{}, &admin.Config{Permission: roles.Deny(roles.Create, "admin").Deny(roles.Update, "admin")})
+	survey := Admin.AddResource(&models.Survey{}, &admin.Config{Permission: roles.Deny(roles.Create, roles.Anyone).Deny(roles.Update, roles.Anyone)})
 	survey.IndexAttrs("ID", "Interviewer", "Age", "Gender", "Postcode", "Email", "Mobile")
 }

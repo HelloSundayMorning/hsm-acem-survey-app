@@ -104,7 +104,7 @@ var ErrInvalidEmailOrPassword = errors.New("invalid email or password")
 func UserAuthenticate(email string, password string) (User, error) {
 	var user User
 	if err := db.DB.Where("email = ?", email).First(&user).Error; err != nil {
-		if err == gorm.RecordNotFound {
+		if err == gorm.ErrRecordNotFound {
 			return user, ErrInvalidEmailOrPassword
 		}
 		return user, err

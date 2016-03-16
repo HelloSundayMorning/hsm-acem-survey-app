@@ -19,12 +19,12 @@ var (
 
 func init() {
 	var err error
-	var db gorm.DB
+	var db *gorm.DB
 
 	dbConfig := config.DB
 	db, err = gorm.Open("postgres", fmt.Sprintf(dbConfig.Params))
 	if err == nil {
-		DB = &db
+		DB = db
 		DB.LogMode(dbConfig.Debug)
 	} else {
 		panic(err)
