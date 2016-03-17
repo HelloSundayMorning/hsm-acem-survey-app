@@ -130,7 +130,7 @@ var PatientBio = React.createClass({
             <fieldset id='patient-bio'>
                 <legend>Patient Information</legend>
                 <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-                <label className='simple-input'>Age: <input type='number' min='0' name='age' value={this.props.bio.age} onChange={event => this.handleChange(event.target)}/></label>
+                <label className='simple-input'>Age (must be between 12 and 110): <input type='number' min='12' max ='110' name='age' value={this.props.bio.age} onChange={event => this.handleChange(event.target)}/></label>
                 <label className='simple-input'>Postcode: <input type='number' name='postcode' value={this.props.bio.postcode} onChange={event => this.handleChange(event.target)}/></label>
                 <label className='simple-input'>Patient email (optional): <input type='email' name='email' value={this.props.bio.email} onChange={event => this.handleChange(event.target)}/></label>
                 <label className='simple-input'>Patient mobile (optional): <input type='tel' name='phone' value={this.props.bio.phone}  onChange={event => this.handleChange(event.target)}/></label>
