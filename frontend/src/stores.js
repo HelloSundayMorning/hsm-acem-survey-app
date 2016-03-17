@@ -9,6 +9,7 @@ import * as actions from 'src/constants'
 import { on, actionValue, actionType } from 'reducers/generic'
 import updateSurvey from 'reducers/survey'
 import routeChanged from 'reducers/routeChanged'
+import postingFeedback from 'reducers/postingFeedback'
 import { default as bioReducer } from 'reducers/bio'
 
 
@@ -28,6 +29,10 @@ const postingEmail = on('postingEmail', actionType)
 reducerMap[actions.EMAIL_SENDING] = postingEmail
 reducerMap[actions.EMAIL_SENT] = postingEmail
 reducerMap[actions.EMAIL_FAILED] = postingEmail
+
+reducerMap[actions.FEEDBACK_POSTING] = postingFeedback
+reducerMap[actions.FEEDBACK_POSTED] = postingFeedback
+reducerMap[actions.FEEDBACK_POST_FAILED] = postingFeedback
 
 function Answer(index, question, answer) {
     return {

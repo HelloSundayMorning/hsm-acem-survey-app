@@ -70,3 +70,56 @@ func SendCompletedMail(t EmailTemplate) (err error) {
 	}
 	return
 }
+
+// FeedbackMailTemplate describes data that will be passed on to
+// Mandrill for sending feedback mail.
+type FeedbackMailTemplate struct {
+	// Recipient email addresses
+	Emails []string `binding:"required"`
+
+	// Mandrill template to use
+	Template string `binding:"required"`
+
+	// Feedback content text
+	FreeText string `binding:"required"`
+}
+
+// NewFeedbackMailTemplate returns a default FeedbackMailTemplate
+// with recipient emails and mandrill template.
+func NewFeedbackMailTemplate() (template FeedbackMailTemplate) {
+	return FeedbackMailTemplate{
+		Emails:   []string{"alex@hellosundaymorning.org", "pieter@hellosundaymorning.org"},
+		Template: "feedback",
+	}
+}
+
+// SendFeedbackMail sends survey feedback mail to the the given
+// email address.
+func SendFeedbackMail(t FeedbackMailTemplate) (err error) {
+	if len(t.Emails) == 0 {
+		return ErrNoEmailAddress
+	}
+
+	message := mandrill.Message{}
+	for _, email := range t.Emails {
+		message.AddRecipient(email, email, "to")
+	}
+
+	data := map[string]string{
+		"FREE_TEXT": t.FreeText,
+	}
+
+	message.GlobalMergeVars = mandrill.ConvertMapToVariables(data)
+
+	responses, err := config.Mandrill.Client.MessagesSendTemplate(&message, t.Template, nil)
+	if err != nil {
+		return
+	}
+
+	for _, resp := range responses {
+		if resp.Status == "invalid" || resp.Status == "rejected" {
+			err = fmt.Errorf("send email via mandrill api failed (%s) response: %#v", resp.Status, resp)
+		}
+	}
+	return
+}

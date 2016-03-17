@@ -1,7 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { post as postFeedback } from 'actions/feedback'
+import FeedbackSection from 'components/FeedbackSection'
 
-
-export default () =>
+const FramesReminder = ({ postingFeedback, postFeedback }) =>
     <section id='reminder'>
         <h1>FRAMES reminder</h1>
 
@@ -29,4 +31,10 @@ export default () =>
 
         <p>*Please provide your patient with the Better Health Channel alcohol handout before they leave.</p>
 
+        <FeedbackSection message={postingFeedback} onPost={postFeedback} />
     </section>;
+
+export default connect(
+    ({ postingFeedback }) => ({ postingFeedback }),
+    { postFeedback }
+)(FramesReminder)

@@ -13,8 +13,10 @@ import AuditPage from 'components/AuditPage'
 import SurveyPage from 'components/SurveyPage'
 import Feedback from 'components/Feedback'
 import Frames from 'components/FramesReminder'
+import FeedbackSection from 'components/FeedbackSection'
 import history from 'actions/history'
 import * as email from 'actions/email'
+import { post as postFeedback } from 'actions/feedback'
 import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
 import logo from 'src/images/ACEM_V1_CMYK.png' // @_@
@@ -54,7 +56,7 @@ function Header() {
     )
 }
 
-var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.location.action })(function(props) {
+var Intro = ReactRedux.connect(({ location, postingFeedback }) => ({ location, postingFeedback }), { update: bio.location.action, postFeedback })(function(props) {
     return (
         <div className='survey-page'>
             <section id='intro'>
@@ -79,6 +81,8 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
                         <p>I would like to ask you a few questions about your alcohol use. The information will be used by the Australasian College for Emergency Medicine in partnership with Hello Sunday Morning. Your information and contact details will not be shared with third parties, and all data will be de-identified for analysis.</p>
                     </blockquote>
                 </section>
+
+                <FeedbackSection message={props.postingFeedback} onPost={props.postFeedback} />
             </section>
 
             <footer>
