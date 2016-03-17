@@ -1,7 +1,7 @@
 require('normalize.css');
 require('styles/mdl.css');
 require('styles/App.scss');
-require('styles/responsive.css');
+require('styles/responsive.scss');
 
 import React from 'react'
 import * as ReactRedux from 'react-redux';
