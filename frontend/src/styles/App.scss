@@ -8,6 +8,10 @@ $light-grey: #757575;
 
 $accent-color: #00BCD4;
 
+html, body, p {
+    font-size: 16px;
+}
+
 body {
     box-sizing: border-box;
     display: flex;
@@ -15,7 +19,6 @@ body {
     min-height: 100%;
 
     font-family: Roboto, sans-serif;
-    font-size: 14px;
     color: $black;
     line-height: 24px;
 }
@@ -115,7 +118,7 @@ blockquote {
     border-radius: 4px;
 
     font-family: Roboto-Regular, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     color: black;
     line-height: 24px;
     margin: 0;
@@ -158,7 +161,7 @@ blockquote {
 .instructions {
     h2 {
         font-family: Roboto-Regular, sans-serif;
-        font-size: 13px;
+        font-size: 16px;
         color: $light-grey;
         line-height: 12px;
         margin: 36px 0 18px;
@@ -171,7 +174,6 @@ section.question {
     .legend {
         display: block;
         font-family: Roboto-Regular, sans-serif;
-        font-size: 13px;
         color: $light-grey;
         line-height: 12px;
         padding-bottom: 14px;
@@ -204,7 +206,7 @@ section.question {
 
             span { /* Hack: spans are added by React */
                 font-family: Roboto-Medium, sans-serif;
-                font-size: 14px;
+                font-size: 16px;
                 color: $light-grey;
                 line-height: 16px;
             }
@@ -223,8 +225,8 @@ section.question {
 .poor-snack {
     margin: 20px auto;
     background: #323232;
-    font-family: Roboto-Regular;
-    font-size: 14px;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 16px;
     color: #FFFFFF;
     line-height: 20px;
     padding: 20px 25px;
@@ -261,7 +263,6 @@ section.question {
 
         legend {
             font-family: Roboto-Medium, sans-serif;
-            font-size: 16px;
             color: $black;
             line-height: 24px;
             margin-bottom: 8px;
@@ -270,7 +271,6 @@ section.question {
 
     .simple-input {
         font-family: Roboto-Regular, sans-serif;
-        font-size: 13px;
         color: $light-grey;
         line-height: 12px;
         display: block;
@@ -314,7 +314,6 @@ section.question {
 #feedback {
     #note {
         font-family: Roboto-Regular, sans-serif;
-        font-size: 13px;
         color: $light-grey;
         margin: 18px 0 48px;
     }
