@@ -51,10 +51,11 @@ const combined = combineReducers({
 });
 
 function surveyApp(state = initialState, action) {
-    if (action.type === actions.ANSWER) {
-        return updateSurvey(state, action)
-    } else if (action.type === actions.HISTORY) {
-        return routeChanged(state, action)
+    switch (action.type) {
+    case actions.ANSWER:
+        return updateSurvey(state, action);
+    case actions.HISTORY:
+        return routeChanged(state, action);
     }
     return Object.assign({}, state, combined(state, action))
 }
