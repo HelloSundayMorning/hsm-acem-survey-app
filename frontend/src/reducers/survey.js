@@ -1,7 +1,8 @@
 export default updateSurvey
 
-function updateSurvey({ survey: oldSurvey, bio: { gender } }, { index, question, answer }) {
-    let survey = []
+function updateSurvey(state, { index, question, answer }) {
+    const { survey: oldSurvey, bio: { gender } } = state;
+    const survey = []
 
     // Don't use slice, as it doesn't play nice with arrays with holes
     for (let i = 0; i < 10; ++i) {
@@ -13,10 +14,15 @@ function updateSurvey({ survey: oldSurvey, bio: { gender } }, { index, question,
         answer
     }
 
-    let last = lastQuestion(survey, gender)
-    survey = stripLaterQuestions(survey, last)
+    const last = lastQuestion(survey, gender);
 
-    return { survey: stripLaterQuestions(survey, last), lastQuestion: last }
+    return Object.assign(
+        {},
+        state,
+        {
+            survey: stripLaterQuestions(survey, last),
+            lastQuestion: last
+        })
 }
 
 function stripLaterQuestions(survey, lastQuestion) {
