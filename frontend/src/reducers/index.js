@@ -7,7 +7,6 @@ import updateSurvey from 'reducers/survey'
 import routeChanged from 'reducers/routeChanged'
 import { default as bioReducer } from 'reducers/bio'
 
-
 let reducerMap = {}
 reducerMap[actions.HISTORY] = routeChanged
 
