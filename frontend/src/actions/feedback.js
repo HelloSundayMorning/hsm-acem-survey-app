@@ -35,9 +35,7 @@ const callFeedbackApi = freeText =>
             error.response = response
             throw error
         }
-        return response;
     })
-    .then(response => response.json())
 
 export {
     post
