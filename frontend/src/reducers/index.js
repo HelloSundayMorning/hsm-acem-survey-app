@@ -7,12 +7,11 @@ import * as actions from 'src/constants'
 import { on, actionValue } from 'reducers/generic'
 import updateSurvey from 'reducers/survey'
 import routeChanged from 'reducers/routeChanged'
-import { default as bioReducer } from 'reducers/bio'
+import bio from 'reducers/bio'
 
 let reducerMap = {}
 reducerMap[actions.HISTORY] = routeChanged
 
-reducerMap[actions.UPDATE_BIO] = on('bio', bioReducer)
 reducerMap[actions.UPDATE_LOCATION] = on('location', actionValue)
 
 const interviewer = (s = null, a) => {
@@ -45,7 +44,8 @@ const postingSurvey = (s = null, a) => {
 const combined = combineReducers({
     interviewer,
     postingEmail,
-    postingSurvey
+    postingSurvey,
+    bio
 })
 
 function surveyApp(state = initialState, action) {
