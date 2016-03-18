@@ -8,9 +8,6 @@ import updateSurvey from 'reducers/survey'
 import routeChanged from 'reducers/routeChanged'
 import bio from 'reducers/bio'
 
-let reducerMap = {}
-reducerMap[actions.HISTORY] = routeChanged
-
 const interviewer = (s = null, a) => {
     if (a.type === actions.SET_INTERVIEWER) {
         return a.value
@@ -51,13 +48,13 @@ const combined = combineReducers({
     postingSurvey,
     bio,
     location
-})
+});
 
 function surveyApp(state = initialState, action) {
     if (action.type === actions.ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
-    } else if (reducerMap[action.type]) {
-        return reducerMap[action.type](state, action)
+    } else if (action.type === actions.HISTORY) {
+        return routeChanged(state, action)
     }
     return Object.assign({}, state, combined(state, action))
 }
