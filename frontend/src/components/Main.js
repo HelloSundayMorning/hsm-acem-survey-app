@@ -22,6 +22,7 @@ import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
 import logo from 'src/images/ACEM_V1_CMYK.png' // @_@
 import installPolyfills from 'src/polyfills'
+import { bioValidates } from 'src/validations'
 
 installPolyfills()
 
@@ -124,19 +125,53 @@ var genderQuestion = {
     ]
 }
 
+const Input = ({ label, type, value, onChange, valid }) => {
+    let classNames = ['simple-input']
+    if (!valid) {
+        classNames.push('invalidate')
+    }
+    return (
+        <label className={classNames.join(' ')}>
+            {label}
+            <input
+                type={type}
+                value={value}
+                onChange={onChange}
+            />
+        </label>
+    )
+}
+
+const bioInputFields = [
+    { name: 'age', type: 'number', label: 'Age (must be between 12 and 110):' },
+    { name: 'postcode', type: 'number', label: 'Postcode:' },
+    { name: 'email', type: 'email', label: 'Patient email (optional):' },
+    { name: 'phone', type: 'tel', label: 'Patient mobile (optional):' }
+];
+
 var PatientBio = React.createClass({
     handleChange(input) {
         this.props.update(input.value, input.name)
+    },
+    changeField(field) {
+        return event => this.handleChange({ value: event.target.value, name: field });
+    },
+    validates(field) {
+        return bioValidates(field, this.props.bio[field]);
     },
     render() {
         return (
             <fieldset id='patient-bio'>
                 <legend>Patient Information</legend>
                 <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-                <label className='simple-input'>Age (must be between 12 and 110): <input type='number' min='12' max ='110' name='age' value={this.props.bio.age} onChange={event => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Postcode: <input type='number' name='postcode' value={this.props.bio.postcode} onChange={event => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Patient email (optional): <input type='email' name='email' value={this.props.bio.email} onChange={event => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Patient mobile (optional): <input type='tel' name='phone' value={this.props.bio.phone}  onChange={event => this.handleChange(event.target)}/></label>
+                {bioInputFields.map(field => <Input
+                                                 key={field.name}
+                                                 label={field.label}
+                                                 value={this.props.bio[field.name]}
+                                                 type={field.type}
+                                                 onChange={this.changeField(field.name)}
+                                                 valid={this.validates(field.name)}
+                                             />)}
             </fieldset>
         )
     }
