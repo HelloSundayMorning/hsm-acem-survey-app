@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 import initialState from 'stores/initialState'
 
 import * as actions from 'src/constants'
@@ -10,7 +12,6 @@ import { default as bioReducer } from 'reducers/bio'
 let reducerMap = {}
 reducerMap[actions.HISTORY] = routeChanged
 
-reducerMap[actions.SET_INTERVIEWER] = on('interviewer', actionValue)
 reducerMap[actions.UPDATE_BIO] = on('bio', bioReducer)
 reducerMap[actions.UPDATE_LOCATION] = on('location', actionValue)
 
@@ -24,6 +25,16 @@ reducerMap[actions.EMAIL_SENDING] = postingEmail
 reducerMap[actions.EMAIL_SENT] = postingEmail
 reducerMap[actions.EMAIL_FAILED] = postingEmail
 
+const interviewer = (s = null, a) => {
+    if (a.type === actions.SET_INTERVIEWER) {
+        return a.value
+    }
+    return s
+}
+
+const combined = combineReducers({
+    interviewer
+})
 
 function surveyApp(state = initialState, action) {
     if (action.type === actions.ANSWER) {
@@ -31,7 +42,7 @@ function surveyApp(state = initialState, action) {
     } else if (reducerMap[action.type]) {
         return reducerMap[action.type](state, action)
     }
-    return state
+    return Object.assign({}, state, combined(state, action))
 }
 
 export default surveyApp
