@@ -10,22 +10,10 @@ const Message = ({ message }) => {
 }
 
 class FeedbackSection extends React.Component {
-    constructor(props) {
-        super(props)
-        this.onButtonClick = this.onButtonClick.bind(this)
-    }
-
-    onButtonClick() {
-        const freeText = window.prompt('Enter feedback')
-        if (freeText) {
-            this.props.onPost(freeText)
-        }
-    }
-
     render() {
         return (
             <div id='feedback-section'>
-                <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={this.onButtonClick}>Feedback</button>
+                <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={this.props.onPost}>Feedback</button>
                 <Message message={this.props.message} />
             </div>
         )

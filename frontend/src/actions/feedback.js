@@ -5,7 +5,12 @@ import {
     FEEDBACK_POST_FAILED
 } from 'src/constants'
 
-const post = freeText => dispatch => {
+const post = () => dispatch => {
+    const freeText = window.prompt('Enter feedback');
+    if (!freeText || freeText.trim() === '') {
+        return false;
+    }
+
     dispatch({ type: FEEDBACK_POSTING, message: 'Sending feedback…' })
 
     callFeedbackApi(freeText)
