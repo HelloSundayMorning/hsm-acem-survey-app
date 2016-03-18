@@ -81,8 +81,6 @@ var Intro = ReactRedux.connect(({ location, postingFeedback }) => ({ location, p
                         <p>I would like to ask you a few questions about your alcohol use. The information will be used by the Australasian College for Emergency Medicine in partnership with Hello Sunday Morning. Your information and contact details will not be shared with third parties, and all data will be de-identified for analysis.</p>
                     </blockquote>
                 </section>
-
-                <FeedbackSection message={props.postingFeedback} onPost={props.postFeedback} />
             </section>
 
             <footer>
@@ -94,6 +92,7 @@ var Intro = ReactRedux.connect(({ location, postingFeedback }) => ({ location, p
                     </select>
                     <div id='start-button'>
                         <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
+                        <FeedbackSection message={props.postingFeedback} onPost={props.postFeedback} />
                     </div>
                 </div>
 
