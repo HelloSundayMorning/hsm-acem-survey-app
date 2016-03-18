@@ -20,11 +20,6 @@ reducerMap[actions.POSTING_SURVEY] = postingSurvey
 reducerMap[actions.SURVEY_POSTED] = postingSurvey
 reducerMap[actions.SURVEY_POST_FAILED] = postingSurvey
 
-const postingEmail = on('postingEmail', actionType)
-reducerMap[actions.EMAIL_SENDING] = postingEmail
-reducerMap[actions.EMAIL_SENT] = postingEmail
-reducerMap[actions.EMAIL_FAILED] = postingEmail
-
 const interviewer = (s = null, a) => {
     if (a.type === actions.SET_INTERVIEWER) {
         return a.value
@@ -32,8 +27,19 @@ const interviewer = (s = null, a) => {
     return s
 }
 
+const postingEmail = (s = null, a) => {
+    switch (a.type) {
+    case actions.EMAIL_SENDING:
+    case actions.EMAIL_SENT:
+    case actions.EMAIL_FAILED:
+        return a.type
+    }
+    return s
+}
+
 const combined = combineReducers({
-    interviewer
+    interviewer,
+    postingEmail
 })
 
 function surveyApp(state = initialState, action) {
