@@ -95,7 +95,7 @@ var Intro = ReactRedux.connect(({ location, postingFeedback }) => ({ location, p
                     </select>
                     <div id='start-button'>
                         <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
-                        <FeedbackSection message={props.postingFeedback} onPost={props.postFeedback} />
+                        <FeedbackSection status={props.postingFeedback} onPost={props.postFeedback} />
                     </div>
                 </div>
 

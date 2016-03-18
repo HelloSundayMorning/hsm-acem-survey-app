@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import FeedbackSection from 'components/FeedbackSection'
 import { post as postFeedback } from 'actions/feedback'
 
-const FeedbackButton = ({ show, message, onPost }) => {
+const FeedbackButton = ({ show, status, onPost }) => {
     if (show) {
-        return <FeedbackSection message={message} onPost={onPost} />;
+        return <FeedbackSection status={status} onPost={onPost} />;
     } else {
         return <div></div>;
     }
@@ -41,7 +41,7 @@ const Footer = connect(state => ({ state }), { postFeedback })(({ thisPage, page
                     <Continue className='mdl-button mdl-button--raised mdl-button--colored' link={link} label={label} />
                     <FeedbackButton
                         show={i === pageOrder.length - 1}
-                        message={state.postingFeedback}
+                        status={state.postingFeedback}
                         onPost={postFeedback}
                     />
                 </div>

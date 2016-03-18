@@ -7,7 +7,6 @@ import * as actions from 'src/constants'
 import updateSurvey from 'reducers/survey'
 import routeChanged from 'reducers/routeChanged'
 import bio from 'reducers/bio'
-import postingFeedback from 'reducers/postingFeedback'
 
 // Returns handler(s, a) when `a.type` is in `actions`, otherwise
 // state is unchanged
@@ -35,6 +34,11 @@ const postingSurvey = actionType(
     actions.POSTING_SURVEY,
     actions.SURVEY_POSTED,
     actions.SURVEY_POST_FAILED
+);
+const postingFeedback = actionType(
+    actions.FEEDBACK_POSTING,
+    actions.FEEDBACK_POSTED,
+    actions.FEEDBACK_POST_FAILED
 );
 
 const id = (a = null) => a

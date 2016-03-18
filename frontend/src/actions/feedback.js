@@ -11,11 +11,11 @@ const post = () => dispatch => {
         return false;
     }
 
-    dispatch({ type: FEEDBACK_POSTING, message: 'Sending feedback…' })
+    dispatch({ type: FEEDBACK_POSTING })
 
     callFeedbackApi(freeText)
-        .then(() => dispatch({ type: FEEDBACK_POSTED, message: 'Feedback sent.' }))
-        .catch(() => dispatch({ type: FEEDBACK_POST_FAILED, message: 'Failed to send feedback.' }))
+        .then(() => dispatch({ type: FEEDBACK_POSTED }))
+        .catch(() => dispatch({ type: FEEDBACK_POST_FAILED }))
 }
 
 const callFeedbackApi = freeText =>
