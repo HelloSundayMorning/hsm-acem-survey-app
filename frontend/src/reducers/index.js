@@ -42,12 +42,16 @@ const postingSurvey = (s = null, a) => {
     return s
 }
 
+const id = (a = null) => a
+
 const combined = combineReducers({
     interviewer,
     postingEmail,
     postingSurvey,
     bio,
-    location
+    location,
+    survey: id,
+    lastQuestion: id
 });
 
 function surveyApp(state = initialState, action) {
@@ -57,7 +61,7 @@ function surveyApp(state = initialState, action) {
     case actions.HISTORY:
         return routeChanged(state, action);
     }
-    return Object.assign({}, state, combined(state, action))
+    return combined(state, action)
 }
 
 export default surveyApp
