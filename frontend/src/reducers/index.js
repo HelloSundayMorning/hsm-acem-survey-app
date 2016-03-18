@@ -52,7 +52,7 @@ const combined = combineReducers({
 
 function surveyApp(state = initialState, action) {
     if (action.type === actions.ANSWER) {
-        return Object.assign({}, state, updateSurvey(state, action))
+        return updateSurvey(state, action)
     } else if (action.type === actions.HISTORY) {
         return routeChanged(state, action)
     }
