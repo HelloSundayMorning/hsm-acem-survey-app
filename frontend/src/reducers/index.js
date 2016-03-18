@@ -7,6 +7,7 @@ import * as actions from 'src/constants'
 import updateSurvey from 'reducers/survey'
 import routeChanged from 'reducers/routeChanged'
 import bio from 'reducers/bio'
+import postingFeedback from 'reducers/postingFeedback'
 
 // Returns handler(s, a) when `a.type` is in `actions`, otherwise
 // state is unchanged
@@ -42,6 +43,7 @@ const combined = combineReducers({
     interviewer,
     postingEmail,
     postingSurvey,
+    postingFeedback,
     bio,
     location,
     survey: id,

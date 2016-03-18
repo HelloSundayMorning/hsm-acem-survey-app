@@ -4,12 +4,12 @@ import {
     FEEDBACK_POST_FAILED
 } from 'src/constants'
 
-export default (state, action) => {
+export default (state = null, action) => {
     switch (action.type) {
     case FEEDBACK_POSTING:
     case FEEDBACK_POSTED:
     case FEEDBACK_POST_FAILED:
-        return Object.assign({}, state, { postingFeedback: action.message })
+        return action.message
     default:
         return state
     }
