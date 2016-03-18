@@ -25,23 +25,13 @@ reducerMap[actions.EMAIL_SENT] = postingEmail
 reducerMap[actions.EMAIL_FAILED] = postingEmail
 
 
-function surveyApp(state, action) {
-    if (typeof state === 'undefined') {
-        return initialState;
-    } else if (action.type === actions.ANSWER) {
+function surveyApp(state = initialState, action) {
+    if (action.type === actions.ANSWER) {
         return Object.assign({}, state, updateSurvey(state, action))
     } else if (reducerMap[action.type]) {
         return reducerMap[action.type](state, action)
     }
-
-    var newState = Object.assign({}, state);
-
-    if (action.value) {
-        newState[action.field] = action.value;
-    } else {
-        newState = state; // Don't make a new one
-    }
-    return newState;
+    return state
 }
 
 export default surveyApp
