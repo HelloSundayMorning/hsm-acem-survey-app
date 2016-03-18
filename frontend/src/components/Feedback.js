@@ -5,7 +5,7 @@ import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } 
 import PoorSnackbar from 'components/PoorSnackbar'
 import EmptyComponent from 'components/EmptyComponent'
 
-function Feedback({ postStatus, emailStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
+function Feedback({ email, postStatus, emailStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
     let Prompt = riskComponentMap[riskCategory(surveyScore)]
 
     return (
@@ -18,6 +18,7 @@ function Feedback({ postStatus, emailStatus, emailToPatient, emailTo, surveyScor
                 *National Health and Medical Research Council. (2009). <em>Australian guidelines to reduce health risks from drinking alcohol.</em> Commonwealth of Australia: Australian Capital Territory.
             </div>
 
+            <EmailNotice email={email} />
             <div id='section-buttons'>
                 <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={emailToPatient}>Email to Patient</button>
                 <button className='mdl-button mdl-button--raised mdl-button--colored'  onClick={emailTo}>Email to…</button>
@@ -26,6 +27,14 @@ function Feedback({ postStatus, emailStatus, emailToPatient, emailTo, surveyScor
             </div>
         </section>
     );
+}
+
+const EmailNotice = ({ email }) => {
+    if (!email || email.trim().length === 0) {
+        return <h2>Say: “We would like to email you some information and a link to a mobile app that you might find useful. Can I ask you for your email address?”</h2>
+    } else {
+        return <div />
+    }
 }
 
 function PostingStatus({ status }) {

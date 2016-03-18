@@ -174,6 +174,7 @@ const fbPage = ReactRedux.connect(
         emailStatus: state.postingEmail,
         surveyScore: surveyScore(state.survey),
         dailyScore: dailyScore(state.survey),
+        email: state.bio.email,
         age: state.bio.age,
         gender: state.bio.gender
     }),
