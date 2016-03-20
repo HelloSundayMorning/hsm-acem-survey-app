@@ -1,5 +1,5 @@
 import * as config from 'config'
-import { POSTING_SURVEY, SURVEY_POSTED, SURVEY_POST_FAILED } from 'src/constants'
+import { POSTING_SURVEY, SURVEY_POSTED, SURVEY_POST_FAILED, ANSWER } from 'src/constants'
 
 function action(dispatch, getState) {
     postState(getState()).then(response => {
@@ -47,8 +47,18 @@ function mapState({ location, bio, interviewer, survey }) {
     }
 }
 
+function answer(index, question, answer) {
+    return {
+        type: ANSWER,
+        index,
+        question,
+        answer
+    }
+}
+
 export default action
 
 export {
-    action
+    action,
+    answer
 }

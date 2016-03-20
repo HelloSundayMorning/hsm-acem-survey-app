@@ -15,8 +15,11 @@ import SurveyPage from 'components/SurveyPage'
 import Feedback from 'components/Feedback'
 import Frames from 'components/FramesReminder'
 import { Continue } from 'components/Footer'
+
 import history from 'actions/history'
 import * as email from 'actions/email'
+import { answer } from 'actions/survey'
+
 import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
 import logo from 'src/images/ACEM_V1_CMYK.png' // @_@
@@ -106,7 +109,7 @@ var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action
 
 var Audit = ReactRedux.connect(
     ({survey, lastQuestion }) => ({ survey, lastQuestion }),
-    {update: store.Answer }
+    {update: answer }
 )(AuditPage);
 
 const fbPage = ReactRedux.connect(
@@ -131,7 +134,7 @@ var routeMap = {
 
 var pageOrder = ['/', 'info', 'audit', 'feedback', 'frames']
 
-var s = store.NewStore()
+var s = store.create()
 var h = useScroll(createBrowserHistory)()
 h.listen(l => s.dispatch(history(l)))
 
