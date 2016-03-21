@@ -96,4 +96,10 @@ const auditQuestions = [
             {'text': 'No', score: 0},
             {'text': 'Yes, but not in the last year', score: 2},
             {'text': 'Yes, during the last year', score: 4}]
-    }]
+    },{
+        'text': 'Q11: Do you think this person will reduce their harmful drinking ?',
+        'answers': [
+            {'text': 'No', score: 0},
+            {'text': 'Unsure', score: 2},
+            {'text': 'Yes', score: 4}]
+    }];
