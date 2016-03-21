@@ -277,10 +277,13 @@ section.question {
 }
 
 #audit {
-    img {
-        width: 100%;
-        height: auto;
+    #drink-reference {
         margin-bottom: 24px;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
     }
 
     .question {
