@@ -16,6 +16,7 @@ import Feedback from 'components/Feedback'
 import Frames from 'components/FramesReminder'
 import FeedbackSection from 'components/FeedbackSection'
 import { Continue } from 'components/Footer'
+import Guidelines from 'components/NHMRCGuidelines'
 
 import history from 'actions/history'
 import * as email from 'actions/email'
@@ -103,8 +104,7 @@ var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action
                     </div>
                 </div>
 
-
-
+                <Guidelines/>
             </footer>
         </div>
     );
