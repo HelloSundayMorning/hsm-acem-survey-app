@@ -21,8 +21,6 @@ const Footer = connect(state => ({ state }), { postFeedback })(({ thisPage, page
         link = pageOrder[i+1]
     }
 
-    const Continue = valid(thisPage, state) ? LinkToNext : SpanToNext;
-
     const pageCount = pageOrder.length;
 
     return (
@@ -38,7 +36,12 @@ const Footer = connect(state => ({ state }), { postFeedback })(({ thisPage, page
                     }
                 })}
                 <div id='start-button'>
-                    <Continue className='mdl-button mdl-button--raised mdl-button--colored' link={link} label={label} />
+                    <Continue thisPage={thisPage}
+                              state={state}
+                              className='mdl-button mdl-button--raised mdl-button--colored'
+                              link={link}
+                              label={label}
+                    />
                     <FeedbackButton
                         show={i === pageOrder.length - 1}
                         status={state.postingFeedback}
@@ -50,6 +53,8 @@ const Footer = connect(state => ({ state }), { postFeedback })(({ thisPage, page
         </footer>
     );
 });
+
+const Continue = props => valid(props.thisPage, props.state) ? LinkToNext(props) : SpanToNext(props);
 
 const FooterLink = ({ currentPageIdx, thisPageIdx, title, target }) => {
     if (thisPageIdx < currentPageIdx) {
@@ -70,10 +75,11 @@ var SpanToNext = function(props) {
 }
 
 function valid(page, { interviewer, bio, survey, lastQuestion }) {
-    if (bio.age < 12 || bio.age > 110) {
+    if (!interviewer) {
+        return false
+    } else if (bio.age < 12 || bio.age > 110) {
         return false;
-    }
-    if (page === 'info') {
+    } else if (page === 'info') {
         return !!interviewer &&
             !!bio.gender &&
             !!bio.age &&
@@ -89,3 +95,7 @@ function valid(page, { interviewer, bio, survey, lastQuestion }) {
 }
 
 export default Footer;
+
+export {
+    Continue
+}
