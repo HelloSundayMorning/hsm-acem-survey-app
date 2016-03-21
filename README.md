@@ -13,6 +13,18 @@ Something like:
 
 If you are not working on the front-end and just need it to build for distribution/deployment, run `npm install --production instead`
 
+### Simulating Production Environment
+
+Build distribution version of app (starting at repo root):
+
+1. `cd frontend`
+2. `npm run dist`
+
+Serve built front-end (starting at repo root):
+
+1. `cd /public`
+2. `python -mSimpleHTTPServer <port, defaults to 8000>`
+
 # Backend
 
 ## Quick Started
