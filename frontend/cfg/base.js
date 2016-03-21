@@ -13,7 +13,7 @@ module.exports = {
         publicPath: publicPath
     },
     devServer: {
-        contentBase: './src/',
+        contentBase: './public/',
         historyApiFallback: true,
         hot: true,
         port: port,
