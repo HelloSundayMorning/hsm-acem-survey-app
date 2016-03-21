@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux';
 import FeedbackSection from 'components/FeedbackSection'
 import { post as postFeedback } from 'actions/feedback'
+import { pageValidates } from 'src/validations'
 
 const FeedbackButton = ({ show, status, onPost }) => {
     if (show) {
@@ -54,7 +55,14 @@ const Footer = connect(state => ({ state }), { postFeedback })(({ thisPage, page
     );
 });
 
-const Continue = props => valid(props.thisPage, props.state) ? LinkToNext(props) : SpanToNext(props);
+const Continue = props => pageValidates(props.thisPage, props.state) ? LinkToNext(props) : SpanToNext(props);
+
+Continue.PropTypes = {
+    thisPage: React.PropTypes.string.required,
+    state: React.PropTypes.object.isRequired,
+    link: React.PropTypes.string.required,
+    label: React.PropTypes.string.required
+};
 
 const FooterLink = ({ currentPageIdx, thisPageIdx, title, target }) => {
     if (thisPageIdx < currentPageIdx) {
@@ -72,26 +80,6 @@ var LinkToNext = function(props) {
 
 var SpanToNext = function(props) {
     return <span className={props.className} disabled='disabled'>{props.label}</span>
-}
-
-function valid(page, { interviewer, bio, survey, lastQuestion }) {
-    if (!interviewer) {
-        return false
-    } else if (bio.age < 12 || bio.age > 110) {
-        return false;
-    } else if (page === 'info') {
-        return !!interviewer &&
-            !!bio.gender &&
-            !!bio.age &&
-            !!bio.postcode
-    } else if (page === 'audit') {
-        for (var i = 0; i <= lastQuestion; ++i) {
-            if (!survey[i] || !survey[i].answer) {
-                return false
-            }
-        }
-    }
-    return true;
 }
 
 export default Footer;
