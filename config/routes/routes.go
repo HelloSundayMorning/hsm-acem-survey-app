@@ -34,6 +34,8 @@ func Mux() *http.ServeMux {
 	engine.POST("/surveys", controllers.SurveysCreate)
 	engine.OPTIONS("/surveys/email", controllers.SurveysOptions)
 	engine.POST("/surveys/email", controllers.EmailSurvey)
+	engine.OPTIONS("/surveys/feedback", controllers.SurveysOptions)
+	engine.POST("/surveys/feedback", controllers.FeedbackSurvey)
 
 	// Need to run SetCurrentUser middleware for QOR admin
 	engine.Group("/admin", controllers.SetCurrentUser)

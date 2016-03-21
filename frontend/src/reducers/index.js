@@ -35,6 +35,11 @@ const postingSurvey = actionType(
     actions.SURVEY_POSTED,
     actions.SURVEY_POST_FAILED
 );
+const postingFeedback = actionType(
+    actions.FEEDBACK_POSTING,
+    actions.FEEDBACK_POSTED,
+    actions.FEEDBACK_POST_FAILED
+);
 
 const id = (a = null) => a
 
@@ -42,6 +47,7 @@ const combined = combineReducers({
     interviewer,
     postingEmail,
     postingSurvey,
+    postingFeedback,
     bio,
     location,
     survey: id,

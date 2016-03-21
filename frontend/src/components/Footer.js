@@ -1,8 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux';
+import FeedbackSection from 'components/FeedbackSection'
+import { post as postFeedback } from 'actions/feedback'
 
-const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, state }) => {
+const FeedbackButton = ({ show, status, onPost }) => {
+    if (show) {
+        return <FeedbackSection status={status} onPost={onPost} />;
+    } else {
+        return <div></div>;
+    }
+}
+
+const Footer = connect(state => ({ state }), { postFeedback })(({ thisPage, pageOrder, routeMap, state, postFeedback }) => {
     const i = pageOrder.indexOf(thisPage);
     let label = 'Done';
     let link = '/';
@@ -31,6 +41,11 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
                               className='mdl-button mdl-button--raised mdl-button--colored'
                               link={link}
                               label={label}
+                    />
+                    <FeedbackButton
+                        show={i === pageOrder.length - 1}
+                        status={state.postingFeedback}
+                        onPost={postFeedback}
                     />
                 </div>
             </section>

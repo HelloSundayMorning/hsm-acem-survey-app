@@ -63,6 +63,29 @@ func EmailSurvey(ctx *gin.Context) {
 	ctx.AbortWithStatus(http.StatusAccepted)
 }
 
+// FeedbackSurvey accepts feedback mail template data, responds with
+// 202 Accepted, and spawns a goroutine to send an email via Mandrill.
+func FeedbackSurvey(ctx *gin.Context) {
+	ctx.Header("Access-Control-Allow-Origin", "http://localhost:8000")
+	ctx.Header("Access-Control-Allow-Headers", "Content-type")
+
+	template := models.NewFeedbackMailTemplate()
+
+	if err := ctx.BindJSON(&template); err != nil {
+		ctx.AbortWithStatus(HTTPStatusUnprocessableEntity)
+		return
+	}
+
+	go func() {
+		err := models.SendFeedbackMail(template)
+		if err != nil {
+			config.AirbrakeNotify(fmt.Errorf("send survey feedback mail failed, error: %v", err))
+		}
+	}()
+
+	ctx.AbortWithStatus(http.StatusAccepted)
+}
+
 // SurveysOptions returns headers to allow JS applications to talk to
 // the API directly via fetch/XHR requests.
 func SurveysOptions(ctx *gin.Context) {

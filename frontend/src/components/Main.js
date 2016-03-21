@@ -14,11 +14,13 @@ import AuditPage from 'components/AuditPage'
 import SurveyPage from 'components/SurveyPage'
 import Feedback from 'components/Feedback'
 import Frames from 'components/FramesReminder'
+import FeedbackSection from 'components/FeedbackSection'
 import { Continue } from 'components/Footer'
 
 import history from 'actions/history'
 import * as email from 'actions/email'
 import { answer } from 'actions/survey'
+import { post as postFeedback } from 'actions/feedback'
 
 import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
@@ -59,7 +61,7 @@ function Header() {
     )
 }
 
-var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action })(function(props) {
+var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action, postFeedback })(function(props) {
     return (
         <div className='survey-page'>
             <section id='intro'>
@@ -97,6 +99,7 @@ var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action
                     </select>
                     <div id='start-button'>
                         <Continue className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' link='/info' label='Start' state={props.state}/>
+                        <FeedbackSection status={props.state.postingFeedback} onPost={props.postFeedback} />
                     </div>
                 </div>
 
