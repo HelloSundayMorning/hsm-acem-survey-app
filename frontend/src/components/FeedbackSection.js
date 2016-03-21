@@ -1,20 +1,19 @@
 import React from 'react'
 import {
     FEEDBACK_POSTING,
+    FEEDBACK_POSTED,
     FEEDBACK_POST_FAILED
 } from 'src/constants'
 
+const messageMap = {
+    [FEEDBACK_POSTING]: 'Sending feedback…',
+    [FEEDBACK_POSTED]: 'Feedback sent.',
+    [FEEDBACK_POST_FAILED]: 'Failed to send feedback.'
+};
+
 const SendingStatus = ({ status }) => {
     if (status) {
-        let text = '';
-        if (status === FEEDBACK_POSTING) {
-            text = 'Sending feedback…';
-        } else if (status === FEEDBACK_POST_FAILED) {
-            text = 'Failed to send feedback.';
-        } else {
-            text = 'Feedback sent.';
-        }
-        return <div id='feedback-message'>{text}</div>;
+        return <div id='feedback-message'>{messageMap[status]}</div>;
     } else {
         return <div></div>;
     }
