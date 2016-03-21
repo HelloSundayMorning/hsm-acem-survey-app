@@ -1,6 +1,8 @@
 import React from 'react'
 import Question from 'components/Question'
 
+import standardDrinkReference from 'src/images/Standard_Drinks.png'
+
 const AuditPage = ({ survey, lastQuestion, update }) => {
     const change = i =>
         (event, question, answer) => {
@@ -10,6 +12,7 @@ const AuditPage = ({ survey, lastQuestion, update }) => {
     return (
         <section id='audit'>
             <h1>Audit Questionnaire</h1>
+            <img src={standardDrinkReference} />
             {auditQuestions.map((q, i) =>
                 <Question key={q.key || q.text} q={q} onChange={change(i)} value={(survey[i] || {answer: {}}).answer.text} disabled={i > lastQuestion} />
              )}
