@@ -69,9 +69,9 @@ header {
 footer {
     min-height: 70px;
     flex: 0 1;
-    display: flex;
     align-items: baseline;
     justify-content: space-between;
+    padding-bottom: 48px;
 
     /* Override MDL accent */
     a.footer-link {
@@ -87,6 +87,7 @@ footer {
         font-family: Roboto-Medium, sans-serif;
         color: $black;
         line-height: 24px;
+        margin-bottom: 48px;
 
         select {
             margin-left: 5px;
