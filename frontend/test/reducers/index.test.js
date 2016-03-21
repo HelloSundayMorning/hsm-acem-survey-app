@@ -18,23 +18,23 @@ const tests = [{
     expected: { interviewer: 'Nurse' }
 },{
     input: {},
-    action: bio.location.action("Fitzroy"),
-    expected: { location: "Fitzroy" }
+    action: bio.location.action('Fitzroy'),
+    expected: { location: 'Fitzroy' }
 },{
     input: {},
-    action: bio.bio.action("30", "age"),
+    action: bio.bio.action('30', 'age'),
     expected: { bio: { age: 30 }}
 },{
     input: { bio: { age: 20 }},
-    action: bio.bio.action("30", "age"),
+    action: bio.bio.action('30', 'age'),
     expected: { bio: { age: 30 }}
 },{
     input: {},
-    action: bio.bio.action("abc", "age"),
+    action: bio.bio.action('abc', 'age'),
     expected: { bio: { age: null }}
 },{
     input: { bio: { age: 20 }},
-    action: bio.bio.action("abc", "age"),
+    action: bio.bio.action('abc', 'age'),
     expected: { bio: { age: null }}
 },{
     input: { location: '123' },
@@ -50,9 +50,9 @@ const tests = [{
 // test strip later answers
 // test fill holes with null
 // test set last question
-const question = { text: "question", answers: [
-    {text: "Monthly", score: 0 },
-    {text: "Always", score: 4}
+const question = { text: 'question', answers: [
+    {text: 'Monthly', score: 0 },
+    {text: 'Always', score: 4}
 ]}
 
 const surveyState = { bio: { gender: 'male' }, survey: [] };
@@ -64,7 +64,7 @@ tests.push({
 });
 
 tests.push({
-    label: "set last question",
+    label: 'set last question',
     input: surveyState,
     action: answer(0, question, question.answers[1]),
     expected: { survey: [{ question: question.text, answer: question.answers[1] }], lastQuestion: 2 }
@@ -72,7 +72,7 @@ tests.push({
 
 describe('reducer', () => {
     tests.forEach(({ label, input, action, expected }) => {
-        it("should " + (label ? label : `transform ${JSON.stringify(input)} to ${JSON.stringify(expected)} on action ${JSON.stringify(action)}`), () => {
+        it('should ' + (label ? label : `transform ${JSON.stringify(input)} to ${JSON.stringify(expected)} on action ${JSON.stringify(action)}`), () => {
             const result = reducer(input, action);
             expect(result).to.containSubset(expected);
         });
