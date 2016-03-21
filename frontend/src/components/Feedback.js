@@ -31,7 +31,14 @@ function Feedback({ email, postStatus, emailStatus, emailToPatient, emailTo, sur
 
 const EmailNotice = ({ email }) => {
     if (!email || email.trim().length === 0) {
-        return <h2>Say: “We would like to email you some information and a link to a mobile app that you might find useful. Can I ask you for your email address?”</h2>
+        return <section className='instructions'>
+            <h2>Tell your patient:</h2>
+            <blockquote>
+                <p>
+                    We would like to email you some information and a link to a mobile app that you might find useful. Can I ask you for your email address?
+                </p>
+            </blockquote>
+        </section>
     } else {
         return <div />
     }
