@@ -5,7 +5,8 @@ const initialState = {
     interviewer: null,
     location: '',
     postingSurvey: null,
-    postingEmail: null
+    postingEmail: null,
+    postingFeedback: null
 }
 
 export default initialState

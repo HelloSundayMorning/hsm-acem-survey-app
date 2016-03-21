@@ -152,12 +152,61 @@ func emailParams() models.EmailTemplate {
 	}
 }
 
+func TestSendFeedbackMail(t *testing.T) {
+	u.SuccessMandrillConfigure()
+
+	req := prepareFeedbackRequest(t, feedbackMailParams())
+	res := doRequest(t, req)
+
+	if res.StatusCode != http.StatusAccepted {
+		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+}
+
+func TestSendFeedbackMailInvalidParams(t *testing.T) {
+	u.NilMandrillConfigure() // Will panic if trying to send email...
+
+	req := prepareFeedbackRequest(t, nil)
+	res := doRequest(t, req)
+
+	// FIXME check no email was sent
+
+	if res.StatusCode != controllers.HTTPStatusUnprocessableEntity {
+		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+}
+
+func TestSendFeedbackMailFailingMandrill(t *testing.T) {
+	u.ErrorMandrillConfigure()
+
+	req := prepareFeedbackRequest(t, feedbackMailParams())
+	res := doRequest(t, req)
+
+	// FIXME check logging into Airbrake
+
+	if res.StatusCode != http.StatusAccepted {
+		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+}
+
+func feedbackMailParams() models.FeedbackMailTemplate {
+	return models.FeedbackMailTemplate{
+		Emails:   []string{"test@example.com"},
+		Template: "feedback",
+		FreeText: "Put feedback as free text here.",
+	}
+}
+
 func prepareSurveyRequest(t *testing.T, data interface{}) *http.Request {
 	return prepareRequest(t, data, "/surveys")
 }
 
 func prepareEmailRequest(t *testing.T, data interface{}) *http.Request {
 	return prepareRequest(t, data, "/surveys/email")
+}
+
+func prepareFeedbackRequest(t *testing.T, data interface{}) *http.Request {
+	return prepareRequest(t, data, "/surveys/feedback")
 }
 
 func prepareRequest(t *testing.T, data interface{}, path string) *http.Request {

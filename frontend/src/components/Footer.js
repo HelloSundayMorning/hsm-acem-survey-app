@@ -1,8 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux';
+import FeedbackSection from 'components/FeedbackSection'
+import { post as postFeedback } from 'actions/feedback'
 
-const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, state }) => {
+const FeedbackButton = ({ show, status, onPost }) => {
+    if (show) {
+        return <FeedbackSection status={status} onPost={onPost} />;
+    } else {
+        return <div></div>;
+    }
+}
+
+const Footer = connect(state => ({ state }), { postFeedback })(({ thisPage, pageOrder, routeMap, state, postFeedback }) => {
     const i = pageOrder.indexOf(thisPage);
     let label = 'Done';
     let link = '/';
@@ -10,8 +20,6 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
         label = 'Continue'
         link = pageOrder[i+1]
     }
-
-    const Continue = valid(thisPage, state) ? LinkToNext : SpanToNext;
 
     const pageCount = pageOrder.length;
 
@@ -28,13 +36,25 @@ const Footer = connect(state => ({ state }))(({ thisPage, pageOrder, routeMap, s
                     }
                 })}
                 <div id='start-button'>
-                    <Continue className='mdl-button mdl-button--raised mdl-button--colored' link={link} label={label} />
+                    <Continue thisPage={thisPage}
+                              state={state}
+                              className='mdl-button mdl-button--raised mdl-button--colored'
+                              link={link}
+                              label={label}
+                    />
+                    <FeedbackButton
+                        show={i === pageOrder.length - 1}
+                        status={state.postingFeedback}
+                        onPost={postFeedback}
+                    />
                 </div>
             </section>
 
         </footer>
     );
 });
+
+const Continue = props => valid(props.thisPage, props.state) ? LinkToNext(props) : SpanToNext(props);
 
 const FooterLink = ({ currentPageIdx, thisPageIdx, title, target }) => {
     if (thisPageIdx < currentPageIdx) {
@@ -55,10 +75,11 @@ var SpanToNext = function(props) {
 }
 
 function valid(page, { interviewer, bio, survey, lastQuestion }) {
-    if (bio.age < 12 || bio.age > 110) {
+    if (!interviewer) {
+        return false
+    } else if (bio.age < 12 || bio.age > 110) {
         return false;
-    }
-    if (page === 'info') {
+    } else if (page === 'info') {
         return !!interviewer &&
             !!bio.gender &&
             !!bio.age &&
@@ -74,3 +95,7 @@ function valid(page, { interviewer, bio, survey, lastQuestion }) {
 }
 
 export default Footer;
+
+export {
+    Continue
+}

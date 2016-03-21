@@ -5,24 +5,27 @@ require('styles/responsive.scss');
 
 import React from 'react'
 import * as ReactRedux from 'react-redux';
-import { Router, Route, Link } from 'react-router'
+import { Router, Route } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import useScroll from 'scroll-behavior/lib/useScrollToTop'
-import Question from 'components/Question'
+import Interviewer from 'components/Interviewer'
+import PatientBio from 'components/PatientBio'
 import AuditPage from 'components/AuditPage'
 import SurveyPage from 'components/SurveyPage'
 import Feedback from 'components/Feedback'
 import Frames from 'components/FramesReminder'
+import FeedbackSection from 'components/FeedbackSection'
+import { Continue } from 'components/Footer'
 
 import history from 'actions/history'
 import * as email from 'actions/email'
 import { answer } from 'actions/survey'
+import { post as postFeedback } from 'actions/feedback'
 
 import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
 import logo from 'src/images/ACEM_V1_CMYK.png' // @_@
 import installPolyfills from 'src/polyfills'
-import { bioValidates } from 'src/validations'
 
 installPolyfills()
 
@@ -58,10 +61,12 @@ function Header() {
     )
 }
 
-var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.location.action })(function(props) {
+var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action, postFeedback })(function(props) {
     return (
         <div className='survey-page'>
             <section id='intro'>
+                <Interviewer />
+
                 <h1>The FRAMES model</h1>
 
                 <p><strong>F</strong>eedback: Many people are unaware that they are drinking at hazardous or harmful levels and highlighting risks linked to current drinking patterns can be a powerful motivator for change.</p>
@@ -89,11 +94,12 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
 
                 <div id='location'>
                     Current Location:
-                    <select value={props.location} onChange={({target: {value}}) => updateLocation(value, props.update)}>
+                    <select value={props.state.location} onChange={({target: {value}}) => updateLocation(value, props.update)}>
                         {Locations.map(l => <option key={l} value={l}>{l}</option> )}
                     </select>
                     <div id='start-button'>
-                        <Link id='start-survey' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' to='/info'>Start</Link>
+                        <Continue className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' link='/info' label='Start' state={props.state}/>
+                        <FeedbackSection status={props.state.postingFeedback} onPost={props.postFeedback} />
                     </div>
                 </div>
 
@@ -103,103 +109,6 @@ var Intro = ReactRedux.connect(({ location }) => ({ location }), { update: bio.l
         </div>
     );
 })
-
-var interviewerQuestion = {
-    text: 'Interviewer',
-    key: 'interviewer',
-    answers: [
-        {key: 'nurse', text: 'Nurse'},
-        {key: 'doctor', text: 'Doctor'},
-        {key: 'allied', text: 'Allied Health'},
-        {key: 'other', text: 'Other'}
-    ]
-}
-
-var genderQuestion = {
-    text: 'Gender:',
-    key: 'gender',
-    answers: [
-        {key: 'male', text: 'Male'},
-        {key: 'female', text: 'Female'},
-        {key: 'other', text: 'Other'}
-    ]
-}
-
-const Input = ({ label, type, value, onChange, valid }) => {
-    let classNames = ['simple-input']
-    if (!valid) {
-        classNames.push('invalidate')
-    }
-    return (
-        <label className={classNames.join(' ')}>
-            {label}
-            <input
-                type={type}
-                value={value}
-                onChange={onChange}
-            />
-        </label>
-    )
-}
-
-const bioInputFields = [
-    { name: 'age', type: 'number', label: 'Age (must be between 12 and 110):' },
-    { name: 'postcode', type: 'number', label: 'Postcode:' },
-    { name: 'email', type: 'email', label: 'Patient email (optional):' },
-    { name: 'phone', type: 'tel', label: 'Patient mobile (optional):' }
-];
-
-var PatientBio = React.createClass({
-    handleChange(input) {
-        this.props.update(input.value, input.name)
-    },
-    changeField(field) {
-        return event => this.handleChange({ value: event.target.value, name: field });
-    },
-    validates(field) {
-        return bioValidates(field, this.props.bio[field]);
-    },
-    render() {
-        return (
-            <fieldset id='patient-bio'>
-                <legend>Patient Information</legend>
-                <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-                {bioInputFields.map(field => <Input
-                                                 key={field.name}
-                                                 label={field.label}
-                                                 value={this.props.bio[field.name]}
-                                                 type={field.type}
-                                                 onChange={this.changeField(field.name)}
-                                                 valid={this.validates(field.name)}
-                                             />)}
-            </fieldset>
-        )
-    }
-});
-
-PatientBio = ReactRedux.connect(function(s) { return {bio: s.bio} }, {update: bio.bio.action})(PatientBio);
-
-
-var Interviewer = ReactRedux.connect(function(s) {
-    return {interviewer: s.interviewer}
-}, {update: bio.interviewer.action})(function(props) {
-
-    return (
-        <Question value={props.interviewer} onChange={input => props.update(input.value)} q={interviewerQuestion} />
-    )
-})
-
-var BasicInfo = React.createClass({
-    render() {
-        return (
-            <section id='basic-info'>
-                <h1>Basic Information</h1>
-                <Interviewer />
-                <PatientBio />
-            </section>
-        );
-    }
-});
 
 var Audit = ReactRedux.connect(
     ({survey, lastQuestion }) => ({ survey, lastQuestion }),
@@ -220,7 +129,7 @@ const fbPage = ReactRedux.connect(
 
 var routeMap = {
     '/': [Intro, 'Start'],
-    'info': [BasicInfo, 'Basic Info'],
+    'info': [PatientBio, 'Patient Info'],
     'audit': [Audit, 'AUDIT'],
     'feedback': [fbPage, 'Feedback'],
     'frames': [Frames, 'FRAMES']

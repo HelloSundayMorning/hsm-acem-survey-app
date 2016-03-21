@@ -51,3 +51,42 @@ func emailParams() models.EmailTemplate {
 		PopulationPercentage: 70,
 	}
 }
+
+func TestSendFeedbackMailWithNoEmails(t *testing.T) {
+	u.SuccessMandrillConfigure()
+
+	template := feedbackParams()
+	template.Emails = []string{}
+
+	if err := models.SendFeedbackMail(template); err != models.ErrNoEmailAddress {
+		t.Fatalf("Unexpected error: %v", err)
+	}
+}
+
+func TestSendFeedbackMailFailure(t *testing.T) {
+	u.ErrorMandrillConfigure()
+
+	template := feedbackParams()
+
+	if err := models.SendFeedbackMail(template); err == nil {
+		t.Fatal("Expected sent mail failure, but it sent out successfully")
+	}
+}
+
+func TestSendFeedbackMailSuccess(t *testing.T) {
+	u.SuccessMandrillConfigure()
+
+	template := feedbackParams()
+
+	if err := models.SendFeedbackMail(template); err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
+}
+
+func feedbackParams() models.FeedbackMailTemplate {
+	return models.FeedbackMailTemplate{
+		Emails:   []string{"test@example.com"},
+		Template: "feedback",
+		FreeText: "Put free text here",
+	}
+}

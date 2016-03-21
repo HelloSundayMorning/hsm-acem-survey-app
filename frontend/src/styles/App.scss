@@ -245,7 +245,7 @@ section.question {
 
 }
 
-#intro, #basic-info, #reminder, footer {
+#intro, #patient-bio, #reminder, footer {
     width: 100%;
     margin: 0 auto;
 }
@@ -258,27 +258,11 @@ section.question {
 #intro {
     display: flex;
     flex-direction: column;
+    margin-top: 24px;
     margin-bottom: 48px;
-
-    #start-survey {
-        align-self: center;
-
-        margin: 20px 0;
-    }
 }
 
-#basic-info {
-
-    fieldset {
-        margin-top: 40px;
-
-        legend {
-            font-family: Roboto-Medium, sans-serif;
-            color: $black;
-            line-height: 24px;
-            margin-bottom: 8px;
-        }
-    }
+#patient-bio {
 
     .simple-input {
         font-family: Roboto-Regular, sans-serif;
@@ -366,5 +350,28 @@ section.question {
 }
 
 #start-button{
-  padding-top: 7%;
+  padding-top: 15px;
+}
+
+#feedback-section {
+    display: inline-block;
+    margin-left: 15px;
+
+    // #feedback-message is base on .poor-snack but display inline
+    // in order to display on the right of the footer button.
+    #feedback-message {
+        display: inline-block;
+        margin: 0 0 0 15px;
+        padding: 0 16px;
+        min-width: 64px;
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px solid #323232;
+
+        // Basic .poor-snack styles
+        background: #323232;
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 16px;
+        color: #FFFFFF;
+    }
 }
