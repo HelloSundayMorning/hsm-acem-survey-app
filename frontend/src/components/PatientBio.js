@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import Question from 'components/Question'
 import * as bio from 'actions/bio'
-import { bioValidates } from 'src/validations'
+import { validateBioField } from 'src/validations'
 
 var genderQuestion = {
     text: 'Gender:',
@@ -46,7 +46,7 @@ var PatientBio = React.createClass({
         return event => this.handleChange({ value: event.target.value, name: field });
     },
     validates(field) {
-        return bioValidates(field, this.props.bio[field]);
+        return validateBioField(field, this.props.bio[field]);
     },
     render() {
         return (

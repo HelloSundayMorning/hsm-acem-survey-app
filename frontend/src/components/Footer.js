@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux';
 import FeedbackSection from 'components/FeedbackSection'
 import { post as postFeedback } from 'actions/feedback'
-import { pageValidates } from 'src/validations'
+import { validatePage } from 'src/validations'
 
 const FeedbackButton = ({ show, status, onPost }) => {
     if (show) {
@@ -55,7 +55,7 @@ const Footer = connect(state => ({ state }), { postFeedback })(({ thisPage, page
     );
 });
 
-const Continue = props => pageValidates(props.thisPage, props.state) ? LinkToNext(props) : SpanToNext(props);
+const Continue = props => validatePage(props.thisPage, props.state) ? LinkToNext(props) : SpanToNext(props);
 
 Continue.PropTypes = {
     thisPage: React.PropTypes.string.required,
