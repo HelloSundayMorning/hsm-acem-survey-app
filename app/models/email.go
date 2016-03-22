@@ -30,7 +30,7 @@ type EmailTemplate struct {
 	// Number 0-100 that indicates percentage of similar population
 	// that drinks less than the patient as indicated by their survey
 	// results.
-	PopulationPercentage uint `binding:"required"`
+	PopulationPercentage *uint `binding:"exists"` // `binding:"required"` rejects a value of 0, and "exists" requires a pointer to work correctly
 
 	// Chart image tags that link to (deprecated) Google Static Charts
 	FrequencyChart string `binding:"required"`

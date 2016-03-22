@@ -48,7 +48,7 @@ func emailParams() models.EmailTemplate {
 		RiskChart:            "http://thecatapi.com/api/images/get?format=src&type=gif",
 		SurveyScore:          &score,
 		RiskFactorString:     "twice as likely",
-		PopulationPercentage: 70,
+		PopulationPercentage: &score,
 	}
 }
 

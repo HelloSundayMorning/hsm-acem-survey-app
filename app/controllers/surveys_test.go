@@ -112,6 +112,22 @@ func TestSendEmail(t *testing.T) {
 	}
 }
 
+func TestSendEmailWithZeroParams(t *testing.T) {
+	u.SuccessMandrillConfigure()
+
+	params := emailParams()
+	zero := uint(0)
+	params.SurveyScore = &zero
+	params.PopulationPercentage = &zero
+
+	req := prepareEmailRequest(t, params)
+	res := doRequest(t, req)
+
+	if res.StatusCode != http.StatusAccepted {
+		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+}
+
 func TestSendEmailInvalidParams(t *testing.T) {
 	u.NilMandrillConfigure() // Will panic if trying to send email...
 
@@ -148,7 +164,7 @@ func emailParams() models.EmailTemplate {
 		RiskChart:            "http://thecatapi.com/api/images/get?format=src&type=gif",
 		SurveyScore:          &score,
 		RiskFactorString:     "twice as likely",
-		PopulationPercentage: 70,
+		PopulationPercentage: &score,
 	}
 }
 
