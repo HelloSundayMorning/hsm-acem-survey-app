@@ -1,7 +1,5 @@
 var path = require('path');
-var srcPath = path.join(__dirname, '/../src/');
 var webpack = require('webpack');
-var _ = require('lodash');
 
 var baseConfig = require('./base');
 

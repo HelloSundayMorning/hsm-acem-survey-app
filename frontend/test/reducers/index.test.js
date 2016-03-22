@@ -57,17 +57,19 @@ const question = { text: 'question', answers: [
 
 const surveyState = { bio: { gender: 'male' }, survey: [] };
 
+const newSurveyState = ({ text: question }, answer) => [{ question, answer }];
+
 tests.push({
     input: surveyState,
     action: answer(0, question, question.answers[0]),
-    expected: { survey: [{ question: question.text, answer: question.answers[0] }], lastQuestion: 0 }
+    expected: { survey: newSurveyState(question, question.answers[0]), lastQuestion: 0 }
 });
 
 tests.push({
     label: 'set last question',
     input: surveyState,
     action: answer(0, question, question.answers[1]),
-    expected: { survey: [{ question: question.text, answer: question.answers[1] }], lastQuestion: 2 }
+    expected: { survey: newSurveyState(question, question.answers[1]), lastQuestion: 2 }
 });
 
 describe('reducer', () => {
