@@ -1,6 +1,9 @@
 import React from 'react'
 import Question from 'components/Question'
 
+import standardDrinkReferenceWide from 'src/images/Standard_Drinks.png'
+import standardDrinkReferenceTall from 'src/images/Standard_Drinks_2.png'
+
 const AuditPage = ({ survey, lastQuestion, update }) => {
     const change = i =>
         (event, question, answer) => {
@@ -10,6 +13,11 @@ const AuditPage = ({ survey, lastQuestion, update }) => {
     return (
         <section id='audit'>
             <h1>Audit Questionnaire</h1>
+            <div id='drink-reference'>
+                <img id='wide' src={standardDrinkReferenceWide} />
+                <img id='tall' src={standardDrinkReferenceTall} />
+                Source: <a href='http://www.druginfo.sl.nsw.gov.au/alcohol/know_your_standards.html'>NSW Health</a>
+            </div>
             {auditQuestions.map((q, i) =>
                 <Question key={q.key || q.text} q={q} onChange={change(i)} value={(survey[i] || {answer: {}}).answer.text} disabled={i > lastQuestion} />
              )}

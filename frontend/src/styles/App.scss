@@ -278,6 +278,20 @@ section.question {
 }
 
 #audit {
+    #drink-reference {
+        margin-bottom: 24px;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        #tall {
+            display: none;
+        }
+
+    }
+
     .question {
         height: 100%;
         padding-top: 14px;

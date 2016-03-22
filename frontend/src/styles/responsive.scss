@@ -23,6 +23,17 @@
             }
         }
     }
+
+    #audit #drink-reference {
+        #tall {
+            display: block;
+        }
+
+        #wide {
+            display: none;
+        }
+
+    }
 }
 
 @media all and (max-width: 320px) {
