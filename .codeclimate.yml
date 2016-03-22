@@ -25,6 +25,13 @@ engines:
           - "frontend/src/**/*.js"
           - "frontend/test/**/*.js"
           - "frontend/cfg/**/*.js"
+    exclude_fingerprints:
+    # consumptionRateData in frontend/src/surveyResults.js
+    # Two data tables for male/female with identical shape but different numbers
+    - 29d637d07c926250b3f22f62d053dd73
+    # auditQuestions in frontend/src/components/AuditPage.js
+    # survey questions have identical shape but different data
+    - ae5a687c01cba21e3b2c3dbc7a7c79bd
 ratings:
   paths:
   - "**.js"
