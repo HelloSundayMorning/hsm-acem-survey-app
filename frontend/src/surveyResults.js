@@ -34,13 +34,17 @@ function consumptionRates(age, gender) {
     return rates.find(({maxAge}) => age < maxAge)
 }
 
-function drinkPercentage(age, gender, dailyScore) {
-    const rate = consumptionRates(age, gender)
-    let percentage = rate.abstain;
-    if (dailyScore > 0) {
-        percentage += rate.lowRisk;
+function drinkPercentage(age, gender, surveyScore, dailyScore) {
+    if (surveyScore === 0) {
+        return 0;
+    } else {
+        const rate = consumptionRates(age, gender);
+        let percentage = rate.abstain;
+        if (dailyScore > 0) {
+            percentage += rate.lowRisk;
+        }
+        return Math.round(percentage);
     }
-    return Math.round(percentage);
 }
 
 const incidentRiskFactor = {

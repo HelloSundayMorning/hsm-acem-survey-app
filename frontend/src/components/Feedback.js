@@ -90,7 +90,7 @@ const riskComponentMap = {
 }
 
 function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
-    const percentage = drinkPercentage(age, gender, dailyScore)
+    const percentage = drinkPercentage(age, gender, surveyScore, dailyScore)
 
     let dependencePrompt = ''
     if (riskCategory(surveyScore) === DEPENDENCE_LIKELY) {
@@ -158,7 +158,11 @@ function FeedbackCharts({ surveyScore, dailyScore, age, gender }) {
         <section id='feedback-charts'>
             <AuditScoreChart score={surveyScore} />
             <RiskFactorChart dailyScore={dailyScore} />
-            <FrequencyChart age={age} gender={gender} dailyScore={dailyScore} />
+            <FrequencyChart age={age}
+                            gender={gender}
+                            surveyScore={surveyScore}
+                            dailyScore={dailyScore}
+            />
         </section>
     )
 }
@@ -167,8 +171,10 @@ function AuditScoreChart({ score }) {
     return <Chart title='AUDIT Score' url={auditScoreGraphLink(score)} />
 }
 
-function FrequencyChart({age, gender, dailyScore}) {
-    return <Chart title='Drink Frequency' url={frequencyGraphLink(age, gender, dailyScore)} />
+function FrequencyChart({age, gender, surveyScore, dailyScore}) {
+    return <Chart title='Drink Frequency'
+                  url={frequencyGraphLink(age, gender, surveyScore, dailyScore)}
+           />
 }
 
 function RiskFactorChart({dailyScore}) {

@@ -32,8 +32,8 @@ function auditScoreGraphLink(score) {
     return link(data)
 }
 
-function frequencyGraphLink(age, gender, dailyScore) {
-    const percentage = drinkPercentage(age, gender, dailyScore)/100
+function frequencyGraphLink(age, gender, surveyScore, dailyScore) {
+    const percentage = drinkPercentage(age, gender, surveyScore, dailyScore)/100
 
     const data = [
         'cht=p', // Pie chart

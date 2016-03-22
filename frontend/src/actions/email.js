@@ -66,7 +66,7 @@ function mapState(email, state) {
         AuditChart: auditScoreGraphLink(surveyScore),
         SurveyScore: surveyScore,
         RiskFactorString: riskFactorString,
-        PopulationPercentage: surveyData.drinkPercentage(age, gender, dailyScore)
+        PopulationPercentage: surveyData.drinkPercentage(age, gender, surveyScore, dailyScore)
     }
 }
 
