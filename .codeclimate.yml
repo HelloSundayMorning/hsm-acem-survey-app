@@ -2,10 +2,16 @@
 engines:
   golint:
     enabled: true
+    exclude_paths:
+    - "frontend/**/*"
   govet:
     enabled: true
+    exclude_paths:
+    - "frontend/**/*"
   gofmt:
     enabled: true
+    exclude_paths:
+    - "frontend/**/*"
   eslint:
     enabled: true
   csslint:
@@ -14,7 +20,11 @@ engines:
     enabled: true
     config:
       languages:
-      - javascript
+        javascript:
+          paths:
+          - "frontend/src/**/*.js"
+          - "frontend/test/**/*.js"
+          - "frontend/cfg/**/*.js"
 ratings:
   paths:
   - "**.js"
@@ -24,3 +34,4 @@ ratings:
   - "**.go"
 exclude_paths:
   - "frontend/src/styles/mdl.css"
+  - "frontend/node_modules/**/*"
