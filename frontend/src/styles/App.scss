@@ -7,6 +7,7 @@ $black: #212121;
 $light-grey: #757575;
 
 $accent-color: #00BCD4;
+$highlight-color: red;
 
 html, body, p {
     font-size: 16px;
@@ -171,6 +172,17 @@ blockquote {
 
 section.question {
 
+    &.invalidate {
+        &.disabled {
+            .legend {
+                color: $light-grey;
+            }
+        }
+        .legend {
+            color: $highlight-color;
+        }
+    }
+
     .legend {
         display: block;
         font-family: Roboto-Regular, sans-serif;
@@ -273,6 +285,9 @@ section.question {
             padding-left: 10px;
 
         }
+        &.invalidate {
+            color: $highlight-color;
+        }
     }
 
 }
@@ -305,6 +320,17 @@ section.question {
 
         &.disabled {
             opacity: 0.1;
+        }
+
+        &.invalidate {
+            &.disabled {
+                .legend {
+                    color: $black;
+                }
+            }
+            .legend {
+                color: $highlight-color;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import Question from 'components/Question'
 import * as bio from 'actions/bio'
+import { validateBioField } from 'src/validations'
 
 var genderQuestion = {
     text: 'Gender:',
@@ -11,21 +12,55 @@ var genderQuestion = {
         {key: 'female', text: 'Female'},
         {key: 'other', text: 'Other'}
     ]
-}
+};
+
+const bioInputFields = [
+    { name: 'age', type: 'number', label: 'Age (must be between 12 and 110):' },
+    { name: 'postcode', type: 'number', label: 'Postcode:' },
+    { name: 'email', type: 'email', label: 'Patient email (optional):' },
+    { name: 'phone', type: 'tel', label: 'Patient mobile (optional):' }
+];
+
+const Input = ({ label, type, value, onChange, valid }) => {
+    let classNames = ['simple-input']
+    if (!valid) {
+        classNames.push('invalidate')
+    }
+    return (
+        <label className={classNames.join(' ')}>
+            {label}
+            <input
+                type={type}
+                value={value}
+                onChange={onChange}
+            />
+        </label>
+    )
+};
 
 var PatientBio = React.createClass({
     handleChange(input) {
         this.props.update(input.value, input.name)
+    },
+    changeField(field) {
+        return event => this.handleChange({ value: event.target.value, name: field });
+    },
+    validates(field) {
+        return validateBioField(field, this.props.bio[field]);
     },
     render() {
         return (
             <section id='patient-bio'>
                 <h1>Patient Information</h1>
                 <Question q={genderQuestion} onChange={this.handleChange} value={this.props.bio.gender}  />
-                <label className='simple-input'>Age (must be between 12 and 110): <input type='number' min='12' max ='110' name='age' value={this.props.bio.age} onChange={event => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Postcode: <input type='number' name='postcode' value={this.props.bio.postcode} onChange={event => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Patient email (optional): <input type='email' name='email' value={this.props.bio.email} onChange={event => this.handleChange(event.target)}/></label>
-                <label className='simple-input'>Patient mobile (optional): <input type='tel' name='phone' value={this.props.bio.phone}  onChange={event => this.handleChange(event.target)}/></label>
+                {bioInputFields.map(field => <Input
+                                                 key={field.name}
+                                                 label={field.label}
+                                                 value={this.props.bio[field.name]}
+                                                 type={field.type}
+                                                 onChange={this.changeField(field.name)}
+                                                 valid={this.validates(field.name)}
+                                             />)}
             </section>
         )
     }

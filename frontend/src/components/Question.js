@@ -1,9 +1,11 @@
 import React from 'react'
 
 const Question = ({ q, onChange, value, disabled }) => {
-    disabled = disabled ? 'disabled' : ''
+    let classNames = ['question'];
+    if (disabled) classNames.push('disabled');
+    if (!value) classNames.push('invalidate');
     return (
-        <section className={disabled + ' question'}>
+        <section className={classNames.join(' ')}>
             <span className='legend'>{q.text}</span>
             <div>
                 {q.answers.map(answer => {

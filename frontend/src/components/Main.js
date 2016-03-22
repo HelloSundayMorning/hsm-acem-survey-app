@@ -99,7 +99,13 @@ var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action
                         {Locations.map(l => <option key={l} value={l}>{l}</option> )}
                     </select>
                     <div id='start-button'>
-                        <Continue className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' link='/info' label='Start' state={props.state}/>
+                        <Continue
+                            className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'
+                            link='/info'
+                            label='Start'
+                            state={props.state}
+                            thisPage='/'
+                        />
                         <FeedbackSection status={props.state.postingFeedback} onPost={props.postFeedback} />
                     </div>
                 </div>
