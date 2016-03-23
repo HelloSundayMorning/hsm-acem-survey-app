@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/gin-gonic/gin/binding"
 	"github.com/keighl/mandrill"
 	"github.com/theplant/hsm-acem-survey-app/config"
 )
@@ -107,6 +108,54 @@ func SendFeedbackMail(t FeedbackMailTemplate) (err error) {
 
 	data := map[string]string{
 		"FREE_TEXT": t.FreeText,
+	}
+
+	message.GlobalMergeVars = mandrill.ConvertMapToVariables(data)
+
+	responses, err := config.Mandrill.Client.MessagesSendTemplate(&message, t.Template, nil)
+	if err != nil {
+		return
+	}
+
+	for _, resp := range responses {
+		if resp.Status == "invalid" || resp.Status == "rejected" {
+			err = fmt.Errorf("send email via mandrill api failed (%s) response: %#v", resp.Status, resp)
+		}
+	}
+	return
+}
+
+// InvitationTemplate is the mandrill template slug that used for invitation mail.
+const InvitationTemplate = "register-to-hsm"
+
+// InvitationMailTemplate describes data that will be passed on to Mandrill
+type InvitationMailTemplate struct {
+	// Recipient email address
+	Email string `binding:"required"`
+
+	// Mandrill template to use
+	Template string `binding:"required"`
+
+	// Gender of survey
+	Gender string `binding:"required"`
+
+	// Total score of survey
+	SurveyScore *uint `binding:"exists"` // `binding:"required"` rejects a value of 0, and "exists" requires a pointer to work correctly
+}
+
+// SendInvitationMail sends "Register to HSM" mail to the the given email address
+func SendInvitationMail(t InvitationMailTemplate) (err error) {
+	err = binding.Validator.ValidateStruct(t)
+	if err != nil {
+		return
+	}
+
+	message := mandrill.Message{}
+	message.AddRecipient(t.Email, t.Email, "to")
+
+	data := map[string]string{
+		"GENDER":       t.Gender,
+		"SURVEY_SCORE": fmt.Sprintf("%d", *t.SurveyScore),
 	}
 
 	message.GlobalMergeVars = mandrill.ConvertMapToVariables(data)

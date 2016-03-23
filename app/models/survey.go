@@ -2,7 +2,9 @@ package models
 
 import (
 	"net/http"
+	"time"
 
+	"github.com/jinzhu/gorm"
 	"github.com/theplant/hsm-acem-survey-app/serializer"
 )
 
@@ -25,6 +27,9 @@ type Survey struct {
 	Patient     `json:"patient" binding:"required"`
 	Answers     serializer.JSONArray `sql:"type:json;not null;default:'[]'" json:"answers" binding:"required"`
 	RequestData serializer.JSON      `sql:"type:json;not null;default:'{}'" json:"-"`
+
+	// Datetime of invalidation mail sent
+	InvitationMailSentAt *time.Time `sql:"index" json:"-"`
 }
 
 // SetRequestData exchange the http request header and ip information
@@ -35,5 +40,43 @@ func (s *Survey) SetRequestData(req *http.Request) {
 	requestData["ip"] = req.RemoteAddr
 
 	s.RequestData = requestData
+	return
+}
+
+// Score returns total score of survey.
+func (s *Survey) Score() (score uint) {
+	for _, a := range s.Answers {
+		switch t := a["answer"].(map[string]interface{})["score"].(type) {
+		case int: // FIXME score came from models_test.newSurvey test case is int type
+			score = score + uint(t)
+		case float64:
+			score = score + uint(t)
+		}
+	}
+	return
+}
+
+// SendInvitationMail sends out invalidation mail and marks
+// invalidation mail is sent.
+//
+// It returns error that occurs during SendInvitationMail or
+// a database error.
+func (s *Survey) SendInvitationMail(db *gorm.DB) (err error) {
+	score := s.Score()
+	t := InvitationMailTemplate{
+		Template:    InvitationTemplate,
+		Email:       s.Email,
+		Gender:      s.Gender,
+		SurveyScore: &score,
+	}
+
+	err = SendInvitationMail(t)
+	if err != nil {
+		return
+	}
+
+	now := time.Now()
+	s.InvitationMailSentAt = &now
+	err = db.Save(s).Error
 	return
 }
