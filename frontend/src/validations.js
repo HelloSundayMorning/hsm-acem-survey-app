@@ -2,9 +2,14 @@
 // scope for the given state.
 const validateInterviewer = ({ interviewer }) => !!interviewer;
 
+const bioRequiredFields = ['age', 'gender', 'postcode'];
+
 // validateBio validates the whole `bio` scope for
 // the given state.
-const validateBio = ({ bio }) => Object.keys(bio).every(field => validateBioField(field, bio[field]));
+const validateBio = ({ bio }) => {
+    const fields = Object.keys(bio);
+    return (fields && bioRequiredFields).every(field => validateBioField(field, bio[field]));
+}
 
 // validateAudit validates the current `survey` scope
 // for the given state.
