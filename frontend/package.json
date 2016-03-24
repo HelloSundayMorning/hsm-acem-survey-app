@@ -58,6 +58,7 @@
     "bower-webpack-plugin": "^0.1.9",
     "copyfiles": "^0.2.1",
     "css-loader": "^0.21.0",
+    "es6-promise": "^3.1.2",
     "exports-loader": "^0.6.2",
     "file-loader": "^0.8.4",
     "history": "^1.13.1",
