@@ -1,0 +1,19 @@
+package: github.com/theplant/hsm-acem-survey-app
+import:
+- package: github.com/asaskevich/govalidator
+- package: github.com/gin-gonic/gin
+- package: github.com/gorilla/sessions
+- package: github.com/influxdata/influxdb
+  subpackages:
+  - client
+- package: github.com/jinzhu/gorm
+- package: github.com/keighl/mandrill
+- package: github.com/lib/pq
+- package: github.com/qor/admin
+- package: github.com/qor/qor
+- package: github.com/qor/roles
+- package: github.com/qor/validations
+- package: golang.org/x/crypto
+  subpackages:
+  - bcrypt
+- package: gopkg.in/airbrake/gobrake.v1
