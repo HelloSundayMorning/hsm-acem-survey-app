@@ -9,8 +9,6 @@ import (
 
 	"github.com/gorilla/sessions"
 	"github.com/keighl/mandrill"
-	gobrake "gopkg.in/airbrake/gobrake.v1"
-
 	"github.com/theplant/hsm-acem-survey-app/middleware"
 )
 
@@ -27,11 +25,6 @@ var (
 	// Monitor is InfluxDB monitor configuration
 	Monitor *middleware.Monitor
 
-	// Airbrake for error logging
-	Airbrake struct {
-		Client *gobrake.Notifier
-	}
-
 	// Mandrill is global client for sending emails with Mandrill
 	Mandrill struct {
 		Client                           *mandrill.Client
@@ -46,8 +39,6 @@ var (
 )
 
 func init() {
-	Airbrake.Client = initAirbrake()
-
 	initMandrill()
 
 	loadDBConfig()

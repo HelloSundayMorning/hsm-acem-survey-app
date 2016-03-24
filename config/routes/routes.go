@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/theplant/airbraker"
 	"github.com/theplant/hsm-acem-survey-app/app/controllers"
 	"github.com/theplant/hsm-acem-survey-app/config"
 	"github.com/theplant/hsm-acem-survey-app/config/admin"
@@ -24,11 +25,7 @@ func Mux() *http.ServeMux {
 		log.Println("No Monitoring Client")
 	}
 
-	if config.Airbrake.Client != nil {
-		engine.Use(middleware.Recover(config.Airbrake.Client))
-	} else {
-		log.Println("No Airbrake Client")
-	}
+	engine.Use(airbraker.Recover())
 
 	engine.OPTIONS("/surveys", controllers.SurveysOptions)
 	engine.POST("/surveys", controllers.SurveysCreate)
