@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"testing"
 
+	au "github.com/theplant/airbraker/utils"
 	"github.com/theplant/hsm-acem-survey-app/app/controllers"
 	"github.com/theplant/hsm-acem-survey-app/app/models"
 	"github.com/theplant/hsm-acem-survey-app/db"
@@ -144,13 +145,19 @@ func TestSendEmailInvalidParams(t *testing.T) {
 func TestSendEmailFailingMandrill(t *testing.T) {
 	u.ErrorMandrillConfigure()
 
+	notifier, airbrake := au.NewBufferNotifier()
+	defer au.SetNotifier(airbrake)
+	au.ClearBuffer(notifier)
+
 	req := prepareEmailRequest(t, emailParams())
 	res := doRequest(t, req)
 
-	// FIXME check logging into Airbrake
-
 	if res.StatusCode != http.StatusAccepted {
 		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+
+	if !au.AssertNotice(notifier, "SANDBOX_ERROR") {
+		t.Fatal("Expected logging into Airbrake, but it doesn't.")
 	}
 }
 
@@ -195,13 +202,19 @@ func TestSendFeedbackMailInvalidParams(t *testing.T) {
 func TestSendFeedbackMailFailingMandrill(t *testing.T) {
 	u.ErrorMandrillConfigure()
 
+	notifier, airbrake := au.NewBufferNotifier()
+	defer au.SetNotifier(airbrake)
+	au.ClearBuffer(notifier)
+
 	req := prepareFeedbackRequest(t, feedbackMailParams())
 	res := doRequest(t, req)
 
-	// FIXME check logging into Airbrake
-
 	if res.StatusCode != http.StatusAccepted {
 		t.Fatalf("Unexpected status code: %d", res.StatusCode)
+	}
+
+	if !au.AssertNotice(notifier, "SANDBOX_ERROR") {
+		t.Fatal("Expected logging into Airbrake, but it doesn't.")
 	}
 }
 
