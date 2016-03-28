@@ -1,3 +1,14 @@
+# GOPATH is required for
+# 1. config APP_ROOT environment variable
+# 2. running cron tasks (for example: scripts/send_invitation_mail.sh)
+export GOPATH=<YOUR_GOPATH>
+
+# APP_ROOT is required for:
+# 1. config config.Root (see: config.go)
+# 2. installing crontab (see: scripts/install_crontab.sh)
+# 3. running cron tasks (for example: scripts/send_invitation_mail.sh)
+export APP_ROOT=$GOPATH/src/github.com/theplant/hsm-acem-survey-app
+
 # Database configuration
 DB_NAME="acem_dev"
 DB_USER="acem"
