@@ -9,7 +9,6 @@ import (
 
 	"github.com/gorilla/sessions"
 	"github.com/keighl/mandrill"
-	"github.com/theplant/hsm-acem-survey-app/middleware"
 )
 
 var (
@@ -21,9 +20,6 @@ var (
 		Params string
 		Debug  bool
 	}
-
-	// Monitor is InfluxDB monitor configuration
-	Monitor *middleware.Monitor
 
 	// Mandrill is global client for sending emails with Mandrill
 	Mandrill struct {
@@ -44,8 +40,6 @@ func init() {
 	loadDBConfig()
 
 	initSessionStore()
-
-	initMonitor()
 }
 
 // AbsolutePath receives a relative path argument and returns a absolute path.
@@ -74,23 +68,6 @@ func initSessionStore() {
 		log.Printf("[WARNING] haven't config a session secret base key")
 	}
 	SessionStore = sessions.NewCookieStore([]byte(sessionSecret))
-}
-
-func initMonitor() {
-	influxdbURL := os.Getenv("INFLUXDB_URL")
-
-	if influxdbURL == "" {
-		return
-	}
-
-	monitor, err := middleware.NewMonitor(influxdbURL)
-
-	if err != nil {
-		log.Println("Monitor Error", err)
-		return
-	}
-
-	Monitor = monitor
 }
 
 func initMandrill() {
