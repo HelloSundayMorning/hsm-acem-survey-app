@@ -3,14 +3,13 @@
 package routes
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/theplant/airbraker"
 	"github.com/theplant/hsm-acem-survey-app/app/controllers"
 	"github.com/theplant/hsm-acem-survey-app/config"
 	"github.com/theplant/hsm-acem-survey-app/config/admin"
-	"github.com/theplant/hsm-acem-survey-app/middleware"
 	"github.com/theplant/monitor"
 )
 
@@ -21,11 +20,7 @@ func Mux() *http.ServeMux {
 
 	engine.Use(monitor.OperationMonitor())
 
-	if config.Airbrake.Client != nil {
-		engine.Use(middleware.Recover(config.Airbrake.Client))
-	} else {
-		log.Println("No Airbrake Client")
-	}
+	engine.Use(airbraker.Recover())
 
 	engine.OPTIONS("/surveys", controllers.SurveysOptions)
 	engine.POST("/surveys", controllers.SurveysCreate)

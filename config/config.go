@@ -9,7 +9,6 @@ import (
 
 	"github.com/gorilla/sessions"
 	"github.com/keighl/mandrill"
-	gobrake "gopkg.in/airbrake/gobrake.v1"
 )
 
 var (
@@ -20,11 +19,6 @@ var (
 	DB struct {
 		Params string
 		Debug  bool
-	}
-
-	// Airbrake for error logging
-	Airbrake struct {
-		Client *gobrake.Notifier
 	}
 
 	// Mandrill is global client for sending emails with Mandrill
@@ -41,8 +35,6 @@ var (
 )
 
 func init() {
-	Airbrake.Client = initAirbrake()
-
 	initMandrill()
 
 	loadDBConfig()
