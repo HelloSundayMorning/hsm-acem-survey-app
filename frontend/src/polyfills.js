@@ -1,4 +1,8 @@
+import { polyfill as polyfillPromise } from 'es6-promise'
+
 export default () => {
+    polyfillPromise();
+
     // From https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
     if (!Object.assign) {
         Object.defineProperty(Object, 'assign', {

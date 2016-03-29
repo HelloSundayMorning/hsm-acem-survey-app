@@ -3,14 +3,14 @@
 package routes
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/theplant/airbraker"
 	"github.com/theplant/hsm-acem-survey-app/app/controllers"
 	"github.com/theplant/hsm-acem-survey-app/config"
 	"github.com/theplant/hsm-acem-survey-app/config/admin"
-	"github.com/theplant/hsm-acem-survey-app/middleware"
+	"github.com/theplant/monitor"
 )
 
 // Mux returns a server mux that includes all application routes.
@@ -18,17 +18,9 @@ func Mux() *http.ServeMux {
 	engine := gin.Default()
 	engine.LoadHTMLGlob(config.AbsolutePath("app/views/**/*"))
 
-	if config.Monitor != nil {
-		engine.Use(middleware.OperationMonitor(config.Monitor))
-	} else {
-		log.Println("No Monitoring Client")
-	}
+	engine.Use(monitor.OperationMonitor())
 
-	if config.Airbrake.Client != nil {
-		engine.Use(middleware.Recover(config.Airbrake.Client))
-	} else {
-		log.Println("No Airbrake Client")
-	}
+	engine.Use(airbraker.Recover())
 
 	engine.OPTIONS("/surveys", controllers.SurveysOptions)
 	engine.POST("/surveys", controllers.SurveysCreate)

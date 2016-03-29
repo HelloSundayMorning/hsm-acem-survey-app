@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/theplant/airbraker"
 	"github.com/theplant/hsm-acem-survey-app/app/models"
-	"github.com/theplant/hsm-acem-survey-app/config"
 	"github.com/theplant/hsm-acem-survey-app/db"
 )
 
@@ -56,7 +56,7 @@ func EmailSurvey(ctx *gin.Context) {
 	go func() {
 		err := models.SendCompletedMail(template)
 		if err != nil {
-			config.AirbrakeNotify(fmt.Errorf("send survey completed mail failed, error: %v", err))
+			airbraker.Notify(fmt.Errorf("send survey completed mail failed, error: %v", err), nil)
 		}
 	}()
 
@@ -79,7 +79,7 @@ func FeedbackSurvey(ctx *gin.Context) {
 	go func() {
 		err := models.SendFeedbackMail(template)
 		if err != nil {
-			config.AirbrakeNotify(fmt.Errorf("send survey feedback mail failed, error: %v", err))
+			airbraker.Notify(fmt.Errorf("send survey feedback mail failed, error: %v", err), nil)
 		}
 	}()
 
