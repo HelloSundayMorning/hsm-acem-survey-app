@@ -2,9 +2,11 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/theplant/airbraker"
 	"github.com/theplant/hsm-acem-survey-app/app/models"
 	"github.com/theplant/hsm-acem-survey-app/config/routes"
 
@@ -23,7 +25,9 @@ func main() {
 	flag.BoolVar(&sendInvitation, "send-invitation-mail", false, "Send Invitation Mail for surveys and exit")
 	flag.Parse()
 	if sendInvitation {
-		models.SendInvitationMails()
+		if err := models.SendInvitationMails(); err != nil {
+			airbraker.Notify(fmt.Errorf("error delivering invitation mail: %s", err), nil)
+		}
 		return
 	}
 
