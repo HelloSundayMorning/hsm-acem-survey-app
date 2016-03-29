@@ -131,7 +131,7 @@ const InvitationTemplate = "register-to-hsm"
 // InvitationMailTemplate describes data that will be passed on to Mandrill
 type InvitationMailTemplate struct {
 	// Recipient email address
-	Email string `binding:"required"`
+	Email string `binding:"required,email"`
 
 	// Mandrill template to use
 	Template string `binding:"required"`
