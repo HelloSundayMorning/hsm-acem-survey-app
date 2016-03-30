@@ -23,8 +23,7 @@ var (
 
 	// Mandrill is global client for sending emails with Mandrill
 	Mandrill struct {
-		Client                           *mandrill.Client
-		SurveyCompletedEmailTemplateSlug string
+		Client *mandrill.Client
 	}
 
 	// SessionStore is global app cookie store
