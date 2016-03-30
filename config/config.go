@@ -6,10 +6,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"sync"
 
 	"github.com/gorilla/sessions"
-	"github.com/keighl/mandrill"
 )
 
 var (
@@ -22,9 +20,6 @@ var (
 		Debug  bool
 	}
 
-	// Mandrill is global client for sending emails with Mandrill
-	Mandrill MandrillClient
-
 	// SessionStore is global app cookie store
 	SessionStore *sessions.CookieStore
 
@@ -33,8 +28,6 @@ var (
 )
 
 func init() {
-	initMandrill()
-
 	loadDBConfig()
 
 	initSessionStore()
@@ -66,31 +59,4 @@ func initSessionStore() {
 		log.Printf("[WARNING] haven't config a session secret base key")
 	}
 	SessionStore = sessions.NewCookieStore([]byte(sessionSecret))
-}
-
-func initMandrill() {
-	mandrillAPIKey := os.Getenv("MANDRILL_APIKEY")
-
-	if mandrillAPIKey == "" {
-		panic(errors.New("no mandrill api key"))
-	}
-
-	Mandrill.Set(mandrill.ClientWithKey(mandrillAPIKey))
-}
-
-type MandrillClient struct {
-	client   *mandrill.Client
-	clientMu sync.Mutex
-}
-
-func (mc *MandrillClient) Set(client *mandrill.Client) {
-	mc.clientMu.Lock()
-	defer mc.clientMu.Unlock()
-	mc.client = client
-}
-
-func (mc *MandrillClient) Get() *mandrill.Client {
-	mc.clientMu.Lock()
-	defer mc.clientMu.Unlock()
-	return mc.client
 }

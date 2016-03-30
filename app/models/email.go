@@ -4,8 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/keighl/mandrill"
-	"github.com/theplant/hsm-acem-survey-app/config"
+	"github.com/theplant/hsm-acem-survey-app/mandrill"
 )
 
 var (
@@ -39,13 +38,10 @@ type EmailTemplate struct {
 }
 
 // SendCompletedMail sends survey completed mail to the the given email address
-func SendCompletedMail(t EmailTemplate) (err error) {
+func SendCompletedMail(t EmailTemplate) error {
 	if t.Email == "" {
 		return ErrNoEmailAddress
 	}
-
-	message := mandrill.Message{}
-	message.AddRecipient(t.Email, t.Email, "to")
 
 	data := map[string]string{
 		"FREQUENCY_CHART":  t.FrequencyChart,
@@ -56,19 +52,7 @@ func SendCompletedMail(t EmailTemplate) (err error) {
 		"DRINK_PERCENTAGE": fmt.Sprintf("%d", t.PopulationPercentage),
 	}
 
-	message.GlobalMergeVars = mandrill.ConvertMapToVariables(data)
-
-	responses, err := config.Mandrill.Get().MessagesSendTemplate(&message, t.Template, nil)
-	if err != nil {
-		return
-	}
-
-	for _, resp := range responses {
-		if resp.Status == "invalid" || resp.Status == "rejected" {
-			err = fmt.Errorf("send email via mandrill api failed (%s) response: %#v", resp.Status, resp)
-		}
-	}
-	return
+	return mandrill.SendMail([]string{t.Email}, data, t.Template)
 }
 
 // FeedbackMailTemplate describes data that will be passed on to
@@ -95,31 +79,14 @@ func NewFeedbackMailTemplate() (template FeedbackMailTemplate) {
 
 // SendFeedbackMail sends survey feedback mail to the the given
 // email address.
-func SendFeedbackMail(t FeedbackMailTemplate) (err error) {
+func SendFeedbackMail(t FeedbackMailTemplate) error {
 	if len(t.Emails) == 0 {
 		return ErrNoEmailAddress
-	}
-
-	message := mandrill.Message{}
-	for _, email := range t.Emails {
-		message.AddRecipient(email, email, "to")
 	}
 
 	data := map[string]string{
 		"FREE_TEXT": t.FreeText,
 	}
 
-	message.GlobalMergeVars = mandrill.ConvertMapToVariables(data)
-
-	responses, err := config.Mandrill.Get().MessagesSendTemplate(&message, t.Template, nil)
-	if err != nil {
-		return
-	}
-
-	for _, resp := range responses {
-		if resp.Status == "invalid" || resp.Status == "rejected" {
-			err = fmt.Errorf("send email via mandrill api failed (%s) response: %#v", resp.Status, resp)
-		}
-	}
-	return
+	return mandrill.SendMail(t.Emails, data, t.Template)
 }
