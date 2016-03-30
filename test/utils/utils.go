@@ -31,17 +31,17 @@ func Truncate(t *testing.T, table interface{}) {
 // SuccessMandrillConfigure configures a Mandrill client that always
 // returns success when sending emails
 func SuccessMandrillConfigure() {
-	config.Mandrill.Client = mandrill.ClientWithKey("SANDBOX_SUCCESS")
+	config.Mandrill.Set(mandrill.ClientWithKey("SANDBOX_SUCCESS"))
 }
 
 // ErrorMandrillConfigure configures a Mandrill client that always
 // returns an error when sending emails
 func ErrorMandrillConfigure() {
-	config.Mandrill.Client = mandrill.ClientWithKey("SANDBOX_ERROR")
+	config.Mandrill.Set(mandrill.ClientWithKey("SANDBOX_ERROR"))
 }
 
 // NilMandrillConfigure configures a nil Mandrill client so that any
 // attempt to send an email will panic due to nil pointer
 func NilMandrillConfigure() {
-	config.Mandrill.Client = nil
+	config.Mandrill.Set(nil)
 }

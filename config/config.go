@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"github.com/gorilla/sessions"
 	"github.com/keighl/mandrill"
@@ -22,9 +23,7 @@ var (
 	}
 
 	// Mandrill is global client for sending emails with Mandrill
-	Mandrill struct {
-		Client *mandrill.Client
-	}
+	Mandrill MandrillClient
 
 	// SessionStore is global app cookie store
 	SessionStore *sessions.CookieStore
@@ -76,5 +75,22 @@ func initMandrill() {
 		panic(errors.New("no mandrill api key"))
 	}
 
-	Mandrill.Client = mandrill.ClientWithKey(mandrillAPIKey)
+	Mandrill.Set(mandrill.ClientWithKey(mandrillAPIKey))
+}
+
+type MandrillClient struct {
+	client   *mandrill.Client
+	clientMu sync.Mutex
+}
+
+func (mc *MandrillClient) Set(client *mandrill.Client) {
+	mc.clientMu.Lock()
+	defer mc.clientMu.Unlock()
+	mc.client = client
+}
+
+func (mc *MandrillClient) Get() *mandrill.Client {
+	mc.clientMu.Lock()
+	defer mc.clientMu.Unlock()
+	return mc.client
 }

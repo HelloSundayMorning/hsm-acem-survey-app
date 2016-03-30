@@ -58,7 +58,7 @@ func SendCompletedMail(t EmailTemplate) (err error) {
 
 	message.GlobalMergeVars = mandrill.ConvertMapToVariables(data)
 
-	responses, err := config.Mandrill.Client.MessagesSendTemplate(&message, t.Template, nil)
+	responses, err := config.Mandrill.Get().MessagesSendTemplate(&message, t.Template, nil)
 	if err != nil {
 		return
 	}
@@ -111,7 +111,7 @@ func SendFeedbackMail(t FeedbackMailTemplate) (err error) {
 
 	message.GlobalMergeVars = mandrill.ConvertMapToVariables(data)
 
-	responses, err := config.Mandrill.Client.MessagesSendTemplate(&message, t.Template, nil)
+	responses, err := config.Mandrill.Get().MessagesSendTemplate(&message, t.Template, nil)
 	if err != nil {
 		return
 	}
