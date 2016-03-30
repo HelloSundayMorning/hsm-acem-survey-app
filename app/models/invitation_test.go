@@ -1,6 +1,7 @@
 package models_test
 
 import (
+	"database/sql"
 	"testing"
 	"time"
 
@@ -10,6 +11,8 @@ import (
 )
 
 func TestPreviousSurveys(t *testing.T) {
+	u.Truncate(t, models.Survey{})
+
 	pendingInvitationSurvey(t, 0)
 	sentInvitationSurvey(t, 0)
 	sentInvitationSurvey(t, -2)
@@ -35,12 +38,18 @@ func TestPreviousSurveys(t *testing.T) {
 }
 
 func TestPreviousSurveysReturnsSurveysWithEmail(t *testing.T) {
+	u.Truncate(t, models.Survey{})
+
 	expectedSurveys := []*models.Survey{}
 	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -1))
-	createSurveyForInvitation(t, true, false, -1)
+	createSurveyForInvitation(t, true, false, false, -1)
 
 	surveys, err := models.PreviousSurveys(db.DB, time.Now())
 	u.AssertNoErr(t, err)
+
+	if got, want := len(surveys), 1; got != want {
+		t.Fatalf("go unexpected surveys count: %d", got)
+	}
 
 	for _, s := range surveys {
 		if s.Email == "" {
@@ -50,6 +59,8 @@ func TestPreviousSurveysReturnsSurveysWithEmail(t *testing.T) {
 }
 
 func TestPreviousSurveysReturnsSurveysHaventSentInvitationMail(t *testing.T) {
+	u.Truncate(t, models.Survey{})
+
 	expectedSurveys := []*models.Survey{}
 	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -1))
 	sentInvitationSurvey(t, -2)
@@ -58,6 +69,10 @@ func TestPreviousSurveysReturnsSurveysHaventSentInvitationMail(t *testing.T) {
 	surveys, err := models.PreviousSurveys(db.DB, time.Now())
 	u.AssertNoErr(t, err)
 
+	if got, want := len(surveys), 2; got != want {
+		t.Fatalf("go unexpected surveys count: %d", got)
+	}
+
 	for _, s := range surveys {
 		if s.InvitationMailSentAt != nil {
 			t.Errorf("got unexpected survey.InvitationMailSentAt %v", s.InvitationMailSentAt)
@@ -65,7 +80,30 @@ func TestPreviousSurveysReturnsSurveysHaventSentInvitationMail(t *testing.T) {
 	}
 }
 
+func TestPreviousSurveysReturnsSurveysWithNoInvitationMailError(t *testing.T) {
+	u.Truncate(t, models.Survey{})
+
+	expectedSurveys := []*models.Survey{}
+	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -1))
+	createSurveyForInvitation(t, false, false, true, -2)
+	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -3))
+
+	surveys, err := models.PreviousSurveys(db.DB, time.Now())
+	u.AssertNoErr(t, err)
+
+	if got, want := len(surveys), 2; got != want {
+		t.Fatalf("go unexpected surveys count: %d", got)
+	}
+
+	for _, s := range surveys {
+		if s.InvitationMailError.Valid {
+			t.Errorf("got unexpected survey.InvitationMailError: %v", s.InvitationMailError)
+		}
+	}
+}
+
 func TestSendInvitationMailsSuccess(t *testing.T) {
+	u.Truncate(t, models.Survey{})
 	u.SuccessMandrillConfigure()
 
 	pendingInvitationSurvey(t, 0)
@@ -75,14 +113,10 @@ func TestSendInvitationMailsSuccess(t *testing.T) {
 	surveys, err := models.PreviousSurveys(db.DB, time.Now())
 	u.AssertNoErr(t, err)
 
-	if len(surveys) == 0 {
-		t.Fatalf("Expected 2 of surveys, but got %d", len(surveys))
+	if got, want := len(surveys), 2; got != want {
+		t.Fatalf("Expected %d of surveys, but got %d", want, got)
 	}
-
-	err = models.SendInvitationMails()
-	if err != nil {
-		t.Fatalf("Unexpected error: %v", err)
-	}
+	u.AssertNoErr(t, models.SendInvitationMails())
 
 	surveysAfterSent, err := models.PreviousSurveys(db.DB, time.Now())
 	u.AssertNoErr(t, err)
@@ -93,6 +127,7 @@ func TestSendInvitationMailsSuccess(t *testing.T) {
 }
 
 func TestSendInvitationMailsFailure(t *testing.T) {
+	u.Truncate(t, models.Survey{})
 	u.ErrorMandrillConfigure()
 
 	pendingInvitationSurvey(t, 0)
@@ -102,32 +137,34 @@ func TestSendInvitationMailsFailure(t *testing.T) {
 	surveys, err := models.PreviousSurveys(db.DB, time.Now())
 	u.AssertNoErr(t, err)
 
-	if len(surveys) == 0 {
-		t.Fatalf("Expected 2 of surveys, but got %d", len(surveys))
+	if got, want := len(surveys), 2; got != want {
+		t.Fatalf("Expected %d of surveys, but got %d", want, got)
 	}
-
-	err = models.SendInvitationMails()
-	if err == nil {
-		t.Fatal("Expected sent mail failure, but it sent out successfully")
-	}
+	u.AssertNoErr(t, models.SendInvitationMails())
 
 	surveysAfterSent, err := models.PreviousSurveys(db.DB, time.Now())
 	u.AssertNoErr(t, err)
 
-	if len(surveysAfterSent) != 2 {
-		t.Fatalf("Expected 2 pending surveys, but got %d", len(surveysAfterSent))
+	if len(surveysAfterSent) != 0 {
+		t.Fatalf("Expected 0 pending surveys, but got %d", len(surveysAfterSent))
+	}
+
+	var surveysWithError []models.Survey
+	u.AssertNoErr(t, db.DB.Where("invitation_mail_error IS NOT NULL").Find(&surveysWithError).Error)
+	if got, want := len(surveysWithError), 2; got != want {
+		t.Fatalf("Expected %d of surveys with invitation_mail_error, but got %d", want, got)
 	}
 }
 
 func pendingInvitationSurvey(t *testing.T, offsetDays int) (survey *models.Survey) {
-	return createSurveyForInvitation(t, false, false, offsetDays)
+	return createSurveyForInvitation(t, false, false, false, offsetDays)
 }
 
 func sentInvitationSurvey(t *testing.T, offsetDays int) (survey *models.Survey) {
-	return createSurveyForInvitation(t, false, true, offsetDays)
+	return createSurveyForInvitation(t, false, true, false, offsetDays)
 }
 
-func createSurveyForInvitation(t *testing.T, withoutEmail bool, sentInvitationMail bool, offsetDays int) (survey *models.Survey) {
+func createSurveyForInvitation(t *testing.T, withoutEmail bool, sentInvitationMail bool, withError bool, offsetDays int) (survey *models.Survey) {
 	survey = createSurvey(t)
 
 	previousTime := time.Now().AddDate(0, 0, offsetDays)
@@ -140,6 +177,11 @@ func createSurveyForInvitation(t *testing.T, withoutEmail bool, sentInvitationMa
 	if sentInvitationMail {
 		survey.InvitationMailSentAt = &previousTime
 	}
+
+	if withError {
+		survey.InvitationMailError = sql.NullString{String: "invalidation mail error", Valid: true}
+	}
+
 	u.AssertNoErr(t, db.DB.Save(survey).Error)
 
 	return

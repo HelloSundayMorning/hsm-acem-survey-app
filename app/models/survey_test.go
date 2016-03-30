@@ -192,8 +192,14 @@ func TestSurveySendInvitationMailFailure(t *testing.T) {
 	utils.ErrorMandrillConfigure()
 	survey := createSurvey(t)
 
-	if err := survey.SendInvitationMail(db.DB); err == nil {
-		t.Fatal("Expected sent invitation mail failure, but it sent out successfully")
+	utils.AssertNoErr(t, survey.SendInvitationMail(db.DB))
+
+	if !survey.InvitationMailError.Valid {
+		t.Fatal("Expected record error in InvitationMailError, but it doesn't.")
+	}
+
+	if got := survey.InvitationMailError.String; !strings.Contains(got, "SANDBOX_ERROR") {
+		t.Fatalf("got unexpected invitation mail error: %v", got)
 	}
 
 	if survey.InvitationMailSentAt != nil {
@@ -208,8 +214,14 @@ func TestSurveySendInvitationMailWithNoEmail(t *testing.T) {
 	survey.Patient.Email = ""
 	utils.AssertNoErr(t, db.DB.Create(survey).Error)
 
-	if err := survey.SendInvitationMail(db.DB); !strings.Contains(err.Error(), "Email") {
-		t.Fatalf("Unexpected error: %v", err)
+	utils.AssertNoErr(t, survey.SendInvitationMail(db.DB))
+
+	if !survey.InvitationMailError.Valid {
+		t.Fatal("Expected record error in InvitationMailError, but it doesn't.")
+	}
+
+	if got := survey.InvitationMailError.String; !strings.Contains(got, "Email") {
+		t.Fatalf("got unexpected invitation mail error: %v", got)
 	}
 
 	if survey.InvitationMailSentAt != nil {
@@ -221,8 +233,10 @@ func TestSurveySendInvitationMailSuccess(t *testing.T) {
 	utils.SuccessMandrillConfigure()
 	survey := createSurvey(t)
 
-	if err := survey.SendInvitationMail(db.DB); err != nil {
-		t.Fatalf("Unexpected error: %v", err)
+	utils.AssertNoErr(t, survey.SendInvitationMail(db.DB))
+
+	if survey.InvitationMailError.Valid {
+		t.Fatal("Expected no error be recorded in InvitationMailError, but it doesn't.")
 	}
 
 	if survey.InvitationMailSentAt == nil {

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"net/http"
 	"time"
 
@@ -29,7 +30,8 @@ type Survey struct {
 	RequestData serializer.JSON      `sql:"type:json;not null;default:'{}'" json:"-"`
 
 	// Datetime of invalidation mail sent
-	InvitationMailSentAt *time.Time `sql:"index" json:"-"`
+	InvitationMailSentAt *time.Time     `sql:"index" json:"-"`
+	InvitationMailError  sql.NullString `json:"-"`
 }
 
 // SetRequestData exchange the http request header and ip information
@@ -56,12 +58,12 @@ func (s *Survey) Score() (score uint) {
 	return
 }
 
-// SendInvitationMail sends out invalidation mail and marks
-// invalidation mail is sent.
+// SendInvitationMail sends out invalidation mail and
+//   * marks invalidation mail is sent
+//   * records the sending error
 //
-// It returns error that occurs during SendInvitationMail or
-// a database error.
-func (s *Survey) SendInvitationMail(db *gorm.DB) (err error) {
+// It returns error a database error.
+func (s *Survey) SendInvitationMail(db *gorm.DB) error {
 	score := s.Score()
 	t := InvitationMailTemplate{
 		Template:    InvitationTemplate,
@@ -70,13 +72,13 @@ func (s *Survey) SendInvitationMail(db *gorm.DB) (err error) {
 		SurveyScore: &score,
 	}
 
-	err = SendInvitationMail(t)
+	err := SendInvitationMail(t)
 	if err != nil {
-		return
+		s.InvitationMailError = sql.NullString{String: err.Error(), Valid: true}
+	} else {
+		now := time.Now()
+		s.InvitationMailSentAt = &now
 	}
 
-	now := time.Now()
-	s.InvitationMailSentAt = &now
-	err = db.Save(s).Error
-	return
+	return db.Save(s).Error
 }
