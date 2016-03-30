@@ -16,4 +16,4 @@ if [[ $APP_ROOT == "" ]]; then
 fi
 
 cd $APP_ROOT
-$GOPATH/bin/hsm-acem-survey-app --send-invitation-mail=true
+$GOPATH/bin/hsm-acem-survey-app -send-invitation-mail
