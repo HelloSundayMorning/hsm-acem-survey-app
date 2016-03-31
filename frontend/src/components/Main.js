@@ -123,7 +123,6 @@ var Audit = ReactRedux.connect(
 
 const fbPage = ReactRedux.connect(
     state => ({
-        postStatus: state.postingSurvey,
         emailStatus: state.postingEmail,
         surveyScore: surveyScore(state.survey),
         dailyScore: dailyScore(state.survey),

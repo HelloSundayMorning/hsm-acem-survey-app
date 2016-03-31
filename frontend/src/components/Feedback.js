@@ -1,16 +1,16 @@
 import React from 'react'
-import { POSTING_SURVEY, SURVEY_POST_FAILED, EMAIL_SENDING, EMAIL_FAILED } from  'src/constants'
+import { EMAIL_SENDING, EMAIL_FAILED } from  'src/constants'
 import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
 import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } from 'src/surveyResults'
 import PoorSnackbar from 'components/PoorSnackbar'
 import EmptyComponent from 'components/EmptyComponent'
 
-function Feedback({ email, postStatus, emailStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
+function Feedback({ email, emailStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
     let Prompt = riskComponentMap[riskCategory(surveyScore)]
 
     return (
         <section id='feedback'>
-            <PostingStatus status={postStatus} />
+            <h1>Patient Feedback</h1>
 
             <Prompt surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
 
@@ -35,18 +35,6 @@ const EmailNotice = ({ email }) => {
     } else {
         return <div />
     }
-}
-
-function PostingStatus({ status }) {
-    let text = ''
-    if (status === POSTING_SURVEY) {
-        text  = 'Saving survey…'
-    } else if (status === SURVEY_POST_FAILED) {
-        text  = 'Failed to save survey.'
-    } else {
-        text  = 'Survey saved.'
-    }
-    return <PoorSnackbar text={text} />
 }
 
 function EmailStatus({ status }) {
