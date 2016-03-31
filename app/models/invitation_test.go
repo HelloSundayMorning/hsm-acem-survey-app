@@ -81,28 +81,6 @@ func TestPreviousSurveysReturnsSurveysHaventSentInvitationMail(t *testing.T) {
 	}
 }
 
-func TestPreviousSurveysReturnsSurveysWithNoInvitationMailError(t *testing.T) {
-	u.Truncate(t, models.Survey{})
-
-	expectedSurveys := []*models.Survey{}
-	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -1))
-	createSurveyForInvitation(t, false, false, true, -2)
-	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -3))
-
-	surveys, err := models.PreviousSurveys(db.DB, time.Now())
-	u.AssertNoErr(t, err)
-
-	if got, want := len(surveys), 2; got != want {
-		t.Fatalf("go unexpected surveys count: %d", got)
-	}
-
-	for _, s := range surveys {
-		if s.InvitationMailError.Valid {
-			t.Errorf("got unexpected survey.InvitationMailError: %v", s.InvitationMailError)
-		}
-	}
-}
-
 func TestSendInvitationMailsSuccess(t *testing.T) {
 	u.Truncate(t, models.Survey{})
 	mu.SuccessMandrillConfigure()

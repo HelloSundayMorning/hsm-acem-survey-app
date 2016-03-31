@@ -203,8 +203,8 @@ func TestSurveySendInvitationMailFailure(t *testing.T) {
 		t.Fatalf("got unexpected invitation mail error: %v", got)
 	}
 
-	if survey.InvitationMailSentAt != nil {
-		t.Fatalf("Expected InvitationMailSentAt is nil, but got %v", survey.InvitationMailSentAt)
+	if survey.InvitationMailSentAt == nil {
+		t.Fatalf("Unexpected survey.InvitationMailSentAt")
 	}
 }
 
@@ -225,8 +225,8 @@ func TestSurveySendInvitationMailWithNoEmail(t *testing.T) {
 		t.Fatalf("got unexpected invitation mail error: %v", got)
 	}
 
-	if survey.InvitationMailSentAt != nil {
-		t.Fatalf("Expected InvitationMailSentAt is nil, but got %v", survey.InvitationMailSentAt)
+	if survey.InvitationMailSentAt == nil {
+		t.Fatalf("Unexpected survey.InvitationMailSentAt")
 	}
 }
 
@@ -238,6 +238,10 @@ func TestSurveySendInvitationMailSuccess(t *testing.T) {
 
 	if survey.InvitationMailError.Valid {
 		t.Fatal("Expected no error be recorded in InvitationMailError, but it doesn't.")
+	}
+
+	if survey.InvitationMailError.Valid {
+		t.Fatalf("got unexpected invitation mail error: %v", survey.InvitationMailError.String)
 	}
 
 	if survey.InvitationMailSentAt == nil {

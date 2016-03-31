@@ -59,10 +59,10 @@ func (s *Survey) Score() (score uint) {
 }
 
 // SendInvitationMail sends out invalidation mail and
-//   * marks invalidation mail is sent
-//   * records the sending error
+//   * logs the time of invalidation mail is sent
+//   * logs the sending error if send mail failure
 //
-// It returns error a database error.
+// It returns a database error.
 func (s *Survey) SendInvitationMail(db *gorm.DB) error {
 	score := s.Score()
 	t := InvitationMailTemplate{
@@ -72,12 +72,12 @@ func (s *Survey) SendInvitationMail(db *gorm.DB) error {
 		SurveyScore: &score,
 	}
 
+	now := time.Now()
+	s.InvitationMailSentAt = &now
+
 	err := SendInvitationMail(t)
 	if err != nil {
 		s.InvitationMailError = sql.NullString{String: err.Error(), Valid: true}
-	} else {
-		now := time.Now()
-		s.InvitationMailSentAt = &now
 	}
 
 	return db.Save(s).Error

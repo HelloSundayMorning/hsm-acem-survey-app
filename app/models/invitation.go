@@ -62,9 +62,8 @@ func SendInvitationMails() error {
 // It ignores surveys that
 //   1. with no email address
 //   2. sent mail
-//   3. sent mail failure
-//   4. created after the given time
+//   3. created after the given time
 func PreviousSurveys(db *gorm.DB, today time.Time) (surveys []Survey, err error) {
-	err = db.Where(`email <> '' AND invitation_mail_sent_at IS NULL AND invitation_mail_error IS NULL AND created_at <= ?`, now.New(today).BeginningOfDay()).Find(&surveys).Error
+	err = db.Where(`email <> '' AND invitation_mail_sent_at IS NULL AND created_at <= ?`, now.New(today).BeginningOfDay()).Find(&surveys).Error
 	return
 }
