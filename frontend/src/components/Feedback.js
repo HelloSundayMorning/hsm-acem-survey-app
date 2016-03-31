@@ -1,14 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { EMAIL_SENDING, EMAIL_FAILED } from  'src/constants'
+import { EMAIL_SENDING, EMAIL_FAILED, EMAIL_SENT } from  'src/constants'
 import { surveyScore, dailyScore } from 'src/surveyResults'
 import { evaluate } from 'actions/bio'
 import * as email from 'actions/email'
 import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
 import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } from 'src/surveyResults'
 import Question from 'components/Question'
-import PoorSnackbar from 'components/PoorSnackbar'
-import EmptyComponent from 'components/EmptyComponent'
+import { StatusBar } from 'components/PoorSnackbar'
 
 var evaluationQuestion = {
     text: 'Do you think this person will reduce their harmful drinking?',
@@ -70,19 +69,13 @@ const EmailNotice = ({ email }) => {
     }
 }
 
-function EmailStatus({ status }) {
-    let text = ''
-    if (status === null) {
-        return <EmptyComponent />
-    } else if (status === EMAIL_SENDING) {
-        text = 'Sending email…'
-    } else if (status === EMAIL_FAILED) {
-        text = 'Failed to send email.'
-    } else {
-        text = 'Email sent.'
-    }
-    return <PoorSnackbar text={text} />
-}
+const emailStatusMap = {
+    [EMAIL_SENDING]: 'Sending email…',
+    [EMAIL_FAILED]: 'Failed to send email.',
+    [EMAIL_SENT]: 'Email sent.'
+};
+
+const EmailStatus = StatusBar(emailStatusMap);
 
 function LowRiskPrompt({ surveyScore, dailyScore, age, gender }) {
     return (

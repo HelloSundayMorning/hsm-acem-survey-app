@@ -1,19 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { POSTING_SURVEY, SURVEY_POST_FAILED } from  'src/constants'
-import PoorSnackbar from 'components/PoorSnackbar'
+import { POSTING_SURVEY, SURVEY_POST_FAILED, SURVEY_POSTED } from  'src/constants'
+import { StatusBar } from 'components/PoorSnackbar'
 
-function PostingStatus({ status }) {
-    let text = ''
-    if (status === POSTING_SURVEY) {
-        text  = 'Saving survey…'
-    } else if (status === SURVEY_POST_FAILED) {
-        text  = 'Failed to save survey.'
-    } else {
-        text  = 'Survey saved.'
-    }
-    return <PoorSnackbar text={text} />
+const postSurveyStatusMap = {
+    [POSTING_SURVEY]: 'Saving survey…',
+    [SURVEY_POST_FAILED]: 'Failed to save survey.',
+    [SURVEY_POSTED]: 'Survey saved.'
 }
+
+const PostingStatus = StatusBar(postSurveyStatusMap);
 
 const FramesReminder = ({ postingSurvey }) =>
     <section id='reminder'>
