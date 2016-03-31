@@ -12,6 +12,7 @@ import (
 	"github.com/theplant/hsm-acem-survey-app/app/controllers"
 	"github.com/theplant/hsm-acem-survey-app/app/models"
 	"github.com/theplant/hsm-acem-survey-app/db"
+	mu "github.com/theplant/hsm-acem-survey-app/mandrill/utils"
 	u "github.com/theplant/hsm-acem-survey-app/test/utils"
 )
 
@@ -103,7 +104,7 @@ func TestSurveysCreateLogRequestIP(t *testing.T) {
 }
 
 func TestSendEmail(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	req := prepareEmailRequest(t, emailParams())
 	res := doRequest(t, req)
@@ -114,7 +115,7 @@ func TestSendEmail(t *testing.T) {
 }
 
 func TestSendEmailWithZeroParams(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	params := emailParams()
 	zero := uint(0)
@@ -130,7 +131,7 @@ func TestSendEmailWithZeroParams(t *testing.T) {
 }
 
 func TestSendEmailInvalidParams(t *testing.T) {
-	u.NilMandrillConfigure() // Will panic if trying to send email...
+	mu.NilMandrillConfigure()
 
 	req := prepareEmailRequest(t, nil)
 	res := doRequest(t, req)
@@ -143,7 +144,7 @@ func TestSendEmailInvalidParams(t *testing.T) {
 }
 
 func TestSendEmailFailingMandrill(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	notifier, airbrake := au.NewBufferNotifier()
 	defer au.SetNotifier(airbrake)
@@ -176,7 +177,7 @@ func emailParams() models.EmailTemplate {
 }
 
 func TestSendFeedbackMail(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	req := prepareFeedbackRequest(t, feedbackMailParams())
 	res := doRequest(t, req)
@@ -187,7 +188,7 @@ func TestSendFeedbackMail(t *testing.T) {
 }
 
 func TestSendFeedbackMailInvalidParams(t *testing.T) {
-	u.NilMandrillConfigure() // Will panic if trying to send email...
+	mu.NilMandrillConfigure()
 
 	req := prepareFeedbackRequest(t, nil)
 	res := doRequest(t, req)
@@ -200,7 +201,7 @@ func TestSendFeedbackMailInvalidParams(t *testing.T) {
 }
 
 func TestSendFeedbackMailFailingMandrill(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	notifier, airbrake := au.NewBufferNotifier()
 	defer au.SetNotifier(airbrake)

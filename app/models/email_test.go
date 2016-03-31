@@ -4,11 +4,11 @@ import (
 	"testing"
 
 	"github.com/theplant/hsm-acem-survey-app/app/models"
-	u "github.com/theplant/hsm-acem-survey-app/test/utils"
+	mu "github.com/theplant/hsm-acem-survey-app/mandrill/utils"
 )
 
 func TestSendWithoutEmail(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := emailParams()
 	template.Email = ""
@@ -19,7 +19,7 @@ func TestSendWithoutEmail(t *testing.T) {
 }
 
 func TestSendMailFailure(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	template := emailParams()
 
@@ -29,7 +29,7 @@ func TestSendMailFailure(t *testing.T) {
 }
 
 func TestSendMailSuccess(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := emailParams()
 
@@ -53,7 +53,7 @@ func emailParams() models.EmailTemplate {
 }
 
 func TestSendFeedbackMailWithNoEmails(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := feedbackParams()
 	template.Emails = []string{}
@@ -64,7 +64,7 @@ func TestSendFeedbackMailWithNoEmails(t *testing.T) {
 }
 
 func TestSendFeedbackMailFailure(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	template := feedbackParams()
 
@@ -74,7 +74,7 @@ func TestSendFeedbackMailFailure(t *testing.T) {
 }
 
 func TestSendFeedbackMailSuccess(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := feedbackParams()
 
