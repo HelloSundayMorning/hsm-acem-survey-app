@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -21,33 +22,32 @@ func SendInvitationMails() error {
 	surveys, err := PreviousSurveys(db.DB, time.Now())
 	if err != nil {
 		log.Printf("Error querying surveys for invitation: %v", err)
-		monitor.Count("invitation_delivery_error", 1, map[string]string{"error": err.Error()})
+		monitor.CountError("invitation_delivery_error", 1, err)
 		return err
 	}
 
-	errors := []error{}
+	errs := []error{}
 	for _, survey := range surveys {
 		err := survey.SendInvitationMail(db.DB)
 
-		logData := map[string]string{}
-		logData["survey_id"] = fmt.Sprintf("%d", survey.ID)
-		logData["email"] = survey.Email
+		if err == nil && survey.InvitationMailError.Valid {
+			err = errors.New(survey.InvitationMailError.String)
+		}
 
 		if err != nil {
-			logData["error"] = err.Error()
-			monitor.Count("invitation_delivery_error", 1, logData)
+			monitor.CountError("invitation_delivery_error", 1, err)
 
-			errDetail := fmt.Errorf("Error delivering invitation to survey %d (%q): %v", survey.ID, survey.Email, err)
+			errDetail := fmt.Errorf("Error delivering invitation to survey %d: %v", survey.ID, err)
 			log.Println(errDetail)
 
-			errors = append(errors, errDetail)
+			errs = append(errs, errDetail)
 		} else {
-			monitor.Count("invitation_delivery", 1, logData)
+			monitor.CountSimple("invitation_delivery", 1)
 		}
 	}
 
-	if len(errors) != 0 {
-		return fmt.Errorf("len(errors) = %d, errors: %v", len(errors), errors)
+	if count := len(errs); count != 0 {
+		return fmt.Errorf("len(errors) = %d, errors: %v", count, errs)
 	}
 	return nil
 }

@@ -2,6 +2,7 @@ package models_test
 
 import (
 	"database/sql"
+	"strings"
 	"testing"
 	"time"
 
@@ -119,7 +120,10 @@ func TestSendInvitationMailsFailure(t *testing.T) {
 	if got, want := len(surveys), 2; got != want {
 		t.Fatalf("Expected %d of surveys, but got %d", want, got)
 	}
-	u.AssertNoErr(t, models.SendInvitationMails())
+
+	if err := models.SendInvitationMails(); err == nil || !strings.Contains(err.Error(), "len(errors) = 2") {
+		t.Fatalf("Expected send invitation mails failure with 2 errors, but got unexpected error: %v", err)
+	}
 
 	surveysAfterSent, err := models.PreviousSurveys(db.DB, time.Now())
 	u.AssertNoErr(t, err)
