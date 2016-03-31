@@ -145,9 +145,6 @@ func TestSendEmailInvalidParams(t *testing.T) {
 
 func TestSendEmailFailingMandrill(t *testing.T) {
 	mu.ErrorMandrillConfigure()
-
-	notifier, airbrake := au.NewBufferNotifier()
-	defer au.SetNotifier(airbrake)
 	au.ClearBuffer(notifier)
 
 	req := prepareEmailRequest(t, emailParams())
@@ -202,9 +199,6 @@ func TestSendFeedbackMailInvalidParams(t *testing.T) {
 
 func TestSendFeedbackMailFailingMandrill(t *testing.T) {
 	mu.ErrorMandrillConfigure()
-
-	notifier, airbrake := au.NewBufferNotifier()
-	defer au.SetNotifier(airbrake)
 	au.ClearBuffer(notifier)
 
 	req := prepareFeedbackRequest(t, feedbackMailParams())
