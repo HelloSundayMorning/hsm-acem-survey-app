@@ -9,6 +9,7 @@ import (
 
 	"github.com/theplant/hsm-acem-survey-app/app/models"
 	"github.com/theplant/hsm-acem-survey-app/db"
+	mu "github.com/theplant/hsm-acem-survey-app/mandrill/utils"
 	"github.com/theplant/hsm-acem-survey-app/test/utils"
 
 	"github.com/gin-gonic/gin/binding"
@@ -189,7 +190,7 @@ func TestSurveyScore(t *testing.T) {
 }
 
 func TestSurveySendInvitationMailFailure(t *testing.T) {
-	utils.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 	survey := createSurvey(t)
 
 	utils.AssertNoErr(t, survey.SendInvitationMail(db.DB))
@@ -208,7 +209,7 @@ func TestSurveySendInvitationMailFailure(t *testing.T) {
 }
 
 func TestSurveySendInvitationMailWithNoEmail(t *testing.T) {
-	utils.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	survey := newSurvey()
 	survey.Patient.Email = ""
@@ -230,7 +231,7 @@ func TestSurveySendInvitationMailWithNoEmail(t *testing.T) {
 }
 
 func TestSurveySendInvitationMailSuccess(t *testing.T) {
-	utils.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 	survey := createSurvey(t)
 
 	utils.AssertNoErr(t, survey.SendInvitationMail(db.DB))

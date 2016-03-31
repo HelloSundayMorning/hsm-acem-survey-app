@@ -6,11 +6,11 @@ import (
 	"testing"
 
 	"github.com/theplant/hsm-acem-survey-app/app/models"
-	u "github.com/theplant/hsm-acem-survey-app/test/utils"
+	mu "github.com/theplant/hsm-acem-survey-app/mandrill/utils"
 )
 
 func TestSendWithoutEmail(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := emailParams()
 	template.Email = ""
@@ -21,7 +21,7 @@ func TestSendWithoutEmail(t *testing.T) {
 }
 
 func TestSendMailFailure(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	template := emailParams()
 
@@ -31,7 +31,7 @@ func TestSendMailFailure(t *testing.T) {
 }
 
 func TestSendMailSuccess(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := emailParams()
 
@@ -55,7 +55,7 @@ func emailParams() models.EmailTemplate {
 }
 
 func TestSendFeedbackMailWithNoEmails(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := feedbackParams()
 	template.Emails = []string{}
@@ -66,7 +66,7 @@ func TestSendFeedbackMailWithNoEmails(t *testing.T) {
 }
 
 func TestSendFeedbackMailFailure(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	template := feedbackParams()
 
@@ -76,7 +76,7 @@ func TestSendFeedbackMailFailure(t *testing.T) {
 }
 
 func TestSendFeedbackMailSuccess(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := feedbackParams()
 
@@ -94,7 +94,7 @@ func feedbackParams() models.FeedbackMailTemplate {
 }
 
 func TestSendInvitationMailMissingFields(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	cases := []struct {
 		field    string
@@ -114,7 +114,7 @@ func TestSendInvitationMailMissingFields(t *testing.T) {
 }
 
 func TestSendInvitationMailFailure(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	template := invitationParams()
 
@@ -124,7 +124,7 @@ func TestSendInvitationMailFailure(t *testing.T) {
 }
 
 func TestSendInvitationMailSuccess(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := invitationParams()
 

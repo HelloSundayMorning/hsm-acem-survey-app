@@ -7,6 +7,7 @@ import (
 
 	"github.com/theplant/hsm-acem-survey-app/app/models"
 	"github.com/theplant/hsm-acem-survey-app/db"
+	mu "github.com/theplant/hsm-acem-survey-app/mandrill/utils"
 	u "github.com/theplant/hsm-acem-survey-app/test/utils"
 )
 
@@ -104,7 +105,7 @@ func TestPreviousSurveysReturnsSurveysWithNoInvitationMailError(t *testing.T) {
 
 func TestSendInvitationMailsSuccess(t *testing.T) {
 	u.Truncate(t, models.Survey{})
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	pendingInvitationSurvey(t, 0)
 	pendingInvitationSurvey(t, -1)
@@ -128,7 +129,7 @@ func TestSendInvitationMailsSuccess(t *testing.T) {
 
 func TestSendInvitationMailsFailure(t *testing.T) {
 	u.Truncate(t, models.Survey{})
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	pendingInvitationSurvey(t, 0)
 	pendingInvitationSurvey(t, -1)
