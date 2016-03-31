@@ -1,5 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux';
 import { EMAIL_SENDING, EMAIL_FAILED } from  'src/constants'
+import { surveyScore, dailyScore } from 'src/surveyResults'
+import { evaluate } from 'actions/bio'
+import * as email from 'actions/email'
 import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
 import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } from 'src/surveyResults'
 import Question from 'components/Question'
@@ -206,4 +210,19 @@ function Chart({title, url}) {
     )
 }
 
-export default Feedback
+export default connect(
+    state => ({
+        emailStatus: state.postingEmail,
+        surveyScore: surveyScore(state.survey),
+        dailyScore: dailyScore(state.survey),
+        email: state.bio.email,
+        age: state.bio.age,
+        gender: state.bio.gender,
+        evaluation: state.evaluation
+    }),
+    {
+        emailToPatient: email.emailToPatient,
+        emailTo: email.emailTo,
+        evaluate: evaluate.action
+    }
+)(Feedback)
