@@ -44,12 +44,6 @@ function Feedback({
                 *National Health and Medical Research Council. (2009). <em>Australian guidelines to reduce health risks from drinking alcohol.</em> Commonwealth of Australia: Australian Capital Territory.
             </div>
 
-            <Question
-                value={evaluation}
-                onChange={input => evaluate(input.value)}
-                q={evaluationQuestion}
-            />
-
             <EmailNotice email={email} />
             <div id='section-buttons'>
                 <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={emailToPatient}>Email to Patient</button>
@@ -57,6 +51,13 @@ function Feedback({
 
                 <EmailStatus key={emailStatus} status={emailStatus} />
             </div>
+
+
+            <Question
+                value={evaluation}
+                onChange={input => evaluate(input.value)}
+                q={evaluationQuestion}
+            />
         </section>
     );
 }
