@@ -18,10 +18,7 @@ import (
 //
 // Refer: https://trello.com/c/1b6YdgIt/21-cron-job-for-daybreak-invitations
 func SendInvitationMails() error {
-	tx := db.DB.Begin()
-	defer tx.Commit()
-
-	surveys, err := PreviousSurveys(tx, time.Now())
+	surveys, err := PreviousSurveys(db.DB, time.Now())
 	if err != nil {
 		log.Printf("Error querying surveys for invitation: %v", err)
 		monitor.Count("invitation_delivery_error", 1, map[string]string{"error": err.Error()})
@@ -30,7 +27,7 @@ func SendInvitationMails() error {
 
 	errors := []error{}
 	for _, survey := range surveys {
-		err := survey.SendInvitationMail(tx)
+		err := survey.SendInvitationMail(db.DB)
 
 		logData := map[string]string{}
 		logData["survey_id"] = fmt.Sprintf("%d", survey.ID)
