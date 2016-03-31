@@ -2,6 +2,7 @@
 export const SET_INTERVIEWER = 'SET_INTERVIEWER';
 export const UPDATE_BIO = 'UPDATE_BIO';
 export const UPDATE_LOCATION = 'UPDATE_LOCATION';
+export const UPDATE_EVALUATION = 'UPDATE_EVALUATION';
 
 export const EMAIL_SENDING = 'EMAIL_SENDING';
 export const EMAIL_SENT = 'EMAIL_SENT';

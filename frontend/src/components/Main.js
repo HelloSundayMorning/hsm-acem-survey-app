@@ -121,6 +121,8 @@ var Audit = ReactRedux.connect(
     {update: answer }
 )(AuditPage);
 
+import { evaluate } from 'actions/bio'
+
 const fbPage = ReactRedux.connect(
     state => ({
         emailStatus: state.postingEmail,
@@ -128,9 +130,13 @@ const fbPage = ReactRedux.connect(
         dailyScore: dailyScore(state.survey),
         email: state.bio.email,
         age: state.bio.age,
-        gender: state.bio.gender
+        gender: state.bio.gender,
+        evaluation: state.evaluation
     }),
-    { emailToPatient: email.emailToPatient, emailTo: email.emailTo }
+    { emailToPatient: email.emailToPatient,
+      emailTo: email.emailTo,
+      evaluate: evaluate.action
+    }
 )(Feedback)
 
 var routeMap = {

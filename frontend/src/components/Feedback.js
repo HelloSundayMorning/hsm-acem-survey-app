@@ -2,10 +2,32 @@ import React from 'react'
 import { EMAIL_SENDING, EMAIL_FAILED } from  'src/constants'
 import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
 import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } from 'src/surveyResults'
+import Question from 'components/Question'
 import PoorSnackbar from 'components/PoorSnackbar'
 import EmptyComponent from 'components/EmptyComponent'
 
-function Feedback({ email, emailStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
+var evaluationQuestion = {
+    text: 'Do you think this person will reduce their harmful drinking?',
+    key: 'clinical_evaluation',
+    answers: [
+        {key: 'yes', text: 'Yes'},
+        {key: 'no', text: 'No'},
+        {key: 'unsure', text: 'Unsure'}
+    ]
+}
+
+function Feedback({
+    email,
+    emailStatus,
+    emailToPatient,
+    emailTo,
+    surveyScore,
+    dailyScore,
+    age,
+    gender,
+    evaluation,
+    evaluate
+}) {
     let Prompt = riskComponentMap[riskCategory(surveyScore)]
 
     return (
@@ -17,6 +39,12 @@ function Feedback({ email, emailStatus, emailToPatient, emailTo, surveyScore, da
             <div id='note'>
                 *National Health and Medical Research Council. (2009). <em>Australian guidelines to reduce health risks from drinking alcohol.</em> Commonwealth of Australia: Australian Capital Territory.
             </div>
+
+            <Question
+                value={evaluation}
+                onChange={input => evaluate(input.value)}
+                q={evaluationQuestion}
+            />
 
             <EmailNotice email={email} />
             <div id='section-buttons'>
