@@ -69,9 +69,6 @@ header {
 
 footer {
     min-height: 70px;
-    flex: 0 1;
-    align-items: baseline;
-    justify-content: space-between;
     padding-bottom: 48px;
 
     /* Override MDL accent */
@@ -154,10 +151,7 @@ blockquote {
     flex: 1;
     display: flex;
     flex-direction: column;
-
-    > section {
-        flex: 1 1;
-    }
+    justify-content: space-between;
 }
 
 .instructions {
