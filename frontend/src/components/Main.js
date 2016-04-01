@@ -19,11 +19,9 @@ import { Continue } from 'components/Footer'
 import Guidelines from 'components/NHMRCGuidelines'
 
 import history from 'actions/history'
-import * as email from 'actions/email'
 import { answer } from 'actions/survey'
 import { post as postFeedback } from 'actions/feedback'
 
-import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
 import logo from 'src/images/ACEM_V1_CMYK.png' // @_@
 import installPolyfills from 'src/polyfills'
@@ -121,24 +119,11 @@ var Audit = ReactRedux.connect(
     {update: answer }
 )(AuditPage);
 
-const fbPage = ReactRedux.connect(
-    state => ({
-        postStatus: state.postingSurvey,
-        emailStatus: state.postingEmail,
-        surveyScore: surveyScore(state.survey),
-        dailyScore: dailyScore(state.survey),
-        email: state.bio.email,
-        age: state.bio.age,
-        gender: state.bio.gender
-    }),
-    { emailToPatient: email.emailToPatient, emailTo: email.emailTo }
-)(Feedback)
-
 var routeMap = {
     '/': [Intro, 'Start'],
     'info': [PatientBio, 'Patient Info'],
     'audit': [Audit, 'AUDIT'],
-    'feedback': [fbPage, 'Feedback'],
+    'feedback': [Feedback, 'Feedback'],
     'frames': [Frames, 'FRAMES']
 }
 

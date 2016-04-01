@@ -269,6 +269,7 @@ func defaultRequestSurveyData(t *testing.T) (surveyData map[string]interface{}) 
 	  {
 		"interviewer": "doctor",
 		"location": "warrnambool",
+		"evaluation": "unsure",
 		"patient": { "age": 21, "gender": "male", "postcode": "012345678", "email": "person@patient.im", "mobile": "+8612345678901" },
 		"answers": [
 		   { "question": "How other do you drink?", "answer": "Monthly or less" },
