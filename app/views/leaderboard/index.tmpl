@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ACEM Leaderboard</title>
+  </head>
+  <body>
+    <header>
+      <span>Alcohol Screener</span>
+    </header>
+
+    <section id="leaderboard">
+    <h1>Leaderboard</h1>
+
+    {{ $interviewers := .interviewers }}
+    {{ $counts := .counts }}
+
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          {{ range .interviewers}}
+          <th class='count'>{{ . }}</th>
+          {{ end }}
+        </tr>
+      </thead>
+      <tbody>
+        {{ range $location := .locations }}
+        <tr>
+          <td>{{ . }}</td>
+          {{ range $interviewers}}
+          <td class='count'>
+            {{ index $counts $location . }}
+          </td>
+          {{ end }}
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+    </section>
+
+  </body>
+</html>

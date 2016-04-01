@@ -37,6 +37,8 @@ func Mux() *http.ServeMux {
 	sessions.POST("/", controllers.SessionsCreate)
 	sessions.GET("/destroy", controllers.SessionsDestroy)
 
+	engine.GET("/leaderboard", controllers.Leaderboard)
+
 	mux := http.NewServeMux()
 	mux.Handle("/", engine)
 	admin.Admin.MountTo("/admin", mux)
