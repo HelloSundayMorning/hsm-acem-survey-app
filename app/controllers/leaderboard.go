@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/theplant/hsm-acem-survey-app/db"
+	"github.com/theplant/hsm-acem-survey-app/template"
 )
 
 // Leaderboard receives [GET] /leaderboard
@@ -36,7 +37,7 @@ func Leaderboard(ctx *gin.Context) {
 		data[c.Location][c.Interviewer] = c.Count
 	}
 
-	ctx.HTML(200, "index.tmpl", map[string]interface{}{
+	template.Execute(ctx.Writer, "leaderboard/index", map[string]interface{}{
 		"locations":    locations,
 		"interviewers": interviewers,
 		"counts":       data,

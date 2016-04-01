@@ -16,7 +16,6 @@ import (
 // Mux returns a server mux that includes all application routes.
 func Mux() *http.ServeMux {
 	engine := gin.Default()
-	engine.LoadHTMLGlob(config.AbsolutePath("app/views/**/*"))
 
 	engine.Use(monitor.OperationMonitor())
 
