@@ -13,8 +13,8 @@ var evaluationQuestion = {
     text: 'Do you think this person will reduce their harmful drinking?',
     key: 'clinical_evaluation',
     answers: [
-        {key: 'yes', text: 'Yes'},
-        {key: 'no', text: 'No'},
+        {key: 'will_reduce', text: 'Yes'},
+        {key: 'wont_reduce', text: 'No'},
         {key: 'unsure', text: 'Unsure'}
     ]
 }
