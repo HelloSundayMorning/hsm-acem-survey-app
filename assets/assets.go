@@ -10,7 +10,8 @@ import (
 )
 
 func init() {
-	var result map[string]string
+
+	template.FuncMap["asset"] = idAsset
 
 	raw, err := ioutil.ReadFile("./public/assets/manifest.json")
 	if err != nil {
@@ -18,6 +19,7 @@ func init() {
 		return
 	}
 
+	var result map[string]string
 	err = json.Unmarshal(raw, &result)
 	if err != nil {
 		log.Printf("Couldn't unmarshal asset file: %v", err)
@@ -25,6 +27,11 @@ func init() {
 	}
 
 	template.FuncMap["asset"] = asset(result)
+}
+
+// idAsset: "id" => identity (ie. do nothing)
+func idAsset(asset string) (string, error) {
+	return asset, nil
 }
 
 func asset(assets map[string]string) func(string) (string, error) {
