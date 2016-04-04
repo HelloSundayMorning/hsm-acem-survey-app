@@ -46,9 +46,21 @@
     header .header-title {
         display: none;
     }
+
+    #feedback #section-buttons {
+        margin: 24px 0;
+
+        button:first-child {
+            margin-bottom: 12px;
+        }
+    }
 }
 
 @media all and (max-width: 320px) {
+    .survey-page {
+        padding: 0 12px;
+    }
+
     #intro,  #patient-bio, #reminder, #feedback, #audit, footer {
         width:99%;
     }
@@ -58,9 +70,5 @@
         color: #212121;
         line-height: 23px;
         padding-top: 10%;
-    }
-
-    #section-buttons {
-        height: 68px;
     }
 }
