@@ -253,8 +253,7 @@ section.question {
     color: #FFFFFF;
     line-height: 20px;
     padding: 20px 25px;
-    width: 360px;
-
+    max-width: 360px;
 }
 
 #intro, #patient-bio, #reminder, footer {
