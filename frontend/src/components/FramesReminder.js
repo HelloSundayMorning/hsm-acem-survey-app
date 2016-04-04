@@ -1,8 +1,19 @@
 import React from 'react'
+import { connect } from 'react-redux';
+import { POSTING_SURVEY, SURVEY_POST_FAILED, SURVEY_POSTED } from  'src/constants'
+import { StatusBar } from 'components/PoorSnackbar'
 
+const postSurveyStatusMap = {
+    [POSTING_SURVEY]: 'Saving survey…',
+    [SURVEY_POST_FAILED]: 'Failed to save survey.',
+    [SURVEY_POSTED]: 'Survey saved.'
+}
 
-export default () =>
+const PostingStatus = StatusBar(postSurveyStatusMap);
+
+const FramesReminder = ({ postingSurvey }) =>
     <section id='reminder'>
+        <PostingStatus status={postingSurvey} />
         <h1>FRAMES reminder</h1>
 
         <h2>Say: “As you doctor/nurse/clinician you have seen that you have significant health risks related to alcohol. This will be reduced by cutting back on your drinking.”</h2>
@@ -30,3 +41,7 @@ export default () =>
         <p>*Please provide your patient with the Better Health Channel alcohol handout before they leave.</p>
 
     </section>;
+
+export default connect(
+    ({ postingSurvey }) => ({ postingSurvey })
+)(FramesReminder)

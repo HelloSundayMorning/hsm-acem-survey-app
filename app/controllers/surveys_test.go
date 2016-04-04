@@ -145,9 +145,6 @@ func TestSendEmailInvalidParams(t *testing.T) {
 
 func TestSendEmailFailingMandrill(t *testing.T) {
 	mu.ErrorMandrillConfigure()
-
-	notifier, airbrake := au.NewBufferNotifier()
-	defer au.SetNotifier(airbrake)
 	au.ClearBuffer(notifier)
 
 	req := prepareEmailRequest(t, emailParams())
@@ -202,9 +199,6 @@ func TestSendFeedbackMailInvalidParams(t *testing.T) {
 
 func TestSendFeedbackMailFailingMandrill(t *testing.T) {
 	mu.ErrorMandrillConfigure()
-
-	notifier, airbrake := au.NewBufferNotifier()
-	defer au.SetNotifier(airbrake)
 	au.ClearBuffer(notifier)
 
 	req := prepareFeedbackRequest(t, feedbackMailParams())
@@ -275,6 +269,7 @@ func defaultRequestSurveyData(t *testing.T) (surveyData map[string]interface{}) 
 	  {
 		"interviewer": "doctor",
 		"location": "warrnambool",
+		"evaluation": "unsure",
 		"patient": { "age": 21, "gender": "male", "postcode": "012345678", "email": "person@patient.im", "mobile": "+8612345678901" },
 		"answers": [
 		   { "question": "How other do you drink?", "answer": "Monthly or less" },

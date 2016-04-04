@@ -339,10 +339,11 @@ section.question {
     #note {
         font-family: Roboto-Regular, sans-serif;
         color: $light-grey;
-        margin: 18px 0 48px;
+        margin-top: 18px;
     }
 
     #section-buttons {
+        margin: 24px 0 48px;
 
         button {
             margin-right: 20px;

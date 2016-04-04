@@ -25,6 +25,7 @@ type Survey struct {
 
 	Interviewer string `sql:"not null;" json:"interviewer" binding:"required"`
 	Location    string `sql:"not null;" json:"location" binding:"required"`
+	Evaluation  string `json:"evaluation" binding:"required"`
 	Patient     `json:"patient" binding:"required"`
 	Answers     serializer.JSONArray `sql:"type:json;not null;default:'[]'" json:"answers" binding:"required"`
 	RequestData serializer.JSON      `sql:"type:json;not null;default:'{}'" json:"-"`

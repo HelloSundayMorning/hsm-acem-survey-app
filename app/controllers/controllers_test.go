@@ -8,6 +8,7 @@ import (
 	"os"
 	"testing"
 
+	au "github.com/theplant/airbraker/utils"
 	"github.com/theplant/hsm-acem-survey-app/config/routes"
 
 	// Ensure DB is reset
@@ -15,18 +16,23 @@ import (
 )
 
 var (
-	mux    *http.ServeMux
-	server *httptest.Server
+	mux      *http.ServeMux
+	server   *httptest.Server
+	notifier *au.BufferNotifier
 )
 
 func init() {
 	mux = routes.Mux()
 }
 
-// TestMain sets up a clean database and create a new server instance
-// for every test case. It also close the server after done the test case.
+// TestMain sets up a clean database, create a new server
+// instance and a buffer notifier for every test case.
+//
+// It also close the server after done the test case.
 func TestMain(m *testing.M) {
 	server = httptest.NewServer(mux)
+	// skip the default value of airbraker.Airbrake here
+	notifier, _ = au.NewBufferNotifier()
 
 	retCode := m.Run()
 
