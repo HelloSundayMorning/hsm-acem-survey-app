@@ -56,8 +56,8 @@ import * as bio from 'actions/bio'
 function Header() {
     return (
         <header>
-            Alcohol Screener
-            <img src={logo} />
+            <span className='header-title'>Alcohol Screener</span>
+            <img className='header-image' src={logo} />
         </header>
     )
 }

@@ -41,6 +41,13 @@
     }
 }
 
+@media all and (max-width: 414px) {
+    // Hide header title in small width device to avoid mess up header title and image
+    header .header-title {
+        display: none;
+    }
+}
+
 @media all and (max-width: 320px) {
     #intro,  #patient-bio, #reminder, #feedback, #audit, footer {
         width:99%;
