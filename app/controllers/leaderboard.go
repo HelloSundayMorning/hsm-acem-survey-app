@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
 	"github.com/theplant/hsm-acem-survey-app/db"
 	"github.com/theplant/hsm-acem-survey-app/template"
@@ -23,8 +21,6 @@ func Leaderboard(ctx *gin.Context) {
 		panic(err)
 	}
 
-	log.Println(rawCounts)
-
 	type interviewerData map[string]int
 	data := make(map[string]interviewerData)
 
@@ -33,7 +29,6 @@ func Leaderboard(ctx *gin.Context) {
 	}
 
 	for _, c := range rawCounts {
-		log.Println(c, data)
 		data[c.Location][c.Interviewer] = c.Count
 	}
 
