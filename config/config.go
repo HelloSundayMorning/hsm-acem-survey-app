@@ -25,6 +25,8 @@ var (
 
 	// SessionKey is key used for session cookie
 	SessionKey = "hsm-acem-survey-app"
+
+	ServeStaticAssets = os.Getenv("SERVE_STATIC_ASSETS") != ""
 )
 
 func init() {
