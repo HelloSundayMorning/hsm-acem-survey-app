@@ -27,12 +27,21 @@ import (
 )
 
 var (
-	// built-in template method: render
-	FuncMap       template.FuncMap
+	// FuncMap contains default template methods made available to
+	// templates:
+	// - render: render a separate template in-place.
+	// - content: used in layout templates to render result of content template.
+	FuncMap template.FuncMap
+
+	// ViewPath is path of view templates relative to WEB_ROOT (or
+	// used directly if WEB_ROOT is undefined.
 	ViewPath      = "app/views"
 	templates     = map[string]*template.Template{}
 	defaultLayout = Layout("layouts/application")
 
+	// ConstantReload controls whether the templates are loaded from
+	// disk and parsed *once* at first use (when false), or every time
+	// the template is rendered (when true).
 	ConstantReload bool
 )
 
@@ -43,6 +52,8 @@ func init() {
 	}
 }
 
+// Layout is a wrapper to allow below methods to be associated with
+// template names.
 type Layout string
 
 // Execute loads and parses template `name` and write the result to w.
