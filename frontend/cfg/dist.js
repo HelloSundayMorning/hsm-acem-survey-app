@@ -6,6 +6,7 @@ var baseConfig = require('./base');
 
 // Add needed plugins here
 var BowerWebpackPlugin = require('bower-webpack-plugin');
+var ManifestPlugin = require('webpack-manifest-plugin');
 
 var config = _.merge({
     entry: {
@@ -28,7 +29,8 @@ var config = _.merge({
         new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin({
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-        })
+        }),
+        new ManifestPlugin()
     ]
 }, baseConfig);
 

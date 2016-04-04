@@ -50,7 +50,8 @@
     "react-hot-loader": "^1.2.9",
     "redux-devtools": "^2.1.5",
     "rimraf": "^2.4.3",
-    "webpack-dev-server": "^1.12.0"
+    "webpack-dev-server": "^1.12.0",
+    "webpack-manifest-plugin": "^1.0.0"
   },
   "dependencies": {
     "babel-core": "^6.0.0",
