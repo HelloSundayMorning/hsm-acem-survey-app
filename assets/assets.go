@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 
 	"github.com/theplant/hsm-acem-survey-app/template"
 )
@@ -13,12 +14,14 @@ func init() {
 
 	raw, err := ioutil.ReadFile("./public/assets/manifest.json")
 	if err != nil {
-		panic(err)
+		log.Printf("Couldn't read asset file: %v", err)
+		return
 	}
 
 	err = json.Unmarshal(raw, &result)
 	if err != nil {
-		panic(err)
+		log.Printf("Couldn't unmarshal asset file: %v", err)
+		return
 	}
 
 	template.FuncMap["asset"] = asset(result)
