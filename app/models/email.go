@@ -93,7 +93,8 @@ func SendFeedbackMail(t FeedbackMailTemplate) error {
 }
 
 // InvitationTemplate is the mandrill template slug that used for invitation mail.
-const InvitationTemplate = "register-to-hsm"
+// The template slug is specified in: https://trello.com/c/1b6YdgIt/21-cron-job-for-daybreak-invitations#comment-5701b820e1f5b205d411df94
+const InvitationTemplate = "just-checking-in"
 
 // InvitationMailTemplate describes data that will be passed on to Mandrill
 type InvitationMailTemplate struct {
