@@ -15,69 +15,40 @@ import (
 func TestPreviousSurveys(t *testing.T) {
 	u.Truncate(t, models.Survey{})
 
-	pendingInvitationSurvey(t, 0)
-	sentInvitationSurvey(t, 0)
-	sentInvitationSurvey(t, -2)
+	surveyCreatedToday := pendingInvitationSurvey(t, 0)
+	surveySentInvitation := sentInvitationSurvey(t, -1)
+	surveyPendingInvitationOne := pendingInvitationSurvey(t, -1)
+	surveyWithNoEmail := createSurveyForInvitation(t, true, false, false, -1)
+	surveyPendingInvitationTwo := pendingInvitationSurvey(t, -2)
 
 	expectedSurveys := []*models.Survey{}
-	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -1))
-	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -3))
+	expectedSurveys = append(expectedSurveys, surveyPendingInvitationOne)
+	expectedSurveys = append(expectedSurveys, surveyPendingInvitationTwo)
 
 	surveys, err := models.PreviousSurveys(db.DB, time.Now())
 	u.AssertNoErr(t, err)
 
 	count := len(expectedSurveys)
-	if len(surveys) != 2 {
-		t.Fatalf("go %d surveys, but want 2", len(surveys))
+	if got, want := len(surveys), count; got != want {
+		t.Fatalf("got %d of surveys, but want %d", got, want)
 	}
 
-	// Default order is ID DESC.
 	for i, s := range surveys {
+		// Default order is ID DESC.
 		if got, want := s.ID, expectedSurveys[count-i-1].ID; got != want {
 			t.Errorf("got survey ID %d, but want %d", got, want)
 		}
-	}
-}
 
-func TestPreviousSurveysReturnsSurveysWithEmail(t *testing.T) {
-	u.Truncate(t, models.Survey{})
-
-	expectedSurveys := []*models.Survey{}
-	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -1))
-	createSurveyForInvitation(t, true, false, false, -1)
-
-	surveys, err := models.PreviousSurveys(db.DB, time.Now())
-	u.AssertNoErr(t, err)
-
-	if got, want := len(surveys), 1; got != want {
-		t.Fatalf("go unexpected surveys count: %d", got)
-	}
-
-	for _, s := range surveys {
-		if s.Email == "" {
-			t.Errorf("got unexpected survey.Email %v", s.Email)
+		if s.ID == surveyCreatedToday.ID {
+			t.Errorf("got unexpected survey (%d) that created today.", s.ID)
 		}
-	}
-}
 
-func TestPreviousSurveysReturnsSurveysHaventSentInvitationMail(t *testing.T) {
-	u.Truncate(t, models.Survey{})
+		if s.ID == surveySentInvitation.ID {
+			t.Errorf("got unexpected survey (%d) that sent invitation mail.", s.ID)
+		}
 
-	expectedSurveys := []*models.Survey{}
-	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -1))
-	sentInvitationSurvey(t, -2)
-	expectedSurveys = append(expectedSurveys, pendingInvitationSurvey(t, -3))
-
-	surveys, err := models.PreviousSurveys(db.DB, time.Now())
-	u.AssertNoErr(t, err)
-
-	if got, want := len(surveys), 2; got != want {
-		t.Fatalf("go unexpected surveys count: %d", got)
-	}
-
-	for _, s := range surveys {
-		if s.InvitationMailSentAt != nil {
-			t.Errorf("got unexpected survey.InvitationMailSentAt %v", s.InvitationMailSentAt)
+		if s.ID == surveyWithNoEmail.ID {
+			t.Errorf("got unexpected survey (%d) with no email.", s.ID)
 		}
 	}
 }
