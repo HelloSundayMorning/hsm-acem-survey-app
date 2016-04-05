@@ -4,10 +4,14 @@
 	"app": {
 		"name":       "hsm-acem-survey-app",
 		"importpath": "github.com/theplant/hsm-acem-survey-app",
+		"DeployScript": "scripts/harp_deploy.sh",
+		"RestartScript": "scripts/harp_restart.sh",
+		"MigrationScript": "scripts/harp_migration.sh",
 		"envs": {},
 		"DefaultExcludeds": [".git/", "tmp/", ".DS_Store", "node_modules/", "*.swp"],
 		"files":      [
 			"github.com/theplant/hsm-acem-survey-app/config",
+			"github.com/theplant/hsm-acem-survey-app/scripts",
 			{
 				"path": "github.com/theplant/hsm-acem-survey-app/app/views",
 				"delete": true
@@ -24,6 +28,13 @@
 		]
 	},
 	"servers": {
+		"dev": [{
+			"gopath": "/home/acem/gopkg",
+			"user": "acem",
+			"host": "54.79.7.12",
+			"envs": {},
+			"port": ":22"
+		}],
 		"prod": [{
 			"gopath": "/home/app/gopkg",
 			"user": "app",
