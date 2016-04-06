@@ -25,7 +25,7 @@ func Leaderboard(ctx *gin.Context) {
 	data := make(map[string]interviewerData)
 
 	for _, l := range locations {
-		data[l] = make(map[string]int)
+		data[l] = make(interviewerData)
 	}
 
 	for _, c := range rawCounts {
