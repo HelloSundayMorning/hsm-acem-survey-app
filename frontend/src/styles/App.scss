@@ -375,23 +375,35 @@ section.question {
 }
 
 #start-button{
-  padding-top: 15px;
+    padding-top: 15px;
+
+    > span, a {
+        margin: 0 15px 15px 0;
+    }
 }
 
 #feedback-section {
     display: inline-block;
-    margin-left: 15px;
+
+    > button {
+        margin: 0 15px 15px 0;
+    }
 
     // #feedback-message is base on .poor-snack but display inline
     // in order to display on the right of the footer button.
     #feedback-message {
         display: inline-block;
-        margin: 0 0 0 15px;
+        margin: 0 15px 15px 0;
         padding: 0 16px;
         min-width: 64px;
         height: 40px;
         line-height: 40px;
-        border-bottom: 1px solid #323232;
+        vertical-align: middle;
+
+        border: none;
+        border-radius: 2px;
+        background: rgba(158,158,158,.2);
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
 
         // Basic .poor-snack styles
         background: #323232;
