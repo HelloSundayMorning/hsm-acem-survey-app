@@ -27,9 +27,7 @@
     "chai-subset": "^1.2.1",
     "eslint": "^2.0.0-beta.1",
     "eslint-plugin-react": "^3.3.0",
-    "extract-loader": "0.0.2",
     "glob": "^5.0.15",
-    "html-loader": "^0.4.3",
     "isparta-instrumenter-loader": "^1.0.0",
     "karma": "^0.13.9",
     "karma-chai": "^0.1.0",
@@ -50,8 +48,7 @@
     "react-hot-loader": "^1.2.9",
     "redux-devtools": "^2.1.5",
     "rimraf": "^2.4.3",
-    "webpack-dev-server": "^1.12.0",
-    "webpack-manifest-plugin": "^1.0.0"
+    "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
     "babel-core": "^6.0.0",
@@ -63,8 +60,10 @@
     "css-loader": "^0.21.0",
     "es6-promise": "^3.1.2",
     "exports-loader": "^0.6.2",
+    "extract-loader": "0.0.2",
     "file-loader": "^0.8.4",
     "history": "^1.13.1",
+    "html-loader": "^0.4.3",
     "imports-loader": "^0.6.5",
     "lodash": "^3.10.1",
     "node-sass": "^3.3.3",
@@ -79,6 +78,7 @@
     "scroll-behavior": "^0.3.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
-    "webpack": "^1.12.0"
+    "webpack": "^1.12.0",
+    "webpack-manifest-plugin": "^1.0.0"
   }
 }
