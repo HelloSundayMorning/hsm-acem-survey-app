@@ -43,7 +43,7 @@
 
 @media all and (max-width: 414px) {
     // Hide header title in small width device to avoid mess up header title and image
-    header .header-title {
+    header > span {
         display: none;
     }
 
