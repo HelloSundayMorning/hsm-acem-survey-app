@@ -6,7 +6,7 @@ import (
 	"github.com/theplant/hsm-acem-survey-app/template"
 )
 
-// Leaderboard receives [GET] /leaderboard
+// Leaderboard receives [GET] /leaderboards
 func Leaderboard(ctx *gin.Context) {
 	locations := []string{"Warrnambool", "Clayton", "Fitzroy", "Geelong"}
 	interviewers := []string{"nurse", "doctor", "allied", "other"}

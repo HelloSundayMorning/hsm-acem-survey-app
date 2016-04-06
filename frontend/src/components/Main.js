@@ -62,6 +62,8 @@ function Header() {
     )
 }
 
+const LEADERBOARDS_PATH = config.apiRoot + '/leaderboards';
+
 var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action, postFeedback })(function(props) {
     return (
         <div className='survey-page'>
@@ -98,6 +100,7 @@ var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action
                     <select value={props.state.location} onChange={({target: {value}}) => updateLocation(value, props.update)}>
                         {Locations.map(l => <option key={l} value={l}>{l}</option> )}
                     </select>
+                    <p><a href={LEADERBOARDS_PATH}>View leaderboards</a></p>
                     <div id='start-button'>
                         <Continue
                             className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'
