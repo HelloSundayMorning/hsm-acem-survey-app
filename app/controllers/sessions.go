@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/theplant/hsm-acem-survey-app/app/models"
 	"github.com/theplant/hsm-acem-survey-app/config"
+	"github.com/theplant/hsm-acem-survey-app/template"
 )
 
 // SessionsNew receives [GET] /sessions/new
@@ -17,7 +18,7 @@ func SessionsNew(ctx *gin.Context) {
 		return
 	}
 
-	ctx.HTML(http.StatusOK, "new.tmpl", gin.H{})
+	template.Execute(ctx.Writer, "sessions/new", nil)
 }
 
 // SessionsCreate receives [POST] /sessions
@@ -29,7 +30,8 @@ func SessionsCreate(ctx *gin.Context) {
 
 	user, err := models.UserAuthenticate(email, password)
 	if err != nil {
-		ctx.HTML(http.StatusUnauthorized, "new.tmpl", gin.H{
+		ctx.Status(http.StatusUnauthorized)
+		template.Execute(ctx.Writer, "sessions/new", gin.H{
 			"Email":    email,
 			"Password": password,
 			"Error":    err.Error(),

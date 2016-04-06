@@ -19,11 +19,9 @@ import { Continue } from 'components/Footer'
 import Guidelines from 'components/NHMRCGuidelines'
 
 import history from 'actions/history'
-import * as email from 'actions/email'
 import { answer } from 'actions/survey'
 import { post as postFeedback } from 'actions/feedback'
 
-import { surveyScore, dailyScore } from 'src/surveyResults'
 import * as config from 'config'
 import logo from 'src/images/ACEM_V1_CMYK.png' // @_@
 import installPolyfills from 'src/polyfills'
@@ -62,6 +60,8 @@ function Header() {
     )
 }
 
+const LEADERBOARDS_PATH = config.apiRoot + '/leaderboards';
+
 var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action, postFeedback })(function(props) {
     return (
         <div className='survey-page'>
@@ -98,6 +98,7 @@ var Intro = ReactRedux.connect(state => ({state}), { update: bio.location.action
                     <select value={props.state.location} onChange={({target: {value}}) => updateLocation(value, props.update)}>
                         {Locations.map(l => <option key={l} value={l}>{l}</option> )}
                     </select>
+                    <p><a href={LEADERBOARDS_PATH}>View leaderboards</a></p>
                     <div id='start-button'>
                         <Continue
                             className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'
@@ -121,24 +122,11 @@ var Audit = ReactRedux.connect(
     {update: answer }
 )(AuditPage);
 
-const fbPage = ReactRedux.connect(
-    state => ({
-        postStatus: state.postingSurvey,
-        emailStatus: state.postingEmail,
-        surveyScore: surveyScore(state.survey),
-        dailyScore: dailyScore(state.survey),
-        email: state.bio.email,
-        age: state.bio.age,
-        gender: state.bio.gender
-    }),
-    { emailToPatient: email.emailToPatient, emailTo: email.emailTo }
-)(Feedback)
-
 var routeMap = {
     '/': [Intro, 'Start'],
     'info': [PatientBio, 'Patient Info'],
     'audit': [Audit, 'AUDIT'],
-    'feedback': [fbPage, 'Feedback'],
+    'feedback': [Feedback, 'Feedback'],
     'frames': [Frames, 'FRAMES']
 }
 

@@ -12,7 +12,7 @@ import (
 
 var (
 	// Root is application root path
-	Root = os.Getenv("GOPATH") + "/src/github.com/theplant/hsm-acem-survey-app"
+	Root = os.Getenv("APP_ROOT")
 
 	// DB is global DB configuration data
 	DB struct {
@@ -25,6 +25,9 @@ var (
 
 	// SessionKey is key used for session cookie
 	SessionKey = "hsm-acem-survey-app"
+
+	// ServeStaticAssets enables serving of asset files by Go app
+	ServeStaticAssets = os.Getenv("SERVE_STATIC_ASSETS") != ""
 )
 
 func init() {

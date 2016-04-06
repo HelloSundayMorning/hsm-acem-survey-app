@@ -1,17 +1,17 @@
 @media all and (max-width: 2068px) {
-    #intro,  #patient-bio, #reminder, #feedback, #audit, footer {
+    #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
         width: 80%;
     }
 }
 
 @media all and (max-width: 1440px) {
-    #intro,  #patient-bio, #reminder, #feedback, #audit,footer {
+    #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
         width: 80%;
     }
 }
 
 @media all and (max-width: 799px) {
-    #intro,  #patient-bio, #reminder, #feedback, #audit,footer {
+    #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
         width: 80%;
     }
 
@@ -61,7 +61,7 @@
         padding: 0 12px;
     }
 
-    #intro,  #patient-bio, #reminder, #feedback, #audit, footer {
+    #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
         width:99%;
     }
 

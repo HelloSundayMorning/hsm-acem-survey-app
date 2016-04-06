@@ -8,11 +8,13 @@ var baseConfig = require('./base');
 var BowerWebpackPlugin = require('bower-webpack-plugin');
 
 var config = _.merge({
-    entry: [
-        'webpack-dev-server/client?http://127.0.0.1:8000',
-        'webpack/hot/only-dev-server',
-        './src/components/run'
-    ],
+    entry: {
+        app: [
+            'webpack-dev-server/client?http://127.0.0.1:8000',
+            'webpack/hot/only-dev-server',
+            './src/components/run'
+        ]
+    },
     cache: true,
     devtool: 'eval',
     plugins: [
@@ -32,6 +34,12 @@ config.module.loaders.push({
     test: /\.(js|jsx)$/,
     loader: 'react-hot!babel-loader',
     include: path.join(__dirname, '/../src')
-});
+}, {
+    test: /\.css$/,
+    loader: 'style!css'
+}, {
+    test: /\.scss/,
+    loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
+})
 
 module.exports = config;

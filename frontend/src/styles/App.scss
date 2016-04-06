@@ -256,7 +256,7 @@ section.question {
     max-width: 360px;
 }
 
-#intro, #patient-bio, #reminder, footer {
+#intro, #patient-bio, #reminder, #leaderboard, footer {
     width: 100%;
     margin: 0 auto;
 }
@@ -352,7 +352,7 @@ section.question {
     }
 
     #section-buttons {
-        margin: 48px 0;
+        margin: 24px 0 48px;
 
         button {
             margin-right: 20px;
@@ -411,4 +411,19 @@ section.question {
         font-size: 16px;
         color: #FFFFFF;
     }
+}
+
+#leaderboard {
+    table {
+        width: 100%;
+
+        th.count, td.count {
+            text-align: right;
+        }
+    }
+}
+
+#login {
+    width: 600px;
+    margin: 0 auto;
 }
