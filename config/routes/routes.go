@@ -3,7 +3,9 @@
 package routes
 
 import (
+	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/theplant/airbraker"
@@ -11,12 +13,14 @@ import (
 	"github.com/theplant/hsm-acem-survey-app/config"
 	"github.com/theplant/hsm-acem-survey-app/config/admin"
 	"github.com/theplant/monitor"
+
+	// Initialise the asset manifest and template handler
+	_ "github.com/theplant/hsm-acem-survey-app/assets"
 )
 
 // Mux returns a server mux that includes all application routes.
 func Mux() *http.ServeMux {
 	engine := gin.Default()
-	engine.LoadHTMLGlob(config.AbsolutePath("app/views/**/*"))
 
 	engine.Use(monitor.OperationMonitor())
 
@@ -37,7 +41,16 @@ func Mux() *http.ServeMux {
 	sessions.POST("/", controllers.SessionsCreate)
 	sessions.GET("/destroy", controllers.SessionsDestroy)
 
+	engine.GET("/leaderboards", controllers.Leaderboard)
+
 	mux := http.NewServeMux()
+
+	if config.ServeStaticAssets {
+		assetDir := http.Dir(strings.Join([]string{config.Root, "public"}, "/"))
+		log.Printf("Serving static assets from %s at /assets", assetDir)
+		mux.Handle("/assets/", http.FileServer(assetDir))
+	}
+
 	mux.Handle("/", engine)
 	admin.Admin.MountTo("/admin", mux)
 

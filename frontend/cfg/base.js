@@ -9,7 +9,7 @@ module.exports = {
     debug: true,
     output: {
         path: path.join(__dirname, '/../../public/assets'),
-        filename: 'app.js',
+        filename: '[name].js',
         publicPath: publicPath
     },
     devServer: {
@@ -42,26 +42,6 @@ module.exports = {
             }
         ],
         loaders: [
-            {
-                test: /\.css$/,
-                loader: 'style!css'
-            },
-            {
-                test: /\.sass/,
-                loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded&indentedSyntax'
-            },
-            {
-                test: /\.scss/,
-                loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
-            },
-            {
-                test: /\.less/,
-                loader: 'style-loader!css-loader!less-loader'
-            },
-            {
-                test: /\.styl/,
-                loader: 'style-loader!css-loader!stylus-loader'
-            },
             {
                 test: /\.(png|jpg|gif|woff|woff2)$/,
                 loader: 'url-loader?limit=8192'

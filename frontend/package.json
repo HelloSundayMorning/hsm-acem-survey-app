@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf ../public",
     "copy": "copyfiles -f ./public/* ../public",
-    "dist": "npm run copy & webpack --env=dist",
+    "dist": "npm run copy & webpack --env=dist && mv ../public/assets/index.html ../public",
     "lint": "eslint src test",
     "posttest": "npm run lint",
     "release:major": "npm version major && npm publish && git push --follow-tags",
@@ -27,7 +27,9 @@
     "chai-subset": "^1.2.1",
     "eslint": "^2.0.0-beta.1",
     "eslint-plugin-react": "^3.3.0",
+    "extract-loader": "0.0.2",
     "glob": "^5.0.15",
+    "html-loader": "^0.4.3",
     "isparta-instrumenter-loader": "^1.0.0",
     "karma": "^0.13.9",
     "karma-chai": "^0.1.0",
@@ -48,7 +50,8 @@
     "react-hot-loader": "^1.2.9",
     "redux-devtools": "^2.1.5",
     "rimraf": "^2.4.3",
-    "webpack-dev-server": "^1.12.0"
+    "webpack-dev-server": "^1.12.0",
+    "webpack-manifest-plugin": "^1.0.0"
   },
   "dependencies": {
     "babel-core": "^6.0.0",
