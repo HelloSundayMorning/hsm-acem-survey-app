@@ -1,14 +1,16 @@
 package models_test
 
 import (
+	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/theplant/hsm-acem-survey-app/app/models"
-	u "github.com/theplant/hsm-acem-survey-app/test/utils"
+	mu "github.com/theplant/hsm-acem-survey-app/mandrill/utils"
 )
 
 func TestSendWithoutEmail(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := emailParams()
 	template.Email = ""
@@ -19,7 +21,7 @@ func TestSendWithoutEmail(t *testing.T) {
 }
 
 func TestSendMailFailure(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	template := emailParams()
 
@@ -29,7 +31,7 @@ func TestSendMailFailure(t *testing.T) {
 }
 
 func TestSendMailSuccess(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := emailParams()
 
@@ -53,7 +55,7 @@ func emailParams() models.EmailTemplate {
 }
 
 func TestSendFeedbackMailWithNoEmails(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := feedbackParams()
 	template.Emails = []string{}
@@ -64,7 +66,7 @@ func TestSendFeedbackMailWithNoEmails(t *testing.T) {
 }
 
 func TestSendFeedbackMailFailure(t *testing.T) {
-	u.ErrorMandrillConfigure()
+	mu.ErrorMandrillConfigure()
 
 	template := feedbackParams()
 
@@ -74,7 +76,7 @@ func TestSendFeedbackMailFailure(t *testing.T) {
 }
 
 func TestSendFeedbackMailSuccess(t *testing.T) {
-	u.SuccessMandrillConfigure()
+	mu.SuccessMandrillConfigure()
 
 	template := feedbackParams()
 
@@ -88,5 +90,55 @@ func feedbackParams() models.FeedbackMailTemplate {
 		Emails:   []string{"test@example.com"},
 		Template: "feedback",
 		FreeText: "Put free text here",
+	}
+}
+
+func TestSendInvitationMailMissingFields(t *testing.T) {
+	mu.SuccessMandrillConfigure()
+
+	cases := []struct {
+		field    string
+		template models.InvitationMailTemplate
+	}{
+		{field: "Email", template: func() (t models.InvitationMailTemplate) { t = invitationParams(); t.Email = ""; return }()},
+		{field: "Template", template: func() (t models.InvitationMailTemplate) { t = invitationParams(); t.Template = ""; return }()},
+		{field: "Gender", template: func() (t models.InvitationMailTemplate) { t = invitationParams(); t.Gender = ""; return }()},
+		{field: "SurveyScore", template: func() (t models.InvitationMailTemplate) { t = invitationParams(); t.SurveyScore = nil; return }()},
+	}
+
+	for _, c := range cases {
+		if err := models.SendInvitationMail(c.template); !strings.Contains(fmt.Sprint(err), c.field) {
+			t.Fatalf("Unexpected error: %v", err)
+		}
+	}
+}
+
+func TestSendInvitationMailFailure(t *testing.T) {
+	mu.ErrorMandrillConfigure()
+
+	template := invitationParams()
+
+	if err := models.SendInvitationMail(template); err == nil {
+		t.Fatal("Expected sent invalidation mail failure, but it sent out successfully")
+	}
+}
+
+func TestSendInvitationMailSuccess(t *testing.T) {
+	mu.SuccessMandrillConfigure()
+
+	template := invitationParams()
+
+	if err := models.SendInvitationMail(template); err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
+}
+
+func invitationParams() models.InvitationMailTemplate {
+	var score uint = 10
+	return models.InvitationMailTemplate{
+		Email:       "test@example.com",
+		Template:    "register-to-hsm",
+		Gender:      "male",
+		SurveyScore: &score,
 	}
 }

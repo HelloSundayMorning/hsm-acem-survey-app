@@ -8,12 +8,11 @@ import (
 	"path/filepath"
 
 	"github.com/gorilla/sessions"
-	"github.com/keighl/mandrill"
 )
 
 var (
 	// Root is application root path
-	Root = os.Getenv("GOPATH") + "/src/github.com/theplant/hsm-acem-survey-app"
+	Root = os.Getenv("APP_ROOT")
 
 	// DB is global DB configuration data
 	DB struct {
@@ -21,22 +20,17 @@ var (
 		Debug  bool
 	}
 
-	// Mandrill is global client for sending emails with Mandrill
-	Mandrill struct {
-		Client                           *mandrill.Client
-		SurveyCompletedEmailTemplateSlug string
-	}
-
 	// SessionStore is global app cookie store
 	SessionStore *sessions.CookieStore
 
 	// SessionKey is key used for session cookie
 	SessionKey = "hsm-acem-survey-app"
+
+	// ServeStaticAssets enables serving of asset files by Go app
+	ServeStaticAssets = os.Getenv("SERVE_STATIC_ASSETS") != ""
 )
 
 func init() {
-	initMandrill()
-
 	loadDBConfig()
 
 	initSessionStore()
@@ -68,14 +62,4 @@ func initSessionStore() {
 		log.Printf("[WARNING] haven't config a session secret base key")
 	}
 	SessionStore = sessions.NewCookieStore([]byte(sessionSecret))
-}
-
-func initMandrill() {
-	mandrillAPIKey := os.Getenv("MANDRILL_APIKEY")
-
-	if mandrillAPIKey == "" {
-		panic(errors.New("no mandrill api key"))
-	}
-
-	Mandrill.Client = mandrill.ClientWithKey(mandrillAPIKey)
 }

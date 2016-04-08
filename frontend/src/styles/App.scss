@@ -246,7 +246,7 @@ section.question {
 
 }
 
-#intro, #patient-bio, #reminder, footer {
+#intro, #patient-bio, #reminder, #leaderboard, footer {
     width: 100%;
     margin: 0 auto;
 }
@@ -339,10 +339,11 @@ section.question {
     #note {
         font-family: Roboto-Regular, sans-serif;
         color: $light-grey;
-        margin: 18px 0 48px;
+        margin-top: 18px;
     }
 
     #section-buttons {
+        margin: 24px 0 48px;
 
         button {
             margin-right: 20px;
@@ -389,4 +390,19 @@ section.question {
         font-size: 16px;
         color: #FFFFFF;
     }
+}
+
+#leaderboard {
+    table {
+        width: 100%;
+
+        th.count, td.count {
+            text-align: right;
+        }
+    }
+}
+
+#login {
+    width: 600px;
+    margin: 0 auto;
 }

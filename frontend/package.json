@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf ../public",
     "copy": "copyfiles -f ./public/* ../public",
-    "dist": "npm run copy & webpack --env=dist",
+    "dist": "npm run copy & webpack --env=dist && mv ../public/assets/index.html ../public",
     "lint": "eslint src test",
     "posttest": "npm run lint",
     "release:major": "npm version major && npm publish && git push --follow-tags",
@@ -60,8 +60,10 @@
     "css-loader": "^0.21.0",
     "es6-promise": "^3.1.2",
     "exports-loader": "^0.6.2",
+    "extract-loader": "0.0.2",
     "file-loader": "^0.8.4",
     "history": "^1.13.1",
+    "html-loader": "^0.4.3",
     "imports-loader": "^0.6.5",
     "lodash": "^3.10.1",
     "node-sass": "^3.3.3",
@@ -76,6 +78,7 @@
     "scroll-behavior": "^0.3.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
-    "webpack": "^1.12.0"
+    "webpack": "^1.12.0",
+    "webpack-manifest-plugin": "^1.0.0"
   }
 }

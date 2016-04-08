@@ -2,17 +2,28 @@ const all = (...validators) => value => validators.every(validator => validator(
 const present = val => !!val;
 const lte = max => val => val <= max;
 const gte = min => val => val >= min;
+const pluck = field => value => value[field];
 
-// validateInterviewer validates the whole `interviewer`
-// scope for the given state.
-const validateInterviewer = ({ interviewer }) => present(interviewer);
+// This is the reverse of compose (`.`) from maths and functional languages:
+// => compose(a, b)(value) = b(a(value))
+// but usually a . b = a(b(value))
+const compose = (...functions) => value => functions.reduce((val, fn) => fn(val), value)
 
-// validateBio validates the whole `bio` scope for
-// the given state.
-const validateBio = ({ bio }) => Object.keys(bioValidations).every(field => validateBioField(field, bio[field]));
+// has('bio')
+// -> compose(pluck('bio'), present)
+// -> value => present(value.bio)
+const has = field => compose(pluck(field), present)
 
-// validateAudit validates the current `survey` scope
-// for the given state.
+// '/' requires an answer for the interviewer question
+const validateFront = has('interviewer')
+
+// '/feedback' requires an answer for the evaluation question
+const validateFeedback = has('evaluation')
+
+// '/info' requires `bio` be valid
+const validateInfo = ({ bio }) => Object.keys(bioValidations).every(field => validateBioField(field, bio[field]));
+
+// '/audit' requires the survey be valid
 const validateAudit = ({ survey, lastQuestion }) => {
     let questionIndexes = [];
     for (let i = 0; i <= lastQuestion; ++i) {
@@ -26,18 +37,20 @@ const validateAudit = ({ survey, lastQuestion }) => {
 const validatePage = (page, state = {}) => {
     switch (page) {
     case '/':
-        return validateInterviewer(state);
+        return validateFront(state)
     case 'info':
-        return validateBio(state);
+        return validateInfo(state);
     case 'audit':
         return validateAudit(state);
+    case 'feedback':
+        return validateFeedback(state)
     default:
         return true;
     }
 };
 
 // validateBioField validates the given field and value
-// that under the `bio` scope.
+// in the `bio`.
 const validateBioField = (field, value) => bioValidations[field] ? bioValidations[field](value) : true;
 
 const bioValidations = {

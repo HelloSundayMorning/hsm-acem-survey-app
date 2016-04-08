@@ -64,3 +64,22 @@ Build front-end
 Deploy to production
 
     harp -s prod -log deploy
+
+# Asset Sharing
+
+Assets are shared between JS frontend and Go backend templates. Assets
+are created via Webpack and output to `public/assets`. Any files in
+`frontend/public` are copied directly to `public/`.
+
+Generated assets are listed in `public/assets/manifest.json`
+(generated when frontend is built with `env=dist`).
+
+Go backend reads this file and provides a template function `asset`
+that will map the input asset filename to the generated asset.
+
+In development (or rather, if the environment variable
+`SERVE_STATIC_ASSETS` is not blank, the Go backend will serve assets
+from `http://.../assets` directly, mapping to `public/assets`.
+
+In production, assets should be served by Nginx directly from the
+public directory (via `tryfiles`).

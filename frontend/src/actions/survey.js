@@ -38,10 +38,11 @@ function failure(dispatch, ex) {
     throw ex
 }
 
-function mapState({ location, bio, interviewer, survey }) {
+function mapState({ location, bio, interviewer, survey, evaluation }) {
     return {
         interviewer,
         location,
+        evaluation,
         patient: bio,
         answers: survey
     }

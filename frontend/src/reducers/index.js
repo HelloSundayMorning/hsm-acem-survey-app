@@ -25,6 +25,7 @@ const actionType = when((_, a) => a.type);
 
 const interviewer = actionValue(actions.SET_INTERVIEWER);
 const location = actionValue(actions.UPDATE_LOCATION);
+const evaluation = actionValue(actions.UPDATE_EVALUATION);
 const postingEmail = actionType(
     actions.EMAIL_SENDING,
     actions.EMAIL_SENT,
@@ -51,7 +52,8 @@ const combined = combineReducers({
     bio,
     location,
     survey: id,
-    lastQuestion: id
+    lastQuestion: id,
+    evaluation
 });
 
 function surveyApp(state = initialState, action) {

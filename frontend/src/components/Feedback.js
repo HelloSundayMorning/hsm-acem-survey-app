@@ -1,16 +1,41 @@
 import React from 'react'
-import { POSTING_SURVEY, SURVEY_POST_FAILED, EMAIL_SENDING, EMAIL_FAILED } from  'src/constants'
+import { connect } from 'react-redux';
+import { EMAIL_SENDING, EMAIL_FAILED, EMAIL_SENT } from  'src/constants'
+import { surveyScore, dailyScore } from 'src/surveyResults'
+import { evaluate } from 'actions/bio'
+import * as email from 'actions/email'
 import { auditScoreGraphLink, frequencyGraphLink, riskFactorGraphLink }  from 'components/Graphs'
 import { drinkPercentage, riskCategory, incidentRiskFactor, DEPENDENCE_LIKELY } from 'src/surveyResults'
-import PoorSnackbar from 'components/PoorSnackbar'
-import EmptyComponent from 'components/EmptyComponent'
+import Question from 'components/Question'
+import { StatusBar } from 'components/PoorSnackbar'
 
-function Feedback({ email, postStatus, emailStatus, emailToPatient, emailTo, surveyScore, dailyScore, age, gender }) {
+var evaluationQuestion = {
+    text: 'Do you think this person will reduce their harmful drinking?',
+    key: 'clinical_evaluation',
+    answers: [
+        {key: 'will_reduce', text: 'Yes'},
+        {key: 'wont_reduce', text: 'No'},
+        {key: 'unsure', text: 'Unsure'}
+    ]
+}
+
+function Feedback({
+    email,
+    emailStatus,
+    emailToPatient,
+    emailTo,
+    surveyScore,
+    dailyScore,
+    age,
+    gender,
+    evaluation,
+    evaluate
+}) {
     let Prompt = riskComponentMap[riskCategory(surveyScore)]
 
     return (
         <section id='feedback'>
-            <PostingStatus status={postStatus} />
+            <h1>Patient Feedback</h1>
 
             <Prompt surveyScore={surveyScore} dailyScore={dailyScore} age={age} gender={gender} />
 
@@ -25,43 +50,39 @@ function Feedback({ email, postStatus, emailStatus, emailToPatient, emailTo, sur
 
                 <EmailStatus key={emailStatus} status={emailStatus} />
             </div>
+
+
+            <Question
+                value={evaluation}
+                onChange={input => evaluate(input.value)}
+                q={evaluationQuestion}
+            />
         </section>
     );
 }
 
 const EmailNotice = ({ email }) => {
     if (!email || email.trim().length === 0) {
-        return <h2>Say: “We would like to email you some information and a link to a mobile app that you might find useful. Can I ask you for your email address?”</h2>
+        return <section className='instructions'>
+            <h2>Tell your patient:</h2>
+            <blockquote>
+                <p>
+                    We would like to email you some information and a link to a mobile app that you might find useful. Can I ask you for your email address?
+                </p>
+            </blockquote>
+        </section>
     } else {
         return <div />
     }
 }
 
-function PostingStatus({ status }) {
-    let text = ''
-    if (status === POSTING_SURVEY) {
-        text  = 'Saving survey…'
-    } else if (status === SURVEY_POST_FAILED) {
-        text  = 'Failed to save survey.'
-    } else {
-        text  = 'Survey saved.'
-    }
-    return <PoorSnackbar text={text} />
-}
+const emailStatusMap = {
+    [EMAIL_SENDING]: 'Sending email…',
+    [EMAIL_FAILED]: 'Failed to send email.',
+    [EMAIL_SENT]: 'Email sent.'
+};
 
-function EmailStatus({ status }) {
-    let text = ''
-    if (status === null) {
-        return <EmptyComponent />
-    } else if (status === EMAIL_SENDING) {
-        text = 'Sending email…'
-    } else if (status === EMAIL_FAILED) {
-        text = 'Failed to send email.'
-    } else {
-        text = 'Email sent.'
-    }
-    return <PoorSnackbar text={text} />
-}
+const EmailStatus = StatusBar(emailStatusMap);
 
 function LowRiskPrompt({ surveyScore, dailyScore, age, gender }) {
     return (
@@ -190,4 +211,19 @@ function Chart({title, url}) {
     )
 }
 
-export default Feedback
+export default connect(
+    state => ({
+        emailStatus: state.postingEmail,
+        surveyScore: surveyScore(state.survey),
+        dailyScore: dailyScore(state.survey),
+        email: state.bio.email,
+        age: state.bio.age,
+        gender: state.bio.gender,
+        evaluation: state.evaluation
+    }),
+    {
+        emailToPatient: email.emailToPatient,
+        emailTo: email.emailTo,
+        evaluate: evaluate.action
+    }
+)(Feedback)

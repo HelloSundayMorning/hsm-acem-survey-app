@@ -53,7 +53,12 @@ const pages = {
             { input: { survey:[{ question: 'Q', answer: 'A' }], lastQuestion: 1 }, expected: false }
         ]
     },
-    'feedback': noValidationPage('feedback'),
+    'feedback': {
+        label: 'evaluation question must be answered',
+        testCases: [
+            { input: {}, expected: false },
+            { input: { evaluation: 'yes' }, expected: true }
+        ]},
     'frames': noValidationPage('frames')
 };
 
