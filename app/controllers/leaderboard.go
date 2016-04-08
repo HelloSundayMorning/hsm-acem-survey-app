@@ -17,7 +17,8 @@ func Leaderboard(ctx *gin.Context) {
 		Count       int
 	}{}
 
-	if err := db.DB.Table("surveys").Select("location, interviewer, count(*) as count").Group("location, interviewer").Scan(&rawCounts).Error; err != nil {
+	// 2016-03-03: https://trello.com/c/pOtvA2x2/22-display-screener-activity#comment-5705c72cc48aa4e88e96c1fd
+	if err := db.DB.Table("surveys").Select("location, interviewer, count(*) as count").Where("date(created_at) > ?", "2016-03-03").Group("location, interviewer").Scan(&rawCounts).Error; err != nil {
 		panic(err)
 	}
 
