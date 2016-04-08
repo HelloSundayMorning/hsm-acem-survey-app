@@ -200,7 +200,7 @@ section.question {
         display: block;
         font-family: Roboto-Regular, sans-serif;
         color: $light-grey;
-        line-height: 12px;
+        line-height: 24px;
         padding-bottom: 14px;
     }
 
@@ -233,7 +233,7 @@ section.question {
                 font-family: Roboto-Medium, sans-serif;
                 font-size: 16px;
                 color: $light-grey;
-                line-height: 16px;
+                line-height: 24px;
             }
             &.mdl-button--colored span {
                 color: inherit;
@@ -280,7 +280,7 @@ section.question {
     .simple-input {
         font-family: Roboto-Regular, sans-serif;
         color: $light-grey;
-        line-height: 12px;
+        line-height: 24px;
         display: block;
         height: 100px;
 
