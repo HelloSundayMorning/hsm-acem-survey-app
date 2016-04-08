@@ -17,8 +17,7 @@
 				"delete": true
 			},
 			{
-				"path": "github.com/qor/qor",
-				"excludes": ["example/"],
+				"path": "github.com/theplant/hsm-acem-survey-app/vendor/github.com/qor/admin/views",
 				"delete": true
 			}
 		]
