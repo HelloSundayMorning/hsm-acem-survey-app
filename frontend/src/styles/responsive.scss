@@ -1,3 +1,5 @@
+@import '~sass-flex-mixin/flex';
+
 @media all and (max-width: 2068px) {
     #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
         width: 80%;
@@ -19,7 +21,7 @@
     section.question {
         div {
             label {
-               flex-basis: 51%;
+               @include flex-basis(51%);
             }
         }
     }
@@ -34,9 +36,29 @@
         }
 
     }
+
+    #feedback #feedback-charts {
+        @include flex-direction(column);
+        @include align-items(center);
+    }
+}
+
+@media all and (max-width: 414px) {
+    // Hide header title in small width device to avoid mess up header title and image
+    header > span {
+        display: none;
+    }
+
+    #feedback #section-buttons {
+        margin: 24px 0;
+    }
 }
 
 @media all and (max-width: 320px) {
+    .survey-page {
+        padding: 0 12px;
+    }
+
     #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
         width:99%;
     }
@@ -46,9 +68,5 @@
         color: #212121;
         line-height: 23px;
         padding-top: 10%;
-    }
-
-    #section-buttons {
-        height: 68px;
     }
 }

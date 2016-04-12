@@ -1,3 +1,18 @@
+/**
+ * This solves weird styling on IE11 that issued here:
+ *     https://github.com/theplant/hsm-acem-survey-app/issues/59#issuecomment-200096994
+ *
+ * Note 1. Avoid the IE 10-11 `min-height` bug.
+ * Note 2. Set `flex-shrink` to `0` to prevent Chrome, Opera, and Safari from
+ *    letting these items shrink to smaller than their content's default
+ *    minimum size.
+ *
+ * Read more about this solution here:
+ *     http://philipwalton.com/articles/normalizing-cross-browser-flexbox-bugs/
+ */
+
+@import '~sass-flex-mixin/flex';
+
 /* Base Application Styles */
 
 /* rgba(0,0,0,0.83) */
@@ -14,64 +29,63 @@ html, body, p {
 }
 
 body {
+    @include flexbox;
+    @include flex-direction(column);
+    height: 100vh; /* Note 1 */
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-
     font-family: Roboto, sans-serif;
     color: $black;
     line-height: 24px;
 }
 
 #app {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    @include flexbox;
+    @include flex(1);
+    @include flex-direction(column);
 }
 
 #app > div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    @include flexbox;
+    @include flex(1);
+    @include flex-direction(column);
 }
 
 header {
     box-sizing: border-box;
     background: $accent-color;
     color: white;
-    height: 68px;
     width: 100%;
-    display: flex;
-    align-items: center;
+    height: 68px;
+    @include flex-shrink(0); /* Note 2 */
     padding: 0 24px;
     font-family: Roboto-Medium, sans-serif;
     font-size: 20px;
     line-height: 24px;
+    text-align: center;
 
-    * {
-        flex: 1;
-        white-space: nowrap;
+    // header title
+    > span {
+        position: absolute;
+        left: 24px;
+        top: 22px;
     }
 
-    img {
+    // header icon
+    > img {
+        width: 48px;
         height: 48px;
-        padding-left: 20px;
-        flex: 0 0 48px;
+        margin-top: 10px;
     }
 
     &::after {
-        flex: 1;
+        @include flex(1);
         content: "";
     }
-
 }
 
 footer {
     min-height: 70px;
-    flex: 0 1;
-    align-items: baseline;
-    justify-content: space-between;
+    @include flex-shrink(0); /* Note 2 */
     padding-bottom: 48px;
 
     /* Override MDL accent */
@@ -151,12 +165,13 @@ blockquote {
 }
 
 .survey-page {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    @include flexbox;
+    @include flex(1 0 auto); /* Note 2 */
+    @include flex-direction(column);
+    @include justify-content(space-between);
 
     > section {
-        flex: 1 1;
+        @include flex(1 0 auto); /* Note 2 */
     }
 }
 
@@ -165,7 +180,7 @@ blockquote {
         font-family: Roboto-Regular, sans-serif;
         font-size: 16px;
         color: $light-grey;
-        line-height: 12px;
+        line-height: 24px;
         margin: 36px 0 18px;
     }
 }
@@ -187,18 +202,18 @@ section.question {
         display: block;
         font-family: Roboto-Regular, sans-serif;
         color: $light-grey;
-        line-height: 12px;
+        line-height: 24px;
         padding-bottom: 14px;
     }
 
     div {
-        display: flex;
-        flex-wrap: wrap;
+        @include flexbox;
+        @include flex-wrap(wrap);
+        @include align-content(stretch);
         margin-bottom: 30px;
-        align-content: stretch;
 
         label {
-            flex: 1 0 auto;
+            @include flex(1 0 auto);
 
             /* override mdl settings */
             overflow: visible;
@@ -220,7 +235,7 @@ section.question {
                 font-family: Roboto-Medium, sans-serif;
                 font-size: 16px;
                 color: $light-grey;
-                line-height: 16px;
+                line-height: 24px;
             }
             &.mdl-button--colored span {
                 color: inherit;
@@ -242,8 +257,7 @@ section.question {
     color: #FFFFFF;
     line-height: 20px;
     padding: 20px 25px;
-    width: 360px;
-
+    max-width: 360px;
 }
 
 #intro, #patient-bio, #reminder, #leaderboard, footer {
@@ -257,8 +271,8 @@ section.question {
 }
 
 #intro {
-    display: flex;
-    flex-direction: column;
+    @include flexbox;
+    @include flex-direction(column);
     margin-top: 24px;
     margin-bottom: 48px;
 }
@@ -268,7 +282,7 @@ section.question {
     .simple-input {
         font-family: Roboto-Regular, sans-serif;
         color: $light-grey;
-        line-height: 12px;
+        line-height: 24px;
         display: block;
         height: 100px;
 
@@ -308,7 +322,6 @@ section.question {
     }
 
     .question {
-        height: 100%;
         padding-top: 14px;
 
         .legend {
@@ -346,16 +359,16 @@ section.question {
         margin: 24px 0 48px;
 
         button {
-            margin-right: 20px;
+            margin: 0 20px 12px 0;
         }
     }
 
     #feedback-charts {
-        display: flex;
-        justify-content: space-between;
+        @include flexbox;
+        @include justify-content(space-between);
 
         figure {
-            flex: 1;
+            @include flex(1);
             margin: 0;
 
             figcaption {
@@ -366,23 +379,35 @@ section.question {
 }
 
 #start-button{
-  padding-top: 15px;
+    padding-top: 15px;
+
+    > span, a {
+        margin: 0 15px 15px 0;
+    }
 }
 
 #feedback-section {
     display: inline-block;
-    margin-left: 15px;
+
+    > button {
+        margin: 0 15px 15px 0;
+    }
 
     // #feedback-message is base on .poor-snack but display inline
     // in order to display on the right of the footer button.
     #feedback-message {
         display: inline-block;
-        margin: 0 0 0 15px;
+        margin: 0 15px 15px 0;
         padding: 0 16px;
         min-width: 64px;
         height: 40px;
         line-height: 40px;
-        border-bottom: 1px solid #323232;
+        vertical-align: middle;
+
+        border: none;
+        border-radius: 2px;
+        background: rgba(158,158,158,.2);
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
 
         // Basic .poor-snack styles
         background: #323232;
