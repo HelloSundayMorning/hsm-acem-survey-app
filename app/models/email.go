@@ -50,7 +50,7 @@ func SendCompletedMail(t EmailTemplate) error {
 		"AUDIT_CHART":      t.AuditChart,
 		"RISK_FACTOR":      t.RiskFactorString,
 		"SURVEY_SCORE":     fmt.Sprintf("%d", *t.SurveyScore),
-		"DRINK_PERCENTAGE": fmt.Sprintf("%d", t.PopulationPercentage),
+		"DRINK_PERCENTAGE": fmt.Sprintf("%d", *t.PopulationPercentage),
 	}
 
 	return mandrill.SendMail([]string{t.Email}, data, t.Template)
