@@ -186,7 +186,6 @@ blockquote {
 }
 
 section.question {
-
     &.invalidate {
         &.disabled {
             .legend {
@@ -332,15 +331,10 @@ section.question {
         }
 
         &.disabled {
-            opacity: 0.1;
+            display: none !important;
         }
 
         &.invalidate {
-            &.disabled {
-                .legend {
-                    color: $black;
-                }
-            }
             .legend {
                 color: $highlight-color;
             }

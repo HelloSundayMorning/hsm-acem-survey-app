@@ -20,7 +20,7 @@ const AuditPage = ({ survey, lastQuestion, update }) => {
             </div>
             {auditQuestions.map((q, i) =>
                 <Question key={q.key || q.text} q={q} onChange={change(i)} value={(survey[i] || {answer: {}}).answer.text} disabled={i > lastQuestion} />
-             )}
+            )}
         </section>
     );
 }
