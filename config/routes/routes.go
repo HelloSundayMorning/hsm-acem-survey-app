@@ -22,6 +22,22 @@ import (
 func Mux() *http.ServeMux {
 	engine := gin.Default()
 
+	engine.GET("/info", func(c *gin.Context) {
+	    c.Redirect(http.StatusMovedPermanently, "/")
+	})
+
+	engine.GET("/audit", func(c *gin.Context) {
+	    c.Redirect(http.StatusMovedPermanently, "/")
+	})
+
+	engine.GET("/feedback", func(c *gin.Context) {
+	    c.Redirect(http.StatusMovedPermanently, "/")
+	})
+
+	engine.GET("/frames", func(c *gin.Context) {
+	    c.Redirect(http.StatusMovedPermanently, "/")
+	})
+
 	engine.Use(monitor.OperationMonitor())
 
 	engine.Use(airbraker.Recover())
