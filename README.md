@@ -19,11 +19,11 @@ Build distribution version of app (starting at repo root):
 
 1. `cd frontend`
 2. `npm run dist`
+3. `cd ../public`
 
-Serve built front-end (starting at repo root):
+Serve built front-end:
 
-1. `cd /public`
-2. `python -mSimpleHTTPServer <port, defaults to 8000>`
+1. `python -mSimpleHTTPServer <port, defaults to 8000>`
 
 # Backend
 
