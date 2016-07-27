@@ -75,11 +75,17 @@ const FooterLink = ({ currentPageIdx, thisPageIdx, title, target }) => {
 }
 
 var LinkToNext = function(props) {
-    return <Link className={props.className} to={props.link}>{props.label}</Link>
+    return <Link className={props.className} to={props.link} >{props.label}</Link>
 }
 
 var SpanToNext = function(props) {
-    return <span className={props.className} disabled='disabled'>{props.label}</span>
+    //
+    return <span className={props.className} onClick={toNextClick.bind(this)} disabled='disabled'>{props.label}</span>
+}
+
+var toNextClick = function() {
+  window.scrollTo(0, 0);
+  //Add modal saying please complete the form.
 }
 
 export default Footer;
