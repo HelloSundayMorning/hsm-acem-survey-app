@@ -63,7 +63,7 @@ Build front-end
 
 Deploy to production
 
-    harp -s prod -log deploy
+    bin/deploy.sh prod
 
 # Asset Sharing
 
