@@ -20,7 +20,7 @@ const debugPanel = {
     storeMiddleware
 }
 
-const apiRoot = 'http://localhost:14000'
+const apiRoot = 'http://localhost:8000'
 
 export {
     debugPanel,

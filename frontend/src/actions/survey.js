@@ -1,5 +1,6 @@
 import * as config from 'config'
-import { POSTING_SURVEY, SURVEY_POSTED, SURVEY_POST_FAILED, ANSWER } from 'src/constants'
+import { POSTING_SURVEY, SURVEY_POSTED, SURVEY_POST_FAILED, ANSWER,
+    MailChimpList, MailChimpURL, MailChimpAuth } from 'src/constants'
 
 function action(dispatch, getState) {
     postState(getState()).then(response => {
@@ -20,6 +21,9 @@ function action(dispatch, getState) {
 }
 
 function postState(state) {
+
+    suscribeMailchimp (state)
+
     return fetch(config.apiRoot + '/surveys', {
         method: 'POST',
         headers: {
@@ -37,6 +41,23 @@ function failure(dispatch, ex) {
 
     throw ex
 }
+
+
+function suscribeMailchimp (state) {
+  fetch(MailChimpURL + '/' + MailChimpList , {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': MailChimpAuth
+      },
+      body: JSON.stringify({
+        email_address: state.bio.email,
+        status: 'subscribed'
+      })
+  })
+}
+
 
 function mapState({ location, bio, interviewer, survey, evaluation }) {
     return {

@@ -79,13 +79,11 @@ var LinkToNext = function(props) {
 }
 
 var SpanToNext = function(props) {
-    //
     return <span className={props.className} onClick={toNextClick.bind(this)} disabled='disabled'>{props.label}</span>
 }
 
 var toNextClick = function() {
   window.scrollTo(0, 0);
-  //Add modal saying please complete the form.
 }
 
 export default Footer;
