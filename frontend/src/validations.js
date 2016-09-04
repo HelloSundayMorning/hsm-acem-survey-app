@@ -22,14 +22,14 @@ const validateFront = has('interviewer')
 
 // '/feedback' requires an answer for the evaluation question
 //const validateFeedback = has('evaluation')
+const validateFeedback = ({ survey, evaluation}) => {
 
-const validateFeedback = ({ survey, evaluation }) => {
-    // //let questionIndexes = [];
     let questionScores = 0;
-    for (var item of survey) {
-       questionScores += item.answer.score;
+    for (let i = 0; i <= survey.length -1 ; ++i) {
+      //console.log(JSON.stringify(survey[i]));
+      questionScores += survey[i].answer.score;
     }
-    // if the score is smaller than 7 return true
+    console.log('questionScores ' + questionScores);
     if (questionScores <= 7) {
       return true;
     }

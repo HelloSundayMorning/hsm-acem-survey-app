@@ -21,9 +21,7 @@ function action(dispatch, getState) {
 }
 
 function postState(state) {
-
-    suscribeMailchimp (state)
-
+    suscribeMailchimp (state);
     return fetch(config.apiRoot + '/surveys', {
         method: 'POST',
         headers: {

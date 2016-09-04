@@ -48,7 +48,7 @@ function Feedback({
                 *National Health and Medical Research Council. (2009). <em>Australian guidelines to reduce health risks from drinking alcohol.</em> Commonwealth of Australia: Australian Capital Territory.
             </div>
 
-            <PatientBioContactDetails />
+            {/*<PatientBioContactDetails />*/}
 
             <EmailNotice email={email} />
             <div id='section-buttons'>
