@@ -26,12 +26,11 @@ const validateFeedback = ({ survey, evaluation}) => {
 
     let questionScores = 0;
     for (let i = 0; i <= survey.length -1 ; ++i) {
-      //console.log(JSON.stringify(survey[i]));
-      questionScores += survey[i].answer.score;
+        questionScores += survey[i].answer.score;
     }
-    console.log('questionScores ' + questionScores);
+
     if (questionScores <= 7) {
-      return true;
+        return true;
     }
     return !(evaluation === null );
 };

@@ -35,7 +35,7 @@ function Feedback({
 
     var evaluationClassName = 'show-question';
     if (surveyScore < 7) {
-     var evaluationClassName = 'hide-question';
+        evaluationClassName = 'hide-question';
     }
 
     return (
@@ -48,7 +48,6 @@ function Feedback({
                 *National Health and Medical Research Council. (2009). <em>Australian guidelines to reduce health risks from drinking alcohol.</em> Commonwealth of Australia: Australian Capital Territory.
             </div>
 
-            {/*<PatientBioContactDetails />*/}
 
             <EmailNotice email={email} />
             <div id='section-buttons'>
@@ -59,49 +58,11 @@ function Feedback({
             </div>
 
             <div className={evaluationClassName}>
-              <Question
-                  value={evaluation}
-                  onChange={input => evaluate(input.value)}
-                  q={evaluationQuestion}
-              />
+                <Question value={evaluation} onChange={input => evaluate(input.value)} q={evaluationQuestion} />
             </div>
         </section>
     );
 }
-
-var PatientBioContactDetails = React.createClass({
-
-    render() {
-        return (
-            <div id='patient-bio-feedback'>
-                {bioInputFields.map(field => <Input
-                                                 key={field.name}
-                                                 label={field.label}
-                                                 //value={field.label}
-                                                 type={field.type}
-                                                 onChange={field.name}
-
-                                             />)}
-            </div>
-        )
-    }
-});
-
-var Input = ({ label, type, value, onChange, valid }) => {
-    let classNames = ['simple-input']
-    if (!valid) {
-        classNames.push('invalidate')
-    }
-    return (
-        <label className={classNames.join(' ')}>
-            {label}
-            <input
-                type={type}
-                value={value}
-            />
-        </label>
-    )
-};
 
 const EmailNotice = ({ email }) => {
     if (!email || email.trim().length === 0) {
@@ -117,11 +78,6 @@ const EmailNotice = ({ email }) => {
         return <div />
     }
 }
-
-const bioInputFields = [
-    { name: 'email', type: 'email', label: 'Patient email (optional):' },
-    { name: 'phone', type: 'tel', label: 'Patient mobile (optional):' }
-];
 
 const emailStatusMap = {
     [EMAIL_SENDING]: 'Sending email…',

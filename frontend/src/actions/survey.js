@@ -42,18 +42,18 @@ function failure(dispatch, ex) {
 
 
 function suscribeMailchimp (state) {
-  fetch(MailChimpURL + '/' + MailChimpList , {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': MailChimpAuth
-      },
-      body: JSON.stringify({
-        email_address: state.bio.email,
-        status: 'subscribed'
-      })
-  })
+    fetch(MailChimpURL + '/' + MailChimpList , {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': MailChimpAuth
+        },
+        body: JSON.stringify({
+            email_address: state.bio.email,
+            status: 'subscribed'
+        })
+    })
 }
 
 

@@ -25,8 +25,6 @@ const noValidationPage = page => ({
     testCases: [{ input: {}, expected: true }]
 });
 
-let scores = {"question":"Ql?","answer":{"score":10}};
-
 const pages = {
     '/': {
         label: 'interviewer must be present in "/" page',
@@ -58,15 +56,9 @@ const pages = {
     'feedback': {
         label: 'evaluation question is optional',
         testCases: [
-          //{ input: { survey:[], lastQuestion: 0 }, expected: false },
-          //{ input: {}, expected: false },
-          //{ input: { survey:[{ question:'Q1', answer:{ score: 2 } }], lastQuestion: 0 }, expected: false  },
-          { input: { survey:[{ question:'Q2', answer:{ score: 7 } }, { question:'Q3', answer:{ score: 5 } }], lastQuestion: 2 }, expected: true  }
-          //{ input: { evaluation: 'yes' }, expected: true }
-
-          ]
+            { input: { survey:[{ question:'Q2', answer:{ score: 7 } }, { question:'Q3', answer:{ score: 5 } }], lastQuestion: 2 }, expected: true  }
+        ]
     },
-
     'frames': noValidationPage('frames')
 };
 
