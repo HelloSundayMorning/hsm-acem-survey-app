@@ -4,7 +4,7 @@ import { interviewer } from 'actions/bio'
 import Question from 'components/Question'
 
 var interviewerQuestion = {
-    text: 'Interviewer: Please select one',
+    text: 'Interviewer',
     key: 'interviewer',
     answers: [
         {key: 'nurse', text: 'Nurse'},

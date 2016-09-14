@@ -52,16 +52,15 @@ const pages = {
             { input: { survey:[{ question: 'Q', answer: 'A' }], lastQuestion: 0 }, expected: true },
             { input: { survey:[{ question: 'Q', answer: 'A' }], lastQuestion: 1 }, expected: false }
         ]
-    } ,
-    'feedback': {
-        label: 'evaluation question is optional',
-        testCases: [
-            { input: { survey:[{ question:'Q2', answer:{ score: 7 } }, { question:'Q3', answer:{ score: 5 } }], lastQuestion: 2 }, expected: true  }
-        ]
     },
+    'feedback': {
+        label: 'evaluation question must be answered',
+        testCases: [
+            { input: {}, expected: false },
+            { input: { evaluation: 'yes' }, expected: true }
+        ]},
     'frames': noValidationPage('frames')
 };
-
 
 runTestCases(pages, validatePage);
 
