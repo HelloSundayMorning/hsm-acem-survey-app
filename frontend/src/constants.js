@@ -19,3 +19,7 @@ export const ANSWER = 'ANSWER';
 export const FEEDBACK_POSTING = 'FEEDBACK_POSTING';
 export const FEEDBACK_POSTED = 'FEEDBACK_POSTED';
 export const FEEDBACK_POST_FAILED = 'FEEDBACK_POST_FAILED';
+
+export const MailChimpList = '7098c13211/members';
+export const MailChimpURL = 'https://us13.api.mailchimp.com/3.0/lists';
+export const MailChimpAuth = 'Basic dXNlcjpmOWFlNDg3ZjdlN2I2ZDhiZDEwM2Q5NzIxOTYyMGJlYi11czEz';

@@ -4,6 +4,9 @@ const lte = max => val => val <= max;
 const gte = min => val => val >= min;
 const pluck = field => value => value[field];
 
+
+//const resultScore = field => reduce((a, b) => a + b)
+
 // This is the reverse of compose (`.`) from maths and functional languages:
 // => compose(a, b)(value) = b(a(value))
 // but usually a . b = a(b(value))
@@ -18,8 +21,19 @@ const has = field => compose(pluck(field), present)
 const validateFront = has('interviewer')
 
 // '/feedback' requires an answer for the evaluation question
-const validateFeedback = has('evaluation')
+//const validateFeedback = has('evaluation')
+const validateFeedback = ({ survey, evaluation}) => {
 
+    let questionScores = 0;
+    for (let i = 0; i <= survey.length -1 ; ++i) {
+        questionScores += survey[i].answer.score;
+    }
+
+    if (questionScores <= 7) {
+        return true;
+    }
+    return !(evaluation === null );
+};
 // '/info' requires `bio` be valid
 const validateInfo = ({ bio }) => Object.keys(bioValidations).every(field => validateBioField(field, bio[field]));
 

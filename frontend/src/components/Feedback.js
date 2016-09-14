@@ -33,6 +33,11 @@ function Feedback({
 }) {
     let Prompt = riskComponentMap[riskCategory(surveyScore)]
 
+    var evaluationClassName = 'show-question';
+    if (surveyScore < 7) {
+        evaluationClassName = 'hide-question';
+    }
+
     return (
         <section id='feedback'>
             <h1>Patient Feedback</h1>
@@ -43,6 +48,7 @@ function Feedback({
                 *National Health and Medical Research Council. (2009). <em>Australian guidelines to reduce health risks from drinking alcohol.</em> Commonwealth of Australia: Australian Capital Territory.
             </div>
 
+
             <EmailNotice email={email} />
             <div id='section-buttons'>
                 <button className='mdl-button mdl-button--raised mdl-button--colored' onClick={emailToPatient}>Email to Patient</button>
@@ -51,12 +57,9 @@ function Feedback({
                 <EmailStatus key={emailStatus} status={emailStatus} />
             </div>
 
-
-            <Question
-                value={evaluation}
-                onChange={input => evaluate(input.value)}
-                q={evaluationQuestion}
-            />
+            <div className={evaluationClassName}>
+                <Question value={evaluation} onChange={input => evaluate(input.value)} q={evaluationQuestion} />
+            </div>
         </section>
     );
 }
@@ -134,7 +137,7 @@ function ModerateHighRiskPrompt({surveyScore, dailyScore, age, gender}) {
 
                     <p>{incidentRiskFactor[dailyScore]}</p>
 
-                    <p>You drink more than {percentage}% of people of a similar age and gender.</p>
+                    <p>You drink more than {percentage}% of people of a similar age and gender in Australia.</p>
 
                     <p>And I can say that at the moment, the way you are using alcohol, that I am concerned for your health and safety.</p>
 
@@ -161,13 +164,15 @@ function DependencePrompt() {
         <section>
             <h2>Your patient is possibly dependent on alcohol and should receive further care by a specialist.</h2>
 
-            <p>
-                <strong>Tell your patient:</strong> “The answers you’ve given me indicate that you may be dependent on alcohol. I am going to refer you to a drug and alcohol clinician now.”
-            </p>
+            <blockquote>
+                <p>
+                    <strong>Tell your patient:</strong> “The answers you’ve given me indicate that you may be dependent on alcohol. I am going to refer you to a drug and alcohol clinician now.”
+                </p>
 
-            <p>
-                <strong>If out of hours or unavailable, tell your patient:</strong> “I am going to give you a card with contact details for DirectLine 24 hours counselling and referral in your area – (1800 888 236), and I will let your doctor here know.”
-            </p>
+                <p>
+                    <strong>If out of hours or unavailable, tell your patient:</strong> “I am going to give you a card with contact details for DirectLine 24 hours counselling and referral in your area – (1800 888 236), and I will let your doctor here know.”
+                </p>
+            </blockquote>
 
         </section>
     )
@@ -219,7 +224,8 @@ export default connect(
         email: state.bio.email,
         age: state.bio.age,
         gender: state.bio.gender,
-        evaluation: state.evaluation
+        evaluation: state.evaluation,
+        newvariable: state.surveyScore
     }),
     {
         emailToPatient: email.emailToPatient,
