@@ -1,0 +1,9 @@
+# Ignore temporary files
+tmp/*
+.harp
+
+# Ignore application local configure files
+.env
+
+# Go vendor path
+vendor

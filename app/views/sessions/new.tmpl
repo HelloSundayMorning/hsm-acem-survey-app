@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ACEM</title>
+    <link rel='stylesheet' type='text/css' href='{{ asset "mdl.css" }}'>
+    <link rel='stylesheet' type='text/css' href='{{ asset "App.scss" }}'>
+    <link rel='stylesheet' type='text/css' href='{{ asset "responsive.scss" }}'>
+  </head>
+  <body>
+    <header>
+      <span>Alcohol Screener</span>
+      <img src={{ asset "ACEM_V1_CMYK.png" }}>
+    </header>
+
+    <form id="login" action="/sessions/" method="POST">
+      <h1>Sign in</h1>
+
+      {{if .Error}}
+        <p class="error">{{.Error}}</p>
+      {{end}}
+
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="Email" type="email" value="{{.Email}}" required />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="Password" type="password" value="{{.Password}}" required />
+      </div>
+      <button type="submit">Sign In</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+BASH_ENV=$HOME/.envrc
+
+# Send invitation mail every morning at 00:05 AM UTC (will be at ~11am in daylight savings, and ~10am in winter.)
+5 0 * * * /bin/bash -l -c '$APP_ROOT/scripts/send_invitation_mail.sh'

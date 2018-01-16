@@ -1,0 +1,52 @@
+---
+engines:
+  golint:
+    enabled: true
+    exclude_paths:
+    - "frontend/**/*"
+  govet:
+    enabled: true
+    exclude_paths:
+    - "frontend/**/*"
+  gofmt:
+    enabled: true
+    exclude_paths:
+    - "frontend/**/*"
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        javascript:
+          paths:
+          - "frontend/src/**/*.js"
+          - "frontend/test/**/*.js"
+          - "frontend/cfg/**/*.js"
+    exclude_fingerprints:
+    # consumptionRateData in frontend/src/surveyResults.js
+    # Two data tables for male/female with identical shape but different numbers
+    - 29d637d07c926250b3f22f62d053dd73
+
+    # auditQuestions in frontend/src/components/AuditPage.js
+    # survey questions have identical shape but different data
+    - ae5a687c01cba21e3b2c3dbc7a7c79bd
+
+    # frontend/src/components/Feedback.js evaluationQuestion and
+    # frontend/src/components/PatientBio.js genderQuestion
+    # have identical shape but different data
+    - 1770f76caac577161bd0451db22238f7
+    - 8ac3a35de62e225fdae9c317ffc19f75
+
+ratings:
+  paths:
+  - "**.js"
+  - "**.jsx"
+  - "**.css"
+  - "**.scss"
+  - "**.go"
+exclude_paths:
+  - "frontend/src/styles/mdl.css"
+  - "frontend/node_modules/**/*"

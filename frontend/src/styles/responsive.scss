@@ -1,0 +1,72 @@
+@import '~sass-flex-mixin/flex';
+
+@media all and (max-width: 2068px) {
+    #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
+        width: 80%;
+    }
+}
+
+@media all and (max-width: 1440px) {
+    #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
+        width: 80%;
+    }
+}
+
+@media all and (max-width: 799px) {
+    #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
+        width: 80%;
+    }
+
+    // Switch question answers from 1 row to 1 column.
+    section.question {
+        div {
+            label {
+               @include flex-basis(51%);
+            }
+        }
+    }
+
+    #audit #drink-reference {
+        #tall {
+            display: block;
+        }
+
+        #wide {
+            display: none;
+        }
+
+    }
+
+    #feedback #feedback-charts {
+        @include flex-direction(column);
+        @include align-items(center);
+    }
+}
+
+@media all and (max-width: 414px) {
+    // Hide header title in small width device to avoid mess up header title and image
+    header > span {
+        display: none;
+    }
+
+    #feedback #section-buttons {
+        margin: 24px 0;
+    }
+}
+
+@media all and (max-width: 320px) {
+    .survey-page {
+        padding: 0 12px;
+    }
+
+    #intro,  #patient-bio, #reminder, #feedback, #audit, #leaderboard, footer {
+        width:99%;
+    }
+
+    #footer-links {
+        font-family: Roboto, sans-serif;
+        color: #212121;
+        line-height: 23px;
+        padding-top: 10%;
+    }
+}

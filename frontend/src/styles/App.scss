@@ -1,0 +1,434 @@
+/**
+ * This solves weird styling on IE11
+ *
+ * Note 1. Avoid the IE 10-11 `min-height` bug.
+ * Note 2. Set `flex-shrink` to `0` to prevent Chrome, Opera, and Safari from
+ *    letting these items shrink to smaller than their content's default
+ *    minimum size.
+ *
+ * Read more about this solution here:
+ *     http://philipwalton.com/articles/normalizing-cross-browser-flexbox-bugs/
+ */
+
+@import '~sass-flex-mixin/flex';
+
+/* Base Application Styles */
+
+/* rgba(0,0,0,0.83) */
+$black: #212121;
+
+/* rgba(0,0,0,0.54) */
+$light-grey: #757575;
+
+$accent-color: #00BCD4;
+$highlight-color: red;
+
+html, body, p {
+    font-size: 16px;
+}
+
+body {
+    @include flexbox;
+    @include flex-direction(column);
+    height: 100vh; /* Note 1 */
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    color: $black;
+    line-height: 24px;
+}
+
+#app {
+    @include flexbox;
+    @include flex(1);
+    @include flex-direction(column);
+}
+
+#app > div {
+    @include flexbox;
+    @include flex(1);
+    @include flex-direction(column);
+}
+
+header {
+    box-sizing: border-box;
+    background: $accent-color;
+    color: white;
+    width: 100%;
+    height: 68px;
+    @include flex-shrink(0); /* Note 2 */
+    padding: 0 24px;
+    font-family: Roboto-Medium, sans-serif;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+
+    // header title
+    > span {
+        position: absolute;
+        left: 24px;
+        top: 22px;
+    }
+
+    // header icon
+    > img {
+        width: 48px;
+        height: 48px;
+        margin-top: 10px;
+    }
+
+    &::after {
+        @include flex(1);
+        content: "";
+    }
+}
+
+footer {
+    min-height: 70px;
+    @include flex-shrink(0); /* Note 2 */
+    padding-bottom: 48px;
+
+    /* Override MDL accent */
+    a.footer-link {
+        color: $accent-color;
+        font-weight: normal;
+    }
+
+    .footer-separator {
+        padding: 0 10px;
+    }
+
+    #location {
+        font-family: Roboto-Medium, sans-serif;
+        color: $black;
+        line-height: 24px;
+        margin-bottom: 48px;
+
+        select {
+            margin-left: 5px;
+            /* Doesn't really work */
+            font-size: 16px;
+            line-height: 24px;
+            height: 24px;
+        }
+    }
+}
+
+h1 {
+    font-weight: regular;
+    text-align: center;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+h2 {
+    font-family: Roboto-Medium, sans-serif;
+    font-size: 20px;
+    color: $black;
+    line-height: 24px;
+}
+
+blockquote {
+    background: #EEEEEE;
+    border-radius: 4px;
+
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 16px;
+    color: black;
+    line-height: 24px;
+    margin: 0;
+    padding: 24px 24px 8px;
+
+    /* Override all the MDL defaults */
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: inherit;
+    &:before,
+    &:after {
+        content: none;
+    }
+}
+
+/* Override MDL defaults. For some reason, Cyan as a primary colour
+   comes with black text on buttons */
+.mdl-button {
+    height: 40px;
+    line-height: 40px;
+}
+.mdl-button--colored {
+    color: white !important;
+
+    &[disabled] {
+        color: $light-grey !important;
+    }
+}
+
+.survey-page {
+    @include flexbox;
+    @include flex(1 0 auto); /* Note 2 */
+    @include flex-direction(column);
+    @include justify-content(space-between);
+
+    > section {
+        @include flex(1 0 auto); /* Note 2 */
+    }
+}
+
+.instructions {
+    h2 {
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 16px;
+        color: $light-grey;
+        line-height: 24px;
+        margin: 36px 0 18px;
+    }
+}
+
+section.question {
+    &.invalidate {
+        &.disabled {
+            .legend {
+                color: $light-grey;
+            }
+        }
+        .legend {
+            color: $highlight-color;
+        }
+    }
+
+    .legend {
+        display: block;
+        font-family: Roboto-Regular, sans-serif;
+        color: $light-grey;
+        line-height: 24px;
+        padding-bottom: 14px;
+    }
+
+    div {
+        @include flexbox;
+        @include flex-wrap(wrap);
+        @include align-content(stretch);
+        margin-bottom: 30px;
+
+        label {
+            @include flex(1 0 auto);
+
+            /* override mdl settings */
+            overflow: visible;
+            min-height: 36px;
+            height: 40px;
+            text-transform: initial;
+
+            border-radius: 0;
+
+            &:first-child {
+                border-radius: 2px 0 0 2px;
+            }
+
+            &:last-child {
+                border-radius: 0 2px 2px 0;
+            }
+
+            span { /* Hack: spans are added by React */
+                font-family: Roboto-Medium, sans-serif;
+                font-size: 16px;
+                color: $light-grey;
+                line-height: 24px;
+            }
+            &.mdl-button--colored span {
+                color: inherit;
+            }
+        }
+
+        input {
+            display: none;
+        }
+    }
+
+}
+
+.poor-snack {
+    margin: 20px auto;
+    background: #323232;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 16px;
+    color: #FFFFFF;
+    line-height: 20px;
+    padding: 20px 25px;
+    max-width: 360px;
+}
+
+#intro, #patient-bio, #reminder, #leaderboard, footer {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#audit, #feedback {
+    width: 721px;
+    margin: 0 auto;
+}
+
+#intro {
+    @include flexbox;
+    @include flex-direction(column);
+    margin-top: 24px;
+    margin-bottom: 48px;
+}
+
+#patient-bio {
+
+    .simple-input {
+        font-family: Roboto-Regular, sans-serif;
+        color: $light-grey;
+        line-height: 24px;
+        display: block;
+        height: 100px;
+
+        input {
+            box-sizing: border-box;
+            display: block;
+
+            width: 100%;
+            line-height: 34px;
+            margin-top: 14px;
+            font-family: Roboto-Regular, sans-serif;
+            font-size: 16px;
+            color: $black;
+            padding-left: 10px;
+
+        }
+        &.invalidate {
+            color: $highlight-color;
+        }
+    }
+
+}
+
+#audit {
+    #drink-reference {
+        margin-bottom: 24px;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        #tall {
+            display: none;
+        }
+
+    }
+
+    .question {
+        padding-top: 14px;
+
+        .legend {
+            font-family: Roboto-Medium, sans-serif;
+            font-size: 20px;
+            color: $black;
+            line-height: 24px;
+        }
+
+        &.disabled {
+            display: none !important;
+        }
+
+        &.invalidate {
+            .legend {
+                color: $highlight-color;
+            }
+        }
+    }
+}
+
+#feedback {
+    #note {
+        font-family: Roboto-Regular, sans-serif;
+        color: $light-grey;
+        margin-top: 18px;
+    }
+
+    #section-buttons {
+        margin: 24px 0 48px;
+
+        button {
+            margin: 0 20px 12px 0;
+        }
+    }
+
+    #feedback-charts {
+        @include flexbox;
+        @include justify-content(space-between);
+
+        figure {
+            @include flex(1);
+            margin: 0;
+
+            figcaption {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+#start-button{
+    padding-top: 15px;
+
+    > span, a {
+        margin: 0 15px 15px 0;
+    }
+}
+
+#feedback-section {
+    display: inline-block;
+
+    > button {
+        margin: 0 15px 15px 0;
+    }
+
+    // #feedback-message is base on .poor-snack but display inline
+    // in order to display on the right of the footer button.
+    #feedback-message {
+        display: inline-block;
+        margin: 0 15px 15px 0;
+        padding: 0 16px;
+        min-width: 64px;
+        height: 40px;
+        line-height: 40px;
+        vertical-align: middle;
+
+        border: none;
+        border-radius: 2px;
+        background: rgba(158,158,158,.2);
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+
+        // Basic .poor-snack styles
+        background: #323232;
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 16px;
+        color: #FFFFFF;
+    }
+}
+
+#leaderboard {
+    table {
+        width: 100%;
+
+        th.count, td.count {
+            text-align: right;
+        }
+    }
+}
+
+#login {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.hide-question {
+    display: none;
+}
+
+.show-question {
+    display: block;
+}

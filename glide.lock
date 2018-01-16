@@ -1,0 +1,70 @@
+hash: 931986d82385f5e5cc2144a4e5e8ba74ec7ef73b8bedc01630cddbe131e6cbf1
+updated: 2016-03-29T13:09:12.54969753+11:00
+imports:
+- name: github.com/asaskevich/govalidator
+  version: 5208815a79dd0135690e0d716d4663c2fbd41ac4
+- name: github.com/gin-gonic/gin
+  version: 4a6bc4aac4607e253bcda67c8c5bcda693d2388e
+- name: github.com/golang/protobuf
+  version: 8d92cf5fc15a4382f8964b08e1f42a75c0591aa3
+  subpackages:
+  - proto
+- name: github.com/gorilla/context
+  version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
+- name: github.com/gorilla/securecookie
+  version: 8dacca26977607e637262eb66b15b7d39f2d3009
+- name: github.com/gorilla/sessions
+  version: 8cd570d8b4ed84b18bca9d8c3ae2db55885ccd8b
+- name: github.com/influxdata/influxdb
+  version: e42e1f887a65f956b5809c890a5087c71dc36bef
+  subpackages:
+  - client
+- name: github.com/jinzhu/gorm
+  version: 2530dcbccd9c9ff7ce5a903e01bbf8601b726112
+- name: github.com/jinzhu/inflection
+  version: 3272df6c21d04180007eb3349844c89a3856bc25
+- name: github.com/jinzhu/now
+  version: ce80572eb55aa0ac839330041ca9db1afa5f1f6c
+- name: github.com/keighl/mandrill
+  version: 5d7133fb578a9504f8ab549737c993422f65a000
+- name: github.com/lib/pq
+  version: 3cd0097429be7d611bb644ef85b42bfb102ceea4
+- name: github.com/manucorporat/sse
+  version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
+- name: github.com/microcosm-cc/bluemonday
+  version: 4ac6f27528d0a3f2a59e0b0a6f6b3ff0bb89fe20
+- name: github.com/onsi/gomega
+  version: 7ce781ea776b2fd506491011353bded2e40c8467
+- name: github.com/Pallinder/go-randomdata
+  version: 4134a721d6473f81816b1799866bf3e553a9b8d4
+- name: github.com/qor/admin
+  version: c22304d72272204d67c391eeb49b9dd10554d810
+- name: github.com/qor/qor
+  version: 7f5e5de01ed27c619972576d07e6b44eafea4fd1
+- name: github.com/qor/responder
+  version: ecae0be66c1a6a441001b0b5eeef51f8bc27d42a
+- name: github.com/qor/roles
+  version: f1e05694734518c0ce2dc21151e0ecfccf4db8f4
+- name: github.com/qor/validations
+  version: 87c1296c75e72a8f3247beab65c48c50b7b66a7a
+- name: github.com/sclevine/agouti
+  version: e5378e70dca437a9e16cc6d71a85aa0045dd94c7
+- name: github.com/theplant/airbraker
+  version: 7b374fb017ef490ac63cfeabbec21e19577158fe
+- name: github.com/theplant/cldr
+  version: 64729303fab25fdd26f3fe38027047c0e4198e5b
+- name: github.com/theplant/monitor
+  version: beff3fbd5c15025134a315e51046c384f4a5a85b
+- name: golang.org/x/crypto
+  version: 1f22c0103821b9390939b6776727195525381532
+  subpackages:
+  - bcrypt
+- name: golang.org/x/net
+  version: 31df19d69da8728e9220def59b80ee577c3e48bf
+  subpackages:
+  - context
+- name: gopkg.in/airbrake/gobrake.v1
+  version: f12667a6c3bda272083682a04a05ee7a14e55378
+- name: gopkg.in/go-playground/validator.v8
+  version: 014792cf3e266caff1e916876be12282b33059e0
+devImports: []

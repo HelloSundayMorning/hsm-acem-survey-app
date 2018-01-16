@@ -1,0 +1,39 @@
+package: github.com/HelloSundayMorning/hsm-acem-survey-app
+import:
+- package: github.com/asaskevich/govalidator
+- package: github.com/gorilla/sessions
+- package: github.com/influxdata/influxdb
+  subpackages:
+  - client
+- package: github.com/jinzhu/gorm
+- package: github.com/keighl/mandrill
+- package: github.com/lib/pq
+- package: github.com/qor/admin
+- package: github.com/qor/qor
+- package: github.com/qor/roles
+- package: github.com/qor/validations
+- package: golang.org/x/crypto
+  subpackages:
+  - bcrypt
+- package: gopkg.in/airbrake/gobrake.v1
+- package: github.com/theplant/airbraker
+- package: github.com/theplant/monitor
+- package: github.com/gin-gonic/gin
+- package: github.com/golang/protobuf
+  subpackages:
+  - proto
+- package: github.com/gorilla/context
+- package: github.com/gorilla/securecookie
+- package: github.com/jinzhu/inflection
+- package: github.com/manucorporat/sse
+- package: golang.org/x/net
+  subpackages:
+  - context
+- package: gopkg.in/go-playground/validator.v8
+- package: github.com/jinzhu/now
+- package: github.com/microcosm-cc/bluemonday
+- package: github.com/qor/responder
+- package: github.com/theplant/cldr
+- package: github.com/Pallinder/go-randomdata
+- package: github.com/onsi/gomega
+- package: github.com/sclevine/agouti
